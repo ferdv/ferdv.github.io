@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Personal | The Imp]]></title>
   <link href="http://ferdv.github.io/blog/categories/personal/atom.xml" rel="self"/>
   <link href="http://ferdv.github.io/"/>
-  <updated>2015-02-18T17:57:55+00:00</updated>
+  <updated>2015-02-19T00:11:45+00:00</updated>
   <id>http://ferdv.github.io/</id>
   <author>
     <name><![CDATA[Ferdinand Vesely]]></name>
@@ -19,12 +19,13 @@
     <updated>2015-02-18T16:19:16+00:00</updated>
     <id>http://ferdv.github.io/blog/2015/02/18/hello-world</id>
     <content type="html"><![CDATA[<p>For some time I have been contemplating the idea of starting my own blog.
-Usually, I have sent that idea to <code>/dev/null</code> fairly quickly, convincing myself
-that there are many blogs run by people that have something more interesting
-to say than me. Moreover, they probably serve it to the world in a better way
-than I would be able to. This time I held the thought long enough to actually
-decide to give it a go. This post is an introduction as well as a statement of
-intent. You might want to skip it.</p>
+Usually, I have sent that idea to
+<a href="http://en.wikipedia.org/wiki/Null_device">/dev/null</a> fairly quickly,
+convincing myself that there are many blogs run by people that have something
+more interesting to say than me. Moreover, they probably present it to the
+world in a better way than I would be able to. This time I held the thought
+long enough to actually decide to give it a go. This post is an introduction as
+well as a statement of intent. You might want to skip it.</p>
 
 <!-- more -->
 
@@ -41,10 +42,12 @@ readable and useful on the Internet. If you are interested in theory as well as
 practical aspects of programming languages, then definitely browse his blog and
 add his RSS feed to your reader now!</p>
 
-<p>My hope is that I will be occasionally able to contribute material deemed
-interesting or useful by at least one person other than me. If you end up here
-while looking for a solution to some problem, or for a clarification on some
-subject and I manage to help you, then I will have succeeded.</p>
+<p>A part of my motivation for having a blog is to improve my writing and to
+collect notes on various topics. However, my hope is that I will be able to
+occasionally contribute material deemed interesting or useful by at least one
+person other than me. If you end up here while looking for a solution to some
+problem, or for a clarification on some subject and I manage to help you, then
+I will have succeeded.</p>
 
 <p>The subjects I intend to touch in my posts are obviously based on my interests
 and should range over topics such as programming, theory and practice of
