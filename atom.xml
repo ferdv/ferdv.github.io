@@ -4,7 +4,7 @@
   <title><![CDATA[The Imp]]></title>
   <link href="http://ferdv.github.io/atom.xml" rel="self"/>
   <link href="http://ferdv.github.io/"/>
-  <updated>2015-04-26T14:03:40+01:00</updated>
+  <updated>2015-05-12T23:47:03+01:00</updated>
   <id>http://ferdv.github.io/</id>
   <author>
     <name><![CDATA[Ferdinand Vesely]]></name>
@@ -12,6 +12,22 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Quick Fork of a Git Working Copy]]></title>
+    <link href="http://ferdv.github.io/blog/2015/05/12/quick-fork-of-a-git-working-copy/"/>
+    <updated>2015-05-12T23:24:25+01:00</updated>
+    <id>http://ferdv.github.io/blog/2015/05/12/quick-fork-of-a-git-working-copy</id>
+    <content type="html"><![CDATA[<p>Sometimes I need to make a quick copy of a (dirty) working copy and I only want to include tracked files. Here&rsquo;s the way this can be done using <code>rsync</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rsync -a --files-from<span class="o">=</span>&lt;<span class="o">(</span>git ls-files<span class="o">)</span> . copy/
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I use <code>rsync</code> to recreate the directory structure. The <code>ls-files</code> git command lists files tracked by git. Simple.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Vim: Replace With a Sequence of Same Characters]]></title>

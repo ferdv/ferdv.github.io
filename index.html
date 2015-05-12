@@ -9,7 +9,7 @@
   <meta name="author" content="Ferdinand Vesely">
 
   
-  <meta name="description" content="When substituting in Vim, one can use the result of evaluating a Vim expression as the replacement string. I found it useful to replace a string by a &hellip;">
+  <meta name="description" content="Sometimes I need to make a quick copy of a (dirty) working copy and I only want to include tracked files. Here&rsquo;s the way this can be done using &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +65,42 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/12/quick-fork-of-a-git-working-copy/">Quick Fork of a Git Working Copy</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-05-12T23:24:25+01:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:24 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Sometimes I need to make a quick copy of a (dirty) working copy and I only want to include tracked files. Here&rsquo;s the way this can be done using <code>rsync</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rsync -a --files-from<span class="o">=</span>&lt;<span class="o">(</span>git ls-files<span class="o">)</span> . copy/
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I use <code>rsync</code> to recreate the directory structure. The <code>ls-files</code> git command lists files tracked by git. Simple.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -158,6 +194,10 @@ well as a statement of intent. You might want to skip it.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/05/12/quick-fork-of-a-git-working-copy/">Quick Fork of a Git Working Copy</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/03/18/vim-replace-with-a-sequence-of-same-characters/">Vim: Replace With a Sequence of Same Characters</a>
       </li>
     
@@ -218,5 +258,21 @@ well as a statement of intent. You might want to skip it.</p>
 
 
 
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=10419678; 
+var sc_invisible=1; 
+var sc_security="272403df"; 
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter"><a title="hit counter"
+href="http://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="http://c.statcounter.com/10419678/0/272403df/1/"
+alt="hit counter"></a></div></noscript>  
 </body>
 </html>
