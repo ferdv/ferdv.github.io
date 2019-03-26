@@ -186,10 +186,11 @@ header .logo {
 }
 
 header .logo a, header .logo a:hover {
-  color: transparent;
+  /*color: transparent;*/
   color: #BDD7EB; /*#6B6BC0; */
   text-decoration: none;
-  text-shadow: -4px 4px 0px rgb(0, 0, 0, 0.2);
+  /*text-shadow: -4px 4px 2px rgb(0, 0, 0, 0.2);*/
+  text-shadow: -4px 4px 2px #4B7394;
   font-style: oblique;
 }
 
@@ -268,7 +269,7 @@ nav a:hover {
 
 #mypic {
   float: right;
-  border-radius: 25%;
+  border-radius: 20px;
   width: 160px;
   margin: 0 0 15px 15px;
 }
