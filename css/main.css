@@ -119,6 +119,13 @@ body {
   font-family: "Fira Sans", "Lucida Sans", sans-serif;
   font-size: 11pt;
   background-color: #CCCCCC;
+  background-image: linear-gradient(
+      rgba(204, 204, 204, 0.65), 
+      rgba(204, 204, 204, 0.65)), url("../images/background6.jpg");
+  background-position: top center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
   margin: 10px 0;
 }
 
@@ -200,6 +207,10 @@ footer {
   font-size: 9pt;
 }
 
+footer a {
+  color: #313196;
+}
+
 nav {
   text-align: right;
   float: right;
@@ -258,8 +269,9 @@ nav a:hover {
   max-width: 50em;
   width: 70%;
   min-width: 20em;
-  background-color: white;
+  background-color: white; /*#efefef;*/
   padding: 10pt 20pt;
+  border-radius: 0 0 10px 10px;
 }
 
 #contact em {
