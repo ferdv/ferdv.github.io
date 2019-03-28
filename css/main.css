@@ -279,7 +279,7 @@ main {
   padding: 10pt 20pt;
   border-radius: 0 0 5px 5px;
   margin: auto;
-  overflow: scroll;
+  overflow: auto;
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
   position: absolute;
