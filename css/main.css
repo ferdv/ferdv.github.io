@@ -177,6 +177,7 @@ header {
   margin-left: 5px;
   border: 0;
   vertical-align: middle;
+  position: relative;
 }
 
 }
@@ -202,7 +203,11 @@ header .logo a, header .logo a:hover {
 }
 
 footer {
-  margin: 20px 5px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 7px;
   text-align: center;
   font-size: 9pt;
 }
@@ -220,6 +225,7 @@ nav {
   padding: 0;
   line-height: 29pt;
   display: table-cell; 
+  font-size: 11pt;
 }
 
 /*nav a {
@@ -262,16 +268,25 @@ nav a:hover {
   border-bottom: 1pt solid rgba(0, 0, 0, 0.4);*/
 }
 
-#main {
-  margin-left: auto;
-  margin-right: auto;
+main {
+/*  margin-left: auto;
+  margin-right: auto;/*
   /*margin-top: 8px;*/
   max-width: 50em;
   width: 70%;
   min-width: 20em;
   background-color: white; /*#efefef;*/
   padding: 10pt 20pt;
-  border-radius: 0 0 10px 10px;
+  border-radius: 0 0 5px 5px;
+  margin: auto;
+  overflow: scroll;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(56pt + 6px);
+  bottom: 30px;
 }
 
 #contact em {

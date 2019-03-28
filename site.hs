@@ -14,6 +14,7 @@ pages = [ "about.markdown"
         , "misc.markdown"
 --        , "research.markdown"
         , "teaching.markdown"
+        , "lorem.markdown"
         ]
 
 main :: IO ()
