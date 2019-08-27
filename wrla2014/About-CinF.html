@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+<p><link href="avenir-white.css" rel="stylesheet"></link></p>
+<h1 id="cink-in-funcons">CinK in Funcons</h1>
+<blockquote>
+<p>Peter D Mosses <script type="text/javascript">
+<!--
+h='&#x73;&#x77;&#x61;&#110;&#x73;&#x65;&#x61;&#46;&#x61;&#x63;&#46;&#x75;&#x6b;';a='&#64;';n='&#112;&#46;&#100;&#46;&#x6d;&#x6f;&#x73;&#x73;&#x65;&#x73;';e=n+a+h;
+document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+e+'<\/'+'a'+'>');
+// -->
+</script><noscript>&#112;&#46;&#100;&#46;&#x6d;&#x6f;&#x73;&#x73;&#x65;&#x73;&#32;&#x61;&#116;&#32;&#x73;&#x77;&#x61;&#110;&#x73;&#x65;&#x61;&#32;&#100;&#x6f;&#116;&#32;&#x61;&#x63;&#32;&#100;&#x6f;&#116;&#32;&#x75;&#x6b;</noscript><br />Ferdinand Vesely <script type="text/javascript">
+<!--
+h='&#x73;&#x77;&#x61;&#110;&#x73;&#x65;&#x61;&#46;&#x61;&#x63;&#46;&#x75;&#x6b;';a='&#64;';n='&#x63;&#x73;&#102;&#118;&#x65;&#x73;&#x65;&#108;&#x79;';e=n+a+h;
+document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+e+'<\/'+'a'+'>');
+// -->
+</script><noscript>&#x63;&#x73;&#102;&#118;&#x65;&#x73;&#x65;&#108;&#x79;&#32;&#x61;&#116;&#32;&#x73;&#x77;&#x61;&#110;&#x73;&#x65;&#x61;&#32;&#100;&#x6f;&#116;&#32;&#x61;&#x63;&#32;&#100;&#x6f;&#116;&#32;&#x75;&#x6b;</noscript></p>
+</blockquote>
+<blockquote>
+<p>Department of Computer Science, Swansea University</p>
+</blockquote>
+<blockquote>
+<p>January 2014</p>
+</blockquote>
+<h2 id="introduction">Introduction</h2>
+<p>The accompanying files provide a component-based semantics of a series of sublanguages of the CinK language, a kernel of C++ used to experiment with the K Framework, cf. <a href="#refs"><span class="citation">(Lucanu, Serbanuta, and Rosu 2012; Lucanu and Serbanuta 2013)</span></a></p>
+<p>The main idea of component-based semantics is to translate languages into an open-ended collection of language-independent fundamental constructs, called <em>funcons</em> <a href="#refs"><span class="citation">(Mosses 2008)</span></a>.</p>
+<p>Semantics of each funcon is specified (largely) independently, to maximise reusability.</p>
+<p>A component-based semantics of the tiny language IMP is provided with the K Tool in k/examples/funcons. The present case study tests the incrementality of the component-based approach, as well as the modularity of the K specifications of the individual funcons and datatypes of values.</p>
+<p>A paper with detailed explanations of the approach and the specifications has been submitted to <a href="http://users.dsic.upv.es/workshops/wrla2014/">WRLA 2014</a>.</p>
+<h2 id="to-produce-a-prototype-implementation-of-language-l">To produce a prototype implementation of language L</h2>
+<p>Install a stable release of the <a href="http://www.kframework.org/index.php/K_tool_binaries">K Tool</a>.</p>
+<pre><code>    chmod u+x .../k/lib/scripts/checkJava</code></pre>
+<p>The version of the stable release used for this case study was:</p>
+<pre><code>    K-framework nightly build.
+    Git Revision: jenkins-k-framework-git-410
+    Build date: Fri Oct 11 19:32:41 EEST 2013 </code></pre>
+<p>Then compile the language specification using the K Tool:</p>
+<pre><code>    cd .../CinF/languages/L
+    kompile cinf</code></pre>
+<p>This can take a couple of minutes, and should produce no warnings or errors.</p>
+<h2 id="to-run-an-l-program-p">To run an L-program P</h2>
+<pre><code>    cd .../CinF/languages/L
+    krun tests/P.cinf</code></pre>
+<p>Depending on P, you may be asked to input one or more integers.</p>
+<p>The result should be the output (if any) followed by the final K configuration.</p>
+<p>We provide a script, <a href="run-all.sh"><code>run-all.sh</code></a>, which can be used to run all test programs included in a language folder or in all language folders. Instructions are given at the top of the script.</p>
+<h2 id="languages"><a href="languages/">Languages</a></h2>
+<p>Each language specification consists of the following files:</p>
+<ul>
+<li><code>cinf-syntax.k</code>: the language syntax</li>
+<li><code>cinf.k</code>: rules translating the language syntax to funcons and values</li>
+<li><code>cinf-&lt;language&gt;-funcons.k</code>: importing the required funcons</li>
+<li><code>cinf-&lt;language&gt;-values.k</code>: importing the required values</li>
+</ul>
+<p>The languages consist of a simple initial language and a series of increments. However, each language is specified monolithically: an increment was produced by copying the syntax and semantics, then editing-in the new language constructs.</p>
+<p>As the order in which the language constructs are specified is preserved, the difference between the syntax or semantics of any pair of languages can easily be seen using standard file comparison utilities (e.g., <code>Compare with  each other</code> in Eclipse).</p>
+<p>A set of pre-rendered comparisons can be found <strong><a href="diffs/">here</a></strong>.</p>
+<h3 id="expressions"><a href="languages/expressions/">Expressions</a></h3>
+<p>This pure expression sub-language includes only integer and boolean literals, unary and binary operators, and conditional conjunction and disjunction.</p>
+<h3 id="declarations"><a href="languages/declarations/">Declarations</a></h3>
+<p>This sub-language adds variable declarations, and extends expressions with identifiers, assignments and the comma operator.</p>
+<h3 id="statements"><a href="languages/statements/">Statements</a></h3>
+<p>Apart from introducing the usual control flow statements, and block structure, this sub-language extends expressions with input and output.</p>
+<p>Compare to previous sub-language: <a href="diffs/01_declarations-to-statements.cinf.diff.html">semantics</a> | <a href="diffs/01_declarations-to-statements.cinf-syntax.diff.html">syntax</a></p>
+<h3 id="functions"><a href="languages/functions/">Functions</a></h3>
+<p>Here, top-level declarations are extended to allow function definitions with value parameters. Function bodies are statements, where return statements terminate execution abruptly.</p>
+<p>Compare to previous sub-language: <a href="diffs/02_statements-to-functions.cinf.diff.html">semantics</a> | <a href="diffs/02_statements-to-functions.cinf-syntax.diff.html">syntax</a></p>
+<h3 id="threads"><a href="languages/threads/">Threads</a></h3>
+<p>This extension provides only very basic language support for spawning threads.</p>
+<p>Compare to previous sub-language: <a href="diffs/03_functions-to-threads.cinf.diff.html">semantics</a> | <a href="diffs/03_functions-to-threads.cinf-syntax.diff.html">syntax</a></p>
+<h3 id="references"><a href="languages/references/">References</a></h3>
+<p>Variable declarations are extended to support references (binding identifiers to existing variables). Function declarations now allow reference parameters and returning references as results.</p>
+<p>Compare to previous sub-language: <a href="diffs/04_threads-to-references.cinf.diff.html">semantics</a> | <a href="diffs/04_threads-to-references.cinf-syntax.diff.html">syntax</a></p>
+<h3 id="pointers"><a href="languages/pointers/">Pointers</a></h3>
+<p>Variable declarations and expressions are extended to support pointers.</p>
+<p>Compare to previous sub-language: <a href="diffs/05_references-to-pointers.cinf.diff.html">semantics</a> | <a href="diffs/05_references-to-pointers.cinf-syntax.diff.html">syntax</a></p>
+<h2 id="funcons"><a href="funcons/">Funcons</a></h2>
+<p>The K specifications of all the funcons, each in a separate file:</p>
+<h3 id="funcon-sorts">Funcon sorts</h3>
+<ul>
+<li><a href="funcons/comm.k">comm</a> – <em>command funcons</em></li>
+<li><a href="funcons/decl.k">decl</a> – <em>declaration funcons</em></li>
+<li><a href="funcons/expr.k">expr</a> – <em>expression funcons</em></li>
+</ul>
+<h3 id="individual-funcons">Individual funcons</h3>
+<ul>
+<li><a href="funcons/allocate.k">allocate</a> – <em>variable allocation</em></li>
+<li><a href="funcons/apply.k">apply</a> – <em>abstraction application</em></li>
+<li><a href="funcons/assign-giving-current-value.k">assign-giving-current-value</a> – <em>assignment expressions giving current value</em></li>
+<li><a href="funcons/assign-giving-variable.k">assign-giving-variable</a> – <em>assignment expressions giving variables</em></li>
+<li><a href="funcons/assign.k">assign</a> – <em>assignment commands</em></li>
+<li><a href="funcons/bind-value.k">bind-value</a> – <em>binding identifiers to values</em></li>
+<li><a href="funcons/bound-value.k">bound-value</a> – <em>identifier bound-value expressions</em></li>
+<li><a href="funcons/catch.k">catch</a> – <em>catching thrown values</em></li>
+<li><a href="funcons/close.k">close</a> – <em>closure construction</em></li>
+<li><a href="funcons/closure.k">closure</a> – <em>closure evaluation</em></li>
+<li><a href="funcons/current-value.k">current-value</a> – <em>stored value of a variable, identity on other values</em></li>
+<li><a href="funcons/decl-effect.k">decl-effect</a> – <em>commands as declarations</em></li>
+<li><a href="funcons/effect.k">effect</a> – <em>effects of expressions</em></li>
+<li><a href="funcons/given.k">given</a> – <em>value given by supply</em></li>
+<li><a href="funcons/if-true-comm.k">if-true-comm</a> – <em>conditional commands</em></li>
+<li><a href="funcons/if-true-expr.k">if-true-expr</a> – <em>conditional expressions</em></li>
+<li><a href="funcons/input.k">input</a> – <em>input integer from stream</em></li>
+<li><a href="funcons/match-compound.k">match-compound</a> – <em>matching compound patterns to compound values</em></li>
+<li><a href="funcons/match.k">match</a> – <em>matching patterns to values</em></li>
+<li><a href="funcons/output.k">output</a> – <em>output to stream</em></li>
+<li><a href="funcons/reset-env.k">reset-env</a> – <em>auxiliary to scoping funcons</em></li>
+<li><a href="funcons/reset-given.k">reset-given</a> – <em>auxiliary to supply(E, K)</em></li>
+<li><a href="funcons/scope-comm.k">scope-comm</a> – <em>scoping declarations in command</em></li>
+<li><a href="funcons/scope-expr.k">scope-expr</a> – <em>scoping declaration in expression</em></li>
+<li><a href="funcons/seq-comm.k">seq-comm</a> – <em>sequencing commands</em></li>
+<li><a href="funcons/seq-decl.k">seq-decl</a> – <em>sequencing command before declaration</em></li>
+<li><a href="funcons/seq-expr.k">seq-expr</a> – <em>sequencing command before expression</em></li>
+<li><a href="funcons/spawn.k">spawn</a> – <em>thread creation and termination</em></li>
+<li><a href="funcons/stored-value.k">stored-value</a> – <em>variable value expressions</em></li>
+<li><a href="funcons/supply-decl.k">supply-decl</a> – <em>supply value to declaration</em></li>
+<li><a href="funcons/supply-expr.k">supply-expr</a> – <em>supply value to command</em></li>
+<li><a href="funcons/throw.k">throw</a> – <em>throwing values</em></li>
+<li><a href="funcons/while-true.k">while-true</a> – <em>while-loop commands</em></li>
+</ul>
+<h2 id="values"><a href="values/">Values</a></h2>
+<p>The K specifications of all the data types of values, each in a separate file:</p>
+<ul>
+<li><a href="values/abstractions.k">abstractions</a> – <em>abstractions</em></li>
+<li><a href="values/bindings.k">bindings</a> – <em>bindings</em></li>
+<li><a href="values/booleans.k">booleans</a> – <em>boolean values</em></li>
+<li><a href="values/functions.k">functions</a> – <em>function abstractions</em></li>
+<li><a href="values/integers.k">integers</a> – <em>integer values</em></li>
+<li><a href="values/patterns.k">patterns</a> – <em>pattern abstractions</em></li>
+<li><a href="values/skip.k">skip</a> – <em>normal command termination</em></li>
+<li><a href="values/streams.k">streams</a> – <em>streams</em></li>
+<li><a href="values/strings.k">strings</a> – <em>strings</em></li>
+<li><a href="values/threads.k">threads</a> – <em>thread names</em></li>
+<li><a href="values/tuples.k">tuples</a> – <em>tuple values</em></li>
+<li><a href="values/types.k">types</a> – <em>types of values</em></li>
+<li><a href="values/unit.k">unit</a> – <em>unit type</em></li>
+<li><a href="values/values.k">values</a> – <em>values computed by Expr</em></li>
+<li><a href="values/variables.k">variables</a> – <em>variables</em></li>
+<li><a href="values/variants.k">variants</a> – <em>variant values</em></li>
+<li><a href="values/xstacks.k">xstacks</a> – <em>xstack items</em></li>
+</ul>
+<h2 id="acknowledgments">Acknowledgments</h2>
+<p>This case study was inspired by <a href="#refs"><span class="citation">(Lucanu and Serbanuta 2013)</span></a> and by the translation of IMP to funcons provided in k/examples/funcons.</p>
+<p>The K specifications of the funcons correspond to simplified versions of specifications in <a href="#refs"><span class="citation">(Churchill, Mosses, and Torrini 2014)</span></a>.</p>
+<h2 id="references-1">References</h2>
+<p><a name="refs"></a></p>
+<div class="references">
+<p>Churchill, Martin, Peter D. Mosses, and Paolo Torrini. 2014. “Reusable Components of Semantic Specifications.” In <em>Proceedings of the 13th International Conference on Modularity, April 22-25, 2014, Lugano, Switzerland</em>. ACM.</p>
+<p>Lucanu, Dorel, and Traian Florin Serbanuta. 2013. “CinK – an Exercise on How to Think in K.” TR 12-03, Version 2. Alexandru Ioan Cuza University, Faculty of Computer Science. <a href="https://fmse.info.uaic.ro/publications/181/">https://fmse.info.uaic.ro/publications/181/</a>.</p>
+<p>Lucanu, Dorel, Traian Florin Serbanuta, and Grigore Rosu. 2012. “K Framework Distilled.” In <em>9th International Workshop on Rewriting Logic and Its Applications</em>, 7571:31–53. LNCS. Springer. <a href="http://fsl.cs.illinois.edu/index.php/K_Framework_Distilled">http://fsl.cs.illinois.edu/index.php/K_Framework_Distilled</a>.</p>
+<p>Mosses, Peter D. 2008. “Component-Based Description of Programming Languages.” In <em>Visions of Computer Science, Proc. BCS International Academic Research Conference, London, UK, 22–24 September 2008</em>, 275–286. Electr. Proc. BCS. <a href="http://www.bcs.org/server.php?show=ConWebDoc.22912">http://www.bcs.org/server.php?show=ConWebDoc.22912</a>.</p>
+</div>
+</body>
+</html>

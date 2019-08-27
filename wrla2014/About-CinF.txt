@@ -1,0 +1,228 @@
+<link href="avenir-white.css" rel="stylesheet"></link>
+
+CinK in Funcons
+===============
+
+> Peter D Mosses <p.d.mosses@swansea.ac.uk>  
+> Ferdinand Vesely <csfvesely@swansea.ac.uk>
+
+> Department of Computer Science, Swansea University
+
+> January 2014
+
+
+Introduction
+------------
+The accompanying files provide a component-based semantics of a series of
+sublanguages of the CinK language, a kernel of C++ used to experiment with the
+K Framework, cf. [[@Lucanu2012;@Lucanu2013]](#refs)
+
+The main idea of component-based semantics is to translate languages into an
+open-ended collection of language-independent fundamental constructs, called
+_funcons_ [[@Mosses2008CDP]](#refs).
+
+Semantics of each funcon is specified (largely) independently, to maximise
+reusability.
+
+A component-based semantics of the tiny language IMP is provided with the
+K Tool in k/examples/funcons. The present case study tests the incrementality
+of the component-based approach, as well as the modularity of the K 
+specifications of the individual funcons and datatypes of values.
+
+A paper with detailed explanations of the approach and the specifications has
+been submitted to [WRLA 2014][].
+
+
+To produce a prototype implementation of language L
+---------------------------------------------------
+Install a stable release of the 
+[K Tool](http://www.kframework.org/index.php/K_tool_binaries).
+
+        chmod u+x .../k/lib/scripts/checkJava
+
+The version of the stable release used for this case study was:
+
+        K-framework nightly build.
+        Git Revision: jenkins-k-framework-git-410
+        Build date: Fri Oct 11 19:32:41 EEST 2013 
+
+Then compile the language specification using the K Tool:
+
+        cd .../CinF/languages/L
+        kompile cinf
+
+This can take a couple of minutes, and should produce no warnings or errors.
+
+
+To run an L-program P
+---------------------
+
+        cd .../CinF/languages/L
+        krun tests/P.cinf
+
+Depending on P, you may be asked to input one or more integers.
+
+The result should be the output (if any) followed by the final K configuration.
+
+We provide a script, [`run-all.sh`](run-all.sh), which can be used to run all
+test programs included in a language folder or in all language folders.
+Instructions are given at the top of the script.
+
+[Languages](languages/)
+-----------
+Each language specification consists of the following files:
+
+* `cinf-syntax.k`: the language syntax
+* `cinf.k`: rules translating the language syntax to funcons and values
+* `cinf-<language>-funcons.k`: importing the required funcons
+* `cinf-<language>-values.k`: importing the required values
+
+The languages consist of a simple initial language and a series of increments.
+However, each language is specified monolithically: an increment was produced
+by copying the syntax and semantics, then editing-in the new language
+constructs.
+
+As the order in which the language constructs are specified is preserved,
+the difference between the syntax or semantics of any pair of languages can
+easily be seen using standard file comparison utilities (e.g., `Compare with 
+each other` in Eclipse).
+
+A set of pre-rendered comparisons can be found **[here](diffs/)**.
+
+### [Expressions](languages/expressions/)
+
+This pure expression sub-language includes only integer and boolean literals,
+unary and binary operators, and conditional conjunction and disjunction.
+
+### [Declarations](languages/declarations/)
+
+This sub-language adds variable declarations, and extends expressions with
+identifiers, assignments and the comma operator.
+
+### [Statements](languages/statements/)
+
+Apart from introducing the usual control flow statements, and block structure,
+this sub-language extends expressions with input and output.
+
+Compare to previous sub-language: 
+[semantics](diffs/01_declarations-to-statements.cinf.diff.html) | 
+[syntax](diffs/01_declarations-to-statements.cinf-syntax.diff.html)
+
+### [Functions](languages/functions/)
+
+Here, top-level declarations are extended to allow function definitions with
+value parameters. Function bodies are statements, where return statements 
+terminate execution abruptly.
+
+Compare to previous sub-language: 
+[semantics](diffs/02_statements-to-functions.cinf.diff.html) | 
+[syntax](diffs/02_statements-to-functions.cinf-syntax.diff.html)
+
+### [Threads](languages/threads/)
+
+This extension provides only very basic language support for spawning threads.
+
+Compare to previous sub-language: 
+[semantics](diffs/03_functions-to-threads.cinf.diff.html) | 
+[syntax](diffs/03_functions-to-threads.cinf-syntax.diff.html)
+
+### [References](languages/references/)
+
+Variable declarations are extended to support references (binding identifiers
+to existing variables). Function declarations now allow reference parameters
+and returning references as results.
+
+Compare to previous sub-language: 
+[semantics](diffs/04_threads-to-references.cinf.diff.html) | 
+[syntax](diffs/04_threads-to-references.cinf-syntax.diff.html)
+
+### [Pointers](languages/pointers/)
+
+Variable declarations and expressions are extended to support pointers.
+
+Compare to previous sub-language: 
+[semantics](diffs/05_references-to-pointers.cinf.diff.html) | 
+[syntax](diffs/05_references-to-pointers.cinf-syntax.diff.html)
+
+[Funcons](funcons/)
+-------------------
+The K specifications of all the funcons, each in a separate file:
+
+### Funcon sorts
+
+* [comm](funcons/comm.k)
+* [decl](funcons/decl.k)
+* [expr](funcons/expr.k)
+
+### Individual funcons
+
+* [allocate](funcons/allocate.k)
+* [apply](funcons/apply.k)
+* [assign-giving-current-value](funcons/assign-giving-current-value.k)
+* [assign-giving-variable](funcons/assign-giving-variable.k)
+* [assign](funcons/assign.k)
+* [bind-value](funcons/bind-value.k)
+* [bound-value](funcons/bound-value.k)
+* [catch](funcons/catch.k)
+* [close](funcons/close.k)
+* [closure](funcons/closure.k)
+* [current-value](funcons/current-value.k)
+* [decl-effect](funcons/decl-effect.k)
+* [effect](funcons/effect.k)
+* [given](funcons/given.k)
+* [if-true-comm](funcons/if-true-comm.k) 
+* [if-true-expr](funcons/if-true-expr.k)
+* [input](funcons/input.k)
+* [match-compound](funcons/match-compound.k)
+* [match](funcons/match.k)
+* [output](funcons/output.k)
+* [reset-env](funcons/reset-env.k)
+* [reset-given](funcons/reset-given.k)
+* [scope-comm](funcons/scope-comm.k)
+* [scope-expr](funcons/scope-expr.k)
+* [seq-comm](funcons/seq-comm.k)
+* [seq-decl](funcons/seq-decl.k)
+* [seq-expr](funcons/seq-expr.k)
+* [spawn](funcons/spawn.k)
+* [stored-value](funcons/stored-value.k)
+* [supply-decl](funcons/supply-decl.k)
+* [supply-expr](funcons/supply-expr.k)
+* [throw](funcons/throw.k)
+* [while-true](funcons/while-true.k)
+
+[Values](values/)
+-----------------
+The K specifications of all the data types of values, each in a separate file:
+
+* [abstractions](values/abstractions.k)
+* [bindings](values/bindings.k)
+* [booleans](values/booleans.k)
+* [functions](values/functions.k)
+* [integers](values/integers.k)
+* [patterns](values/patterns.k)
+* [skip](values/skip.k)
+* [streams](values/streams.k)
+* [strings](values/strings.k)
+* [threads](values/threads.k)
+* [tuples](values/tuples.k)
+* [types](values/types.k)
+* [unit](values/unit.k)
+* [values](values/values.k)
+* [variables](values/variables.k)
+* [variants](values/variants.k)
+* [xstacks](values/xstacks.k)
+
+Acknowledgments
+---------------
+This case study was inspired by [[@Lucanu2013]](#refs) and by the translation
+of IMP to funcons provided in k/examples/funcons.
+
+The K specifications of the funcons correspond to simplified versions of
+specifications in [[@Modularity2014]](#refs).
+
+References
+----------
+<a name="refs"></a>
+
+[WRLA 2014]: http://users.dsic.upv.es/workshops/wrla2014/
+

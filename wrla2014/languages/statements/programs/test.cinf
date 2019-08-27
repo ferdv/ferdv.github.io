@@ -1,0 +1,12 @@
+bool x = !(2 + 2 != 4) && 3 > 2 == true ;
+int y = 6;
+int z = y * 7;
+int a = ++ ( y = 27 );
+cout << "Type a natural number to compute its log:" << endl;
+int n, s=0;
+cin >> n;
+while (n>1) {n = n/2; ++s;}
+cout << s << endl;
+
+
+

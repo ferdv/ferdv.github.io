@@ -1,0 +1,39 @@
+require "../../funcons/accum.k"
+require "../../funcons/allocate.k"
+require "../../funcons/assign.k"
+require "../../funcons/assign-giving-current-value.k"
+require "../../funcons/assign-giving-variable.k"
+require "../../funcons/bind-value.k"
+require "../../funcons/bound-value.k"
+require "../../funcons/decl-effect.k"
+require "../../funcons/effect.k"
+require "../../funcons/given.k"
+require "../../funcons/if-true-expr.k"
+require "../../funcons/reset-env.k"
+require "../../funcons/reset-given.k"
+require "../../funcons/seq-comm.k"
+require "../../funcons/seq-decl.k"
+require "../../funcons/seq-expr.k"
+require "../../funcons/stored-value.k"
+require "../../funcons/supply-expr.k"
+
+module CINF-DECLARATIONS-FUNCONS
+  imports ACCUM
+  imports ALLOCATE
+  imports ASSIGN
+  imports ASSIGN-GIVING-CURRENT-VALUE
+  imports ASSIGN-GIVING-VARIABLE
+  imports BIND-VALUE
+  imports BOUND-VALUE
+  imports DECL-EFFECT
+  imports EFFECT
+  imports GIVEN
+  imports IF-TRUE-EXPR
+  imports RESET-ENV
+  imports RESET-GIVEN
+  imports SEQ-COMM
+  imports SEQ-DECL
+  imports SEQ-EXPR
+  imports STORED-VALUE
+  imports SUPPLY-EXPR
+endmodule

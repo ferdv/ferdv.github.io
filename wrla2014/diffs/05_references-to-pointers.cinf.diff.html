@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Difference</title>
+<style type="text/css">
+ body {font-family: monospace;}
+ span.del {background: hotpink; border: thin inset;}
+ span.add {background: deepskyblue; font-weight: bolder; border: thin outset;}
+ span.before-change {background: yellow; border: thin inset;}
+ span.after-change {background: lime; font-weight: bolder; border: thin outset;}
+ li.entry .position {font-weight: bolder; margin-top: 0em; margin-bottom: 0em; padding-top: 0.5em; padding-bottom: 0em;}
+ li.entry .body {margin-top: 0em; margin-bottom: 0em; padding-top: 0em; padding-bottom: 0.5em;}
+ li.entry {border-top: thin solid gray;}
+</style>
+</head><body><div>
+<span class="common">// </span><span class="before-change"><del>Reference </del></span><span class="after-change"><ins>Pointer </ins></span><span class="common">declarations and </span><span class="before-change"><del>parameters, </del></span><span class="after-change"><ins>expressions, </ins></span><span class="common">extending </span><span class="before-change"><del>threads</del></span><span class="after-change"><ins>references</ins></span><span class="common"><br />
+</span><span class="common"><br />
+require "cinf-syntax.k"<br />
+</span><span class="common">require </span><span class="before-change"><del>"cinf-references-funcons.k"</del></span><span class="after-change"><ins>"cinf-pointers-funcons.k"</ins></span><span class="common"><br />
+require </span><span class="before-change"><del>"cinf-references-values.k"</del></span><span class="after-change"><ins>"cinf-pointers-values.k"</ins></span><span class="common"><br />
+</span><span class="common"><br />
+module CINF<br />
+<br />
+&nbsp;&nbsp;imports CINF-SYNTAX<br />
+</span><span class="common">&nbsp;&nbsp;imports </span><span class="before-change"><del>CINF-REFERENCES-FUNCONS</del></span><span class="after-change"><ins>CINF-POINTERS-FUNCONS</ins></span><span class="common"><br />
+&nbsp;&nbsp;imports </span><span class="before-change"><del>CINF-REFERENCES-VALUES</del></span><span class="after-change"><ins>CINF-POINTERS-VALUES</ins></span><span class="common"><br />
+</span><span class="common"><br />
+&nbsp;&nbsp;syntax Expr ::= "value" "[[" Literal "]]"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [function]<br />
+<br />
+&nbsp;&nbsp;rule value[[ I:Int ]] =&gt; I<br />
+&nbsp;&nbsp;rule value[[ S:String ]] =&gt; S<br />
+&nbsp;&nbsp;rule value[[ true ]] =&gt; true<br />
+&nbsp;&nbsp;rule value[[ false ]] =&gt; false<br />
+&nbsp;&nbsp;rule value[[ cout ]] =&gt; standard-output<br />
+&nbsp;&nbsp;rule value[[ cin ]] =&gt; standard-input<br />
+&nbsp;&nbsp;rule value[[ endl ]] =&gt; "\n"<br />
+<br />
+&nbsp;&nbsp;syntax Id ::= "returned"<br />
+<br />
+&nbsp;&nbsp;// default evaluation<br />
+&nbsp;&nbsp;//&nbsp;&nbsp; - evaluate lvalue expressions to an lvalue<br />
+&nbsp;&nbsp;//&nbsp;&nbsp; - evaluate other expressions to an rvalue<br />
+&nbsp;&nbsp;syntax Expr ::= "evaluate" "[[" Expression "]]"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [function]<br />
+<br />
+&nbsp;&nbsp;rule evaluate[[ I:Id ]] =&gt; evaluate_lval[[ I:Id ]]<br />
+<br />
+&nbsp;&nbsp;rule evaluate[[ ++ E:Expression ]] =&gt; evaluate_lval[[ ++ E:Expression ]]<br />
+<br />
+&nbsp;&nbsp;rule evaluate[[ -- E:Expression ]] =&gt; evaluate_lval[[ -- E:Expression ]]<br />
+<br />
+&nbsp;&nbsp;rule evaluate[[ E1:Expression = E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;evaluate_lval[[ E1:Expression = E2:Expression ]]<br />
+<br />
+&nbsp;&nbsp;rule evaluate[[ E1:Expression , E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;seq(effect(evaluate[[ E1 ]]), evaluate[[ E2 ]])<br />
+<br />
+</span><span class="add"><ins>&nbsp;&nbsp;rule evaluate[[ * E:Expression ]] =&gt; evaluate_lval[[ * E:Expression ]]<br />
+<br />
+</ins></span><span class="common">&nbsp;&nbsp;rule evaluate[[ E:Expression ]] =&gt; evaluate_rval[[ E ]]<br />
+<br />
+<br />
+&nbsp;&nbsp;// lvalue evaluation (undefined if parameter is not an lvalue-expression)<br />
+&nbsp;&nbsp;syntax Expr ::= "evaluate_lval" "[[" Expression "]]"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[function]<br />
+<br />
+&nbsp;&nbsp;rule evaluate_lval[[ I:Id ]] =&gt; bound-value(I)<br />
+<br />
+&nbsp;&nbsp;rule evaluate_lval[[ ++ E:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;supply(evaluate_lval[[ E ]],<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assign-giving-variable(given, int-plus(stored-value(given), 1)))<br />
+<br />
+&nbsp;&nbsp;rule evaluate_lval[[ -- E:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;supply(evaluate_lval[[ E ]],<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assign-giving-variable(given, int-minus(stored-value(given), 1)))<br />
+<br />
+&nbsp;&nbsp;rule evaluate_lval[[ E1:Expression = E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;assign-giving-variable(evaluate_lval[[ E1 ]], evaluate_rval[[ E2 ]])<br />
+<br />
+&nbsp;&nbsp;rule evaluate_lval[[ E1:Expression , E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;seq(effect(evaluate[[ E1 ]]), evaluate_lval[[ E2 ]])<br />
+<br />
+</span><span class="add"><ins>&nbsp;&nbsp;rule evaluate_lval[[ * E:Expression ]] =&gt; evaluate_rval[[ E ]]<br />
+</ins></span><span class="common"><br />
+</span><span class="add"><ins><br />
+</ins></span><span class="common">&nbsp;&nbsp;// rvalue evaluation<br />
+&nbsp;&nbsp;syntax Expr ::= "evaluate_rval" "[[" Expression "]]"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[function]<br />
+<br />
+&nbsp;&nbsp;rule evaluate_rval[[ L:Literal ]] =&gt; value[[ L ]]<br />
+&nbsp;&nbsp;rule evaluate_rval[[ I:Id ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;stored-value(evaluate_lval[[ I ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression = E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;stored-value(evaluate_lval[[ E1 = E2 ]])<br />
+</span><span class="add"><ins>&nbsp;&nbsp;rule evaluate_rval[[ * E:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;stored-value(evaluate_lval[[ * E ]])<br />
+</ins></span><span class="common"><br />
+&nbsp;&nbsp;rule evaluate_rval[[ ++ E:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;stored-value(evaluate_lval[[ ++ E ]])<br />
+<br />
+&nbsp;&nbsp;rule evaluate_rval[[ -- E:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;stored-value(evaluate_lval[[ -- E ]])<br />
+<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E:Expression ++ ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;supply(evaluate_lval[[ E ]],<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assign-giving-current-value(given, int-plus(stored-value(given), 1)))<br />
+<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E:Expression -- ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;supply(evaluate_lval[[ E ]],<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assign-giving-current-value(given, int-minus(stored-value(given), 1)))<br />
+<br />
+</span><span class="add"><ins>&nbsp;&nbsp;rule evaluate_rval[[ &amp; E:Expression ]] =&gt; evaluate_lval[[ E ]]<br />
+<br />
+&nbsp;&nbsp;rule evaluate_rval[[ new T:TypeSpecifier ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;allocate(variables(type[[ T ]]))<br />
+<br />
+&nbsp;&nbsp;rule evaluate_rval[[ new T:TypeSpecifier * ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;allocate(variables(pointers(type[[ T ]])))<br />
+<br />
+&nbsp;&nbsp;rule evaluate_rval[[ delete E:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;seq(release(evaluate_rval[[ E ]]), null)<br />
+<br />
+</ins></span><span class="common">&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression ( E2:Expression ) ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;apply(evaluate_rval[[ E1 ]], evaluate_params[[ tuple(E2) ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression (&nbsp;&nbsp;) ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;apply(evaluate_rval[[ E1 ]], tuple(.))<br />
+<br />
+&nbsp;&nbsp;rule evaluate_rval[[ + E:Expression ]] =&gt; int-plus(0, evaluate_rval[[ E ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ - E:Expression ]] =&gt; int-minus(0, evaluate_rval[[ E ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ ! E:Expression ]] =&gt; not(evaluate_rval[[ E ]])<br />
+<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression * E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;int-times(evaluate_rval[[ E1 ]], evaluate_rval[[ E2 ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression / E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;int-div(evaluate_rval[[ E1 ]], evaluate_rval[[ E2 ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression % E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;int-modulo(evaluate_rval[[ E1 ]], evaluate_rval[[ E2 ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression + E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;int-plus(evaluate_rval[[ E1 ]], evaluate_rval[[ E2 ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression - E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;int-minus(evaluate_rval[[ E1 ]], evaluate_rval[[ E2 ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression &lt; E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;int-less(evaluate_rval[[ E1 ]], evaluate_rval[[ E2 ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression &gt; E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;int-greater(evaluate_rval[[ E1 ]], evaluate_rval[[ E2 ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression &lt;= E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;int-less-equal(evaluate_rval[[ E1 ]], evaluate_rval[[ E2 ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression &gt;= E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;int-greater-equal(evaluate_rval[[ E1 ]], evaluate_rval[[ E2 ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression != E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;not(equal(evaluate_rval[[ E1 ]], evaluate_rval[[ E2 ]]))<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression == E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;equal(evaluate_rval[[ E1 ]], evaluate_rval[[ E2 ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression &amp;&amp; E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;if-true(evaluate_rval[[ E1 ]], evaluate_rval[[ E2 ]], false)<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression || E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;if-true(evaluate_rval[[ E1 ]], true, evaluate_rval[[ E2 ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression &lt;&lt; E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;output(evaluate_rval[[ E1 ]], evaluate_rval[[ E2 ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression &gt;&gt; E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;input(evaluate_rval[[ E1 ]], evaluate_lval[[ E2 ]])<br />
+<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression , E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;seq(effect(evaluate[[ E1 ]]), evaluate_rval[[ E2 ]])<br />
+<br />
+<br />
+&nbsp;&nbsp;syntax Expr ::= "evaluate_params" "[[" ExpressionList "]]"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[function]<br />
+<br />
+&nbsp;&nbsp;syntax ExpressionList ::= "tuple" "(" Expression ")"<br />
+<br />
+&nbsp;&nbsp;rule evaluate_params[[ tuple(E1:Expression ,&nbsp;&nbsp;E2:Expression) ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;tuple-prefix(evaluate[[ E1 ]], evaluate_params[[ tuple(E2) ]])<br />
+&nbsp;&nbsp;rule evaluate_params[[ tuple(E:Expression) ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;tuple-prefix(evaluate[[ E ]], tuple(.)) [owise]<br />
+<br />
+<br />
+&nbsp;&nbsp;syntax Comm ::= "execute" "[[" StatementSeq "]]"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[function]<br />
+<br />
+&nbsp;&nbsp;rule execute[[ E:Expression ; ]] =&gt; effect(evaluate[[ E ]])<br />
+&nbsp;&nbsp;rule execute[[ ; ]] =&gt; skip<br />
+<br />
+&nbsp;&nbsp;rule execute[[ { SS:StatementSeq } ]] =&gt; execute[[ SS ]]<br />
+&nbsp;&nbsp;rule execute[[ { } ]] =&gt; skip<br />
+<br />
+&nbsp;&nbsp;rule execute[[ if ( E:Expression ) S:Statement ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;execute[[ if ( E ) S else { } ]]<br />
+&nbsp;&nbsp;rule execute[[ if ( E:Expression ) S1:Statement else S2:Statement ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;if-true(evaluate_rval[[ E ]], execute[[ S1 ]], execute[[ S2 ]])<br />
+<br />
+&nbsp;&nbsp;rule execute[[ while ( E:Expression ) S:Statement ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;while-true(evaluate_rval[[ E ]], execute[[ S ]])<br />
+<br />
+&nbsp;&nbsp;rule execute[[ return E:Expression; ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;throw(variant(returned, evaluate[[ E ]]))<br />
+&nbsp;&nbsp;rule execute[[ return ; ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;throw(variant(returned, null))<br />
+<br />
+&nbsp;&nbsp;rule execute[[ BD:BlockDeclaration ]] =&gt; effect(elaborate[[ BD ]])<br />
+<br />
+&nbsp;&nbsp;rule execute[[ BS:BlockStatement SS:StatementSeq ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;seq(execute[[ BS ]], execute[[ SS ]])<br />
+<br />
+&nbsp;&nbsp;rule execute[[ BD:BlockDeclaration SS:StatementSeq ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;scope(elaborate[[ BD ]], execute[[ SS ]])<br />
+<br />
+<br />
+&nbsp;&nbsp;syntax Decl ::= "elaborate_forwards" "[[" DeclarationSeq "]]"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [function]<br />
+<br />
+&nbsp;&nbsp;rule elaborate_forwards[[ # include &lt;iostream&gt; ]] =&gt; bindings(.)<br />
+&nbsp;&nbsp;rule elaborate_forwards[[ _:BlockDeclaration ]] =&gt; bindings(.)<br />
+<br />
+</span><span class="common">&nbsp;&nbsp;rule elaborate_forwards[[ </span><span class="before-change"><del>T:TypeSpecifier I:Id<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( PDL:ParameterDeclarationList )</del></span><span class="after-change"><ins>FT:FunType (* D:Declarator)</ins></span><span class="common"><br />
+</span><span class="common">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CS:CompoundStatement ]] =&gt;<br />
+</span><span class="before-change"><del>&nbsp;&nbsp;&nbsp;&nbsp;bind-value(I,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;allocate(variables(functions(type_tuple[[ PDL ]], type[[ T ]]))))</del></span><span class="after-change"><ins>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; elaborate_forwards[[ (FT *) D CS ]]</ins></span><span class="common"><br />
+</span><span class="common"><br />
+</span><span class="add"><ins>&nbsp;&nbsp;rule elaborate_forwards[[ FT:FunType (I:Id ( PDL:ParameterDeclarationList ))<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CS:CompoundStatement ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;bind-value(I, allocate(variables(type[[ ( PDL ) --&gt; FT ]])))<br />
+<br />
+&nbsp;&nbsp;rule elaborate_forwards[[ FT:FunType (&amp; I:Id<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( PDL:ParameterDeclarationList ))<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CS:CompoundStatement ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;bind-value(I, allocate(variables(type[[ ( PDL ) --&gt; (FT &amp;) ]])))<br />
+<br />
+// otherwise:<br />
+&nbsp;&nbsp;rule elaborate_forwards[[ FT:FunType (D:Declarator<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( PDL:ParameterDeclarationList ))<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CS:CompoundStatement ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;elaborate_forwards[[ (( PDL ) --&gt; FT) D CS ]]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [owise]<br />
+<br />
+</ins></span><span class="common">&nbsp;&nbsp;rule elaborate_forwards[[ D:Declaration DS:DeclarationSeq ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;accum(elaborate_forwards[[ D ]], elaborate_forwards[[ DS ]])<br />
+<br />
+<br />
+&nbsp;&nbsp;syntax Decl ::= "elaborate" "[[" DeclarationSeq "]]"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[function]<br />
+<br />
+&nbsp;&nbsp;rule elaborate[[ # include &lt;iostream&gt; ]] =&gt; bindings(.)<br />
+&nbsp;&nbsp;rule elaborate[[ using namespace std ; ]] =&gt; bindings(.)<br />
+<br />
+</span><span class="common">&nbsp;&nbsp;rule elaborate[[ </span><span class="before-change"><del>T:TypeSpecifier I:Id </del></span><span class="after-change"><ins>FT:FunType (* D:Declarator) </ins></span><span class="common">; ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="before-change"><del>accum(bind-value(I, allocate(variables(type[[ T ]]))),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;decl-effect(assign(bound-value(I), 0)))</del></span><span class="after-change"><ins>elaborate[[ (FT *) D ; ]]</ins></span><span class="common"><br />
+</span><span class="common"><br />
+</span><span class="common">&nbsp;&nbsp;rule elaborate[[ </span><span class="before-change"><del>T:TypeSpecifier </del></span><span class="after-change"><ins>FT:FunType (D:Declarator<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ( PDL:ParameterDeclarationList )) ; ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;elaborate[[ (( PDL ) --&gt; FT) D ; ]]<br />
+<br />
+&nbsp;&nbsp;rule elaborate[[ FT:FunType I:Id ; ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;accum(bind-value(I, allocate(variables(type[[ FT ]]))),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;decl-effect(assign(bound-value(I), null-value(type[[ FT ]]))))<br />
+<br />
+&nbsp;&nbsp;rule elaborate[[ FT:FunType (* D:Declarator) = E:Expression ; ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;elaborate[[ (FT *) D = E ; ]]<br />
+<br />
+&nbsp;&nbsp;rule elaborate[[ FT:FunType (D:Declarator<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ( PDL:ParameterDeclarationList )) = E:Expression ; ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp; elaborate[[ (( PDL ) --&gt; FT) D = E ; ]]<br />
+<br />
+&nbsp;&nbsp;rule elaborate[[ FT:FunType </ins></span><span class="common">I:Id = E:Expression ; ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;accum(elaborate[[ </span><span class="before-change"><del>T </del></span><span class="after-change"><ins>FT </ins></span><span class="common">I ;]],<br />
+</span><span class="common">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;decl-effect(assign(bound-value(I), evaluate_rval[[ E ]])))<br />
+<br />
+</span><span class="common">&nbsp;&nbsp;rule elaborate[[ </span><span class="before-change"><del>T:TypeSpecifier &amp; I:Id </del></span><span class="after-change"><ins>FT:FunType (&amp; I:Id) </ins></span><span class="common">= E:Expression ; ]] =&gt;<br />
+</span><span class="common">&nbsp;&nbsp;&nbsp;&nbsp;bind-value(I, evaluate_lval[[ E ]])<br />
+<br />
+</span><span class="common">&nbsp;&nbsp;rule elaborate[[ </span><span class="before-change"><del>T:TypeSpecifier </del></span><span class="after-change"><ins>FT:FunType </ins></span><span class="common">ID:InitDeclarator </span><span class="before-change"><del>,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </del></span><span class="after-change"><ins>, </ins></span><span class="common">IDL:InitDeclaratorList ; ]] =&gt;</span><span class="before-change"><del><br />
+&nbsp;&nbsp;&nbsp;&nbsp;accum(elaborate[[ T </del></span><span class="after-change"><ins><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; accum( elaborate[[ FT </ins></span><span class="common">ID ; ]], elaborate[[ </span><span class="before-change"><del>T </del></span><span class="after-change"><ins>FT </ins></span><span class="common">IDL ; ]])<br />
+</span><span class="common"><br />
+&nbsp;&nbsp;rule elaborate[[ std::thread I1:Id ( I2:Id ) ; ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;decl-effect(effect(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spawn(close(abstraction(evaluate[[ I2 () ]])))))<br />
+<br />
+&nbsp;&nbsp;rule elaborate[[ std::thread I1:Id ( I2:Id , E:Expression ) ; ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;decl-effect(effect(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spawn(close(abstraction(evaluate[[ I2 (E) ]])))))<br />
+<br />
+</span><span class="common">&nbsp;&nbsp;rule elaborate[[ </span><span class="before-change"><del>T:TypeSpecifier I:Id </del></span><span class="after-change"><ins>FT:FunType (* D:Declarator) CS:CompoundStatement ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; elaborate[[ (FT *) D CS ]]<br />
+<br />
+&nbsp;&nbsp;rule elaborate[[ FT:FunType (I:Id </ins></span><span class="common">( PDL:ParameterDeclarationList </span><span class="before-change"><del>)</del></span><span class="after-change"><ins>))</ins></span><span class="common"><br />
+</span><span class="common">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CS:CompoundStatement ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;decl-effect(assign(bound-value(I),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;close(abstraction(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scope(match-compound(pattern_tuple[[ PDL ]], given),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch(seq(execute[[ CS ]], throw(variant(returned, null))),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;abstraction(current-value(original(returned, given)))))))))<br />
+<br />
+</span><span class="common">&nbsp;&nbsp;rule elaborate[[ </span><span class="before-change"><del>T:TypeSpecifier &amp; </del></span><span class="after-change"><ins>FT:FunType (&amp; </ins></span><span class="common">I:Id ( PDL:ParameterDeclarationList </span><span class="before-change"><del>)</del></span><span class="after-change"><ins>))</ins></span><span class="common"><br />
+</span><span class="common">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CS:CompoundStatement ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;decl-effect(assign(bound-value(I),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;close(abstraction(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scope(match-compound(pattern_tuple[[ PDL ]], given),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch(seq(execute[[ CS ]], throw(variant(returned, null))),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;abstraction(original(returned, given))))))))<br />
+<br />
+</span><span class="add"><ins>// otherwise:<br />
+&nbsp;&nbsp;rule elaborate[[ FT:FunType (D:Declarator<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( PDL:ParameterDeclarationList )) CS:CompoundStatement ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;elaborate[[ (( PDL ) --&gt; FT) D CS ]]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[owise]<br />
+<br />
+</ins></span><span class="common">&nbsp;&nbsp;rule elaborate[[ D:Declaration DS:DeclarationSeq ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;accum(elaborate[[ D ]], elaborate[[ DS ]])<br />
+<br />
+<br />
+&nbsp;&nbsp;syntax Tuples ::= "type_tuple" "[[" ParameterDeclarationList "]]"&nbsp;&nbsp; [function]<br />
+<br />
+&nbsp;&nbsp;rule type_tuple[[ .ParameterDeclarationList ]] =&gt; tuple(.)<br />
+</span><span class="common">&nbsp;&nbsp;rule type_tuple[[ </span><span class="before-change"><del>T:TypeSpecifier D:Declarator ,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</del></span><span class="after-change"><ins>PD:ParameterDeclaration , </ins></span><span class="common">PDL:ParameterDeclarationList ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;tuple-prefix(type[[ </span><span class="before-change"><del>T ]], type_tuple[[ PDL ]])<br />
+&nbsp;&nbsp;rule type_tuple[[ T:TypeSpecifier AD:AbstractDeclarator ,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDL:ParameterDeclarationList ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;tuple-prefix(type[[ T </del></span><span class="after-change"><ins>PD </ins></span><span class="common">]], type_tuple[[ PDL ]])<br />
+</span><span class="common"><br />
+<br />
+</span><span class="common">&nbsp;&nbsp;syntax Types ::= "type" "[[" </span><span class="before-change"><del>TypeSpecifier </del></span><span class="after-change"><ins>FunType </ins></span><span class="common">"]]" </span><span class="before-change"><del>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</del></span><span class="after-change"><ins>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</ins></span><span class="common">[function]<br />
+</span><span class="common"><br />
+&nbsp;&nbsp;rule type[[ bool ]] =&gt; booleans<br />
+&nbsp;&nbsp;rule type[[ int ]] =&gt; integers<br />
+&nbsp;&nbsp;rule type[[ void ]] =&gt; unit<br />
+</span><span class="add"><ins>&nbsp;&nbsp;rule type[[ ( PDL:ParameterDeclarationList ) --&gt; FT:FunType ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;functions(type_tuple[[ PDL ]], type[[ FT ]])<br />
+&nbsp;&nbsp;rule type[[ (FT:FunType *):FunType ]] =&gt; pointers(type[[ FT ]])<br />
+</ins></span><span class="common"><br />
+<br />
+</span><span class="add"><ins>&nbsp;&nbsp;syntax Types ::= "type" "[[" ParameterDeclaration "]]"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[function]<br />
+<br />
+&nbsp;&nbsp;rule type[[ FT:FunType I:Id ]] =&gt; variables(type[[ FT ]])<br />
+<br />
+&nbsp;&nbsp;rule type[[ FT:FunType (&amp; I:Id) ]] =&gt; variables(type[[ FT ]])<br />
+<br />
+&nbsp;&nbsp;rule type[[ FT:FunType (* D:Declarator) ]] =&gt; type[[ (FT *) D ]]<br />
+<br />
+&nbsp;&nbsp;rule type[[ FT:FunType (* AD:AbstractDeclarator) ]] =&gt; type[[ (FT *) AD ]]<br />
+<br />
+&nbsp;&nbsp;rule type[[ FT:FunType (D:Declarator<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( PDL:ParameterDeclarationList ) ) ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;type[[ (( PDL ) --&gt; FT) D ]]<br />
+<br />
+&nbsp;&nbsp;rule type[[ FT:FunType (AD:AbstractDeclarator<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( PDL:ParameterDeclarationList ) ) ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;type[[ (( PDL ) --&gt; FT) AD ]]<br />
+<br />
+<br />
+</ins></span><span class="common">&nbsp;&nbsp;syntax Tuples ::= "pattern_tuple" "[[" ParameterDeclarationList "]]"[function]<br />
+<br />
+&nbsp;&nbsp;rule pattern_tuple[[ .ParameterDeclarationList ]] =&gt; tuple(.)<br />
+&nbsp;&nbsp;rule pattern_tuple[[ PD:ParameterDeclaration ,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PDL:ParameterDeclarationList ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;tuple-prefix(pattern[[ PD ]], pattern_tuple[[ PDL ]])<br />
+<br />
+<br />
+&nbsp;&nbsp;syntax Patterns ::= "pattern" "[[" ParameterDeclaration "]]"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[function]<br />
+<br />
+</span><span class="common">&nbsp;&nbsp;rule pattern[[ </span><span class="before-change"><del>T:TypeSpecifier </del></span><span class="after-change"><ins>FT:FunType </ins></span><span class="common">I:Id ]] =&gt;<br />
+</span><span class="common">&nbsp;&nbsp;&nbsp;&nbsp;abstraction(<br />
+</span><span class="common">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="before-change"><del>accum(bind-value(I, allocate(variables(type[[ T ]]))),</del></span><span class="after-change"><ins>accum(elaborate[[ FT I ; ]],</ins></span><span class="common"><br />
+</span><span class="common">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;decl-effect(assign(bound-value(I), current-value(given)))))<br />
+<br />
+</span><span class="common">&nbsp;&nbsp;rule pattern[[ </span><span class="before-change"><del>T:TypeSpecifier &amp; I:Id </del></span><span class="after-change"><ins>FT:FunType (&amp; I:Id) </ins></span><span class="common">]] =&gt;<br />
+</span><span class="common">&nbsp;&nbsp;&nbsp;&nbsp;abstraction(bind-value(I, given))<br />
+</span><span class="add"><ins><br />
+&nbsp;&nbsp;rule pattern[[ FT:FunType (* D:Declarator) ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;pattern[[ (FT *) D&nbsp;&nbsp;]]<br />
+<br />
+&nbsp;&nbsp;rule pattern[[ FT:FunType (* AD:AbstractDeclarator) ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;pattern[[ (FT *) AD ]]<br />
+<br />
+&nbsp;&nbsp;rule pattern[[ FT:FunType (D:Declarator<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( PDL:ParameterDeclarationList ) ) ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;pattern[[ (( PDL ) --&gt; FT) D ]]<br />
+<br />
+&nbsp;&nbsp;rule pattern[[ FT:FunType (AD:AbstractDeclarator<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( PDL:ParameterDeclarationList ) ) ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;pattern[[ (( PDL ) --&gt; FT) AD ]]<br />
+</ins></span><span class="common"><br />
+<br />
+&nbsp;&nbsp;syntax Comm ::= "translate" "[[" TranslationUnit "]]"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [function]<br />
+<br />
+&nbsp;&nbsp;rule translate[[ DS:DeclarationSeq ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;scope(accum(elaborate_forwards[[ DS ]], elaborate[[ DS ]]),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect(apply(evaluate_rval[[ main ]], tuple(.))))<br />
+<br />
+&nbsp;&nbsp;configuration<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;T&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;threads&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;thread multiplicity="*"&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;name&gt; main:Threads &lt;/name&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;k&gt; translate[[$PGM:TranslationUnit]] &lt;/k&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;xstack&gt; .List &lt;/xstack&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;context&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;env&gt; .Map &lt;/env&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;given&gt; no-value &lt;/given&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/context&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/thread&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/threads&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;store&gt; .Map &lt;/store&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;output stream="stdout"&gt; .List &lt;/output&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input stream="stdin"&gt; .List &lt;/input&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/T&gt;<br />
+<br />
+endmodule<br />
+</span>
+</div></body></html>

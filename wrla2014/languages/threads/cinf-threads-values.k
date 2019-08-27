@@ -1,0 +1,35 @@
+require "../../values/abstractions.k"
+require "../../values/bindings.k"
+require "../../values/booleans.k"
+require "../../values/functions.k"
+require "../../values/integers.k"
+require "../../values/patterns.k"
+require "../../values/skip.k"
+require "../../values/streams.k"
+require "../../values/strings.k"
+require "../../values/threads.k"
+require "../../values/tuples.k"
+require "../../values/types.k"
+require "../../values/unit.k"
+require "../../values/values.k"
+require "../../values/variables.k"
+require "../../values/variants.k"
+
+module CINF-THREADS-VALUES
+  imports ABSTRACTIONS
+  imports BINDINGS
+  imports BOOLEANS
+  imports FUNCTIONS
+  imports INTEGERS
+  imports PATTERNS
+  imports SKIP
+  imports STREAMS
+  imports STRINGS
+  imports THREADS
+  imports TUPLES
+  imports TYPES
+  imports UNIT
+  imports VALUES
+  imports VARIABLES
+  imports VARIANTS
+endmodule

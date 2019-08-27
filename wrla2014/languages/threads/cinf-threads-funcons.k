@@ -1,0 +1,71 @@
+require "../../funcons/accum.k"
+require "../../funcons/allocate.k"
+require "../../funcons/apply.k"
+require "../../funcons/assign.k"
+require "../../funcons/assign-giving-current-value.k"
+require "../../funcons/assign-giving-variable.k"
+require "../../funcons/bind-value.k"
+require "../../funcons/bound-value.k"
+require "../../funcons/catch.k"
+require "../../funcons/close.k"
+require "../../funcons/closure.k"
+require "../../funcons/current-value.k"
+require "../../funcons/decl-effect.k"
+require "../../funcons/effect.k"
+require "../../funcons/given.k"
+require "../../funcons/if-true-comm.k"
+require "../../funcons/if-true-expr.k"
+require "../../funcons/input.k"
+require "../../funcons/match.k"
+require "../../funcons/match-compound.k"
+require "../../funcons/output.k"
+require "../../funcons/reset-env.k"
+require "../../funcons/reset-given.k"
+require "../../funcons/scope-comm.k"
+require "../../funcons/scope-expr.k"
+require "../../funcons/seq-comm.k"
+require "../../funcons/seq-decl.k"
+require "../../funcons/seq-expr.k"
+require "../../funcons/spawn.k"
+require "../../funcons/stored-value.k"
+require "../../funcons/supply-decl.k"
+require "../../funcons/supply-expr.k"
+require "../../funcons/throw.k"
+require "../../funcons/while-true.k"
+
+module CINF-THREADS-FUNCONS
+  imports ACCUM
+  imports ALLOCATE
+  imports APPLY
+  imports ASSIGN
+  imports ASSIGN-GIVING-CURRENT-VALUE
+  imports ASSIGN-GIVING-VARIABLE
+  imports BIND-VALUE
+  imports BOUND-VALUE
+  imports CATCH
+  imports CLOSE
+  imports CLOSURE
+  imports CURRENT-VALUE
+  imports DECL-EFFECT
+  imports EFFECT
+  imports GIVEN
+  imports IF-TRUE-COMM
+  imports IF-TRUE-EXPR
+  imports INPUT
+  imports MATCH
+  imports MATCH-COMPOUND
+  imports OUTPUT
+  imports RESET-ENV
+  imports RESET-GIVEN
+  imports SCOPE-COMM
+  imports SCOPE-EXPR
+  imports SEQ-COMM
+  imports SEQ-DECL
+  imports SEQ-EXPR
+  imports SPAWN
+  imports STORED-VALUE
+  imports SUPPLY-DECL
+  imports SUPPLY-EXPR
+  imports THROW
+  imports WHILE-TRUE
+endmodule

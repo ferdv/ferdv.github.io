@@ -1,0 +1,49 @@
+require "../../funcons/accum.k"
+require "../../funcons/allocate.k"
+require "../../funcons/assign.k"
+require "../../funcons/assign-giving-current-value.k"
+require "../../funcons/assign-giving-variable.k"
+require "../../funcons/bind-value.k"
+require "../../funcons/bound-value.k"
+require "../../funcons/decl-effect.k"
+require "../../funcons/effect.k"
+require "../../funcons/given.k"
+require "../../funcons/if-true-comm.k"
+require "../../funcons/if-true-expr.k"
+require "../../funcons/input.k"
+require "../../funcons/output.k"
+require "../../funcons/reset-env.k"
+require "../../funcons/reset-given.k"
+require "../../funcons/scope-comm.k"
+require "../../funcons/seq-comm.k"
+require "../../funcons/seq-decl.k"
+require "../../funcons/seq-expr.k"
+require "../../funcons/stored-value.k"
+require "../../funcons/supply-expr.k"
+require "../../funcons/while-true.k"
+
+module CINF-STATEMENTS-FUNCONS
+  imports ACCUM
+  imports ALLOCATE
+  imports ASSIGN
+  imports ASSIGN-GIVING-CURRENT-VALUE
+  imports ASSIGN-GIVING-VARIABLE
+  imports BIND-VALUE
+  imports BOUND-VALUE
+  imports DECL-EFFECT
+  imports EFFECT
+  imports GIVEN
+  imports IF-TRUE-COMM
+  imports IF-TRUE-EXPR
+  imports INPUT
+  imports OUTPUT
+  imports RESET-ENV
+  imports RESET-GIVEN
+  imports SCOPE-COMM
+  imports SEQ-COMM
+  imports SEQ-DECL
+  imports SEQ-EXPR
+  imports STORED-VALUE
+  imports SUPPLY-EXPR
+  imports WHILE-TRUE
+endmodule

@@ -1,0 +1,9 @@
+int* f() {
+  int *p = new int;
+  *p = 10;
+  return p;
+}
+
+int main() {
+  return 0;
+} 

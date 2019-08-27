@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Difference</title>
+<style type="text/css">
+ body {font-family: monospace;}
+ span.del {background: hotpink; border: thin inset;}
+ span.add {background: deepskyblue; font-weight: bolder; border: thin outset;}
+ span.before-change {background: yellow; border: thin inset;}
+ span.after-change {background: lime; font-weight: bolder; border: thin outset;}
+ li.entry .position {font-weight: bolder; margin-top: 0em; margin-bottom: 0em; padding-top: 0.5em; padding-bottom: 0em;}
+ li.entry .body {margin-top: 0em; margin-bottom: 0em; padding-top: 0em; padding-bottom: 0.5em;}
+ li.entry {border-top: thin solid gray;}
+</style>
+</head><body><div>
+<span class="common">// </span><span class="before-change"><del>Functions, </del></span><span class="after-change"><ins>Threads, </ins></span><span class="common">extending </span><span class="before-change"><del>statements</del></span><span class="after-change"><ins>functions</ins></span><span class="common"><br />
+</span><span class="common"><br />
+module CINF-SYNTAX<br />
+<br />
+&nbsp;&nbsp;syntax Literal ::= Int | String | Bool | "cout" | "cin" | "endl"<br />
+<br />
+&nbsp;&nbsp;syntax Id ::= "main"<br />
+<br />
+&nbsp;&nbsp;syntax Expression ::=<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Literal<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| Id<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| "(" Expression ")" [bracket]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| Expression "(" Expression ")"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| Expression "(" ")"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| "++" Expression<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| "--" Expression<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| Expression "++"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| Expression "--"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&gt; UnaryOperator Expression<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&gt; left:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Expression "*" Expression [left]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| Expression "/" Expression [left]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| Expression "%" Expression [left]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&gt; left:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Expression "+" Expression [left]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| Expression "-" Expression [left]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&gt; left:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Expression "&lt;" Expression [left]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| Expression "&gt;" Expression [left]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| Expression "&lt;=" Expression [left]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| Expression "&gt;=" Expression [left]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| Expression "!=" Expression [left]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| Expression "==" Expression [left]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&gt; Expression "&amp;&amp;" Expression [left]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&gt; Expression "||" Expression [left]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&gt; left:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Expression "&lt;&lt;" Expression [left]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| Expression "&gt;&gt;" Expression [left]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&gt; Expression "=" Expression [right]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&gt; Expression "," Expression [right]<br />
+<br />
+&nbsp;&nbsp;syntax UnaryOperator ::=<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+" | "-" | "!"<br />
+<br />
+&nbsp;&nbsp;syntax "+"&nbsp;&nbsp;-/- [\+]<br />
+&nbsp;&nbsp;syntax "++" -/- [\+]<br />
+&nbsp;&nbsp;syntax "-"&nbsp;&nbsp;-/- [\-]<br />
+&nbsp;&nbsp;syntax "--" -/- [\-]<br />
+<br />
+&nbsp;&nbsp;syntax StatementSeq ::=<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Statement<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| Statement StatementSeq<br />
+<br />
+&nbsp;&nbsp;syntax Statement ::=<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BlockStatement<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| BlockDeclaration<br />
+<br />
+&nbsp;&nbsp;syntax BlockStatement ::=<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Expression ";"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| ";"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| CompoundStatement<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| "if" "(" Expression ")" Statement<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| "if" "(" Expression ")" Statement "else" Statement<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| "while" "(" Expression ")" Statement<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| "return" Expression ";"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| "return" ";"<br />
+<br />
+&nbsp;&nbsp;syntax CompoundStatement ::=<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"{" StatementSeq "}"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| "{" "}"<br />
+<br />
+&nbsp;&nbsp;syntax DeclarationSeq ::=<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Declaration<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| Declaration DeclarationSeq<br />
+<br />
+&nbsp;&nbsp;syntax Declaration ::=<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"#" "include" "&lt;iostream&gt;"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| BlockDeclaration<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| TypeSpecifier Id "(" ParameterDeclarationList ")" CompoundStatement<br />
+<br />
+&nbsp;&nbsp;syntax BlockDeclaration ::=<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"using" "namespace" "std" ";"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| TypeSpecifier InitDeclaratorList ";"<br />
+</span><span class="add"><ins>&nbsp;&nbsp;&nbsp;&nbsp;| "std::thread" Id "(" Id "," Expression ")" ";"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| "std::thread" Id "(" Id ")" ";"<br />
+</ins></span><span class="common"><br />
+&nbsp;&nbsp;syntax TypeSpecifier ::=<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"bool"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| "int"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| "void"<br />
+<br />
+&nbsp;&nbsp;syntax InitDeclaratorList ::=<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;InitDeclarator<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| InitDeclarator "," InitDeclaratorList<br />
+<br />
+&nbsp;&nbsp;syntax InitDeclarator ::=<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id<br />
+&nbsp;&nbsp;&nbsp;&nbsp;| Id "=" Expression<br />
+<br />
+&nbsp;&nbsp;syntax ParameterDeclarationList ::=<br />
+&nbsp;&nbsp;&nbsp;&nbsp;List{ParameterDeclaration, ","}<br />
+<br />
+&nbsp;&nbsp;syntax ParameterDeclaration ::=<br />
+&nbsp;&nbsp;&nbsp;&nbsp;TypeSpecifier Id<br />
+<br />
+&nbsp;&nbsp;syntax TranslationUnit ::=<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DeclarationSeq<br />
+<br />
+endmodule<br />
+</span>
+</div></body></html>

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Difference</title>
+<style type="text/css">
+ body {font-family: monospace;}
+ span.del {background: hotpink; border: thin inset;}
+ span.add {background: deepskyblue; font-weight: bolder; border: thin outset;}
+ span.before-change {background: yellow; border: thin inset;}
+ span.after-change {background: lime; font-weight: bolder; border: thin outset;}
+ li.entry .position {font-weight: bolder; margin-top: 0em; margin-bottom: 0em; padding-top: 0.5em; padding-bottom: 0em;}
+ li.entry .body {margin-top: 0em; margin-bottom: 0em; padding-top: 0em; padding-bottom: 0.5em;}
+ li.entry {border-top: thin solid gray;}
+</style>
+</head><body><div>
+<span class="common">// </span><span class="before-change"><del>Variable declarations, </del></span><span class="after-change"><ins>Statements, </ins></span><span class="common">extending </span><span class="before-change"><del>expressions</del></span><span class="after-change"><ins>declarations</ins></span><span class="common"><br />
+</span><span class="common"><br />
+require "cinf-syntax.k"<br />
+</span><span class="common">require </span><span class="before-change"><del>"cinf-declarations-funcons.k"</del></span><span class="after-change"><ins>"cinf-statements-funcons.k"</ins></span><span class="common"><br />
+require </span><span class="before-change"><del>"cinf-declarations-values.k"</del></span><span class="after-change"><ins>"cinf-statements-values.k"</ins></span><span class="common"><br />
+</span><span class="common"><br />
+module CINF<br />
+<br />
+&nbsp;&nbsp;imports CINF-SYNTAX<br />
+</span><span class="common">&nbsp;&nbsp;imports </span><span class="before-change"><del>CINF-DECLARATIONS-FUNCONS</del></span><span class="after-change"><ins>CINF-STATEMENTS-FUNCONS</ins></span><span class="common"><br />
+&nbsp;&nbsp;imports </span><span class="before-change"><del>CINF-DECLARATIONS-VALUES</del></span><span class="after-change"><ins>CINF-STATEMENTS-VALUES</ins></span><span class="common"><br />
+</span><span class="common"><br />
+&nbsp;&nbsp;syntax Expr ::= "value" "[[" Literal "]]"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [function]<br />
+<br />
+&nbsp;&nbsp;rule value[[ I:Int ]] =&gt; I<br />
+</span><span class="add"><ins>&nbsp;&nbsp;rule value[[ S:String ]] =&gt; S<br />
+</ins></span><span class="common">&nbsp;&nbsp;rule value[[ true ]] =&gt; true<br />
+&nbsp;&nbsp;rule value[[ false ]] =&gt; false<br />
+</span><span class="add"><ins>&nbsp;&nbsp;rule value[[ cout ]] =&gt; standard-output<br />
+&nbsp;&nbsp;rule value[[ cin ]] =&gt; standard-input<br />
+&nbsp;&nbsp;rule value[[ endl ]] =&gt; "\n"<br />
+</ins></span><span class="common"><br />
+<br />
+&nbsp;&nbsp;// default evaluation<br />
+&nbsp;&nbsp;//&nbsp;&nbsp; - evaluate lvalue expressions to an lvalue<br />
+&nbsp;&nbsp;//&nbsp;&nbsp; - evaluate other expressions to an rvalue<br />
+&nbsp;&nbsp;syntax Expr ::= "evaluate" "[[" Expression "]]"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [function]<br />
+<br />
+&nbsp;&nbsp;rule evaluate[[ I:Id ]] =&gt; evaluate_lval[[ I:Id ]]<br />
+<br />
+&nbsp;&nbsp;rule evaluate[[ ++ E:Expression ]] =&gt; evaluate_lval[[ ++ E:Expression ]]<br />
+<br />
+&nbsp;&nbsp;rule evaluate[[ -- E:Expression ]] =&gt; evaluate_lval[[ -- E:Expression ]]<br />
+<br />
+&nbsp;&nbsp;rule evaluate[[ E1:Expression = E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;evaluate_lval[[ E1:Expression = E2:Expression ]]<br />
+<br />
+&nbsp;&nbsp;rule evaluate[[ E1:Expression , E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;seq(effect(evaluate[[ E1 ]]), evaluate[[ E2 ]])<br />
+<br />
+&nbsp;&nbsp;rule evaluate[[ E:Expression ]] =&gt; evaluate_rval[[ E ]]<br />
+<br />
+<br />
+&nbsp;&nbsp;// lvalue evaluation (undefined if parameter is not an lvalue-expression)<br />
+&nbsp;&nbsp;syntax Expr ::= "evaluate_lval" "[[" Expression "]]"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[function]<br />
+<br />
+&nbsp;&nbsp;rule evaluate_lval[[ I:Id ]] =&gt; bound-value(I)<br />
+<br />
+&nbsp;&nbsp;rule evaluate_lval[[ ++ E:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;supply(evaluate_lval[[ E ]],<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assign-giving-variable(given, int-plus(stored-value(given), 1)))<br />
+<br />
+&nbsp;&nbsp;rule evaluate_lval[[ -- E:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;supply(evaluate_lval[[ E ]],<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assign-giving-variable(given, int-minus(stored-value(given), 1)))<br />
+<br />
+&nbsp;&nbsp;rule evaluate_lval[[ E1:Expression = E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;assign-giving-variable(evaluate_lval[[ E1 ]], evaluate_rval[[ E2 ]])<br />
+<br />
+&nbsp;&nbsp;rule evaluate_lval[[ E1:Expression , E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;seq(effect(evaluate[[ E1 ]]), evaluate_lval[[ E2 ]])<br />
+<br />
+<br />
+&nbsp;&nbsp;// rvalue evaluation<br />
+&nbsp;&nbsp;syntax Expr ::= "evaluate_rval" "[[" Expression "]]"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[function]<br />
+<br />
+&nbsp;&nbsp;rule evaluate_rval[[ L:Literal ]] =&gt; value[[ L ]]<br />
+&nbsp;&nbsp;rule evaluate_rval[[ I:Id ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;stored-value(evaluate_lval[[ I ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression = E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;stored-value(evaluate_lval[[ E1 = E2 ]])<br />
+<br />
+&nbsp;&nbsp;rule evaluate_rval[[ ++ E:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;stored-value(evaluate_lval[[ ++ E ]])<br />
+<br />
+&nbsp;&nbsp;rule evaluate_rval[[ -- E:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;stored-value(evaluate_lval[[ -- E ]])<br />
+<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E:Expression ++ ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;supply(evaluate_lval[[ E ]],<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assign-giving-current-value(given, int-plus(stored-value(given), 1)))<br />
+<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E:Expression -- ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;supply(evaluate_lval[[ E ]],<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assign-giving-current-value(given, int-minus(stored-value(given), 1)))<br />
+<br />
+&nbsp;&nbsp;rule evaluate_rval[[ + E:Expression ]] =&gt; int-plus(0, evaluate_rval[[ E ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ - E:Expression ]] =&gt; int-minus(0, evaluate_rval[[ E ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ ! E:Expression ]] =&gt; not(evaluate_rval[[ E ]])<br />
+<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression * E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;int-times(evaluate_rval[[ E1 ]], evaluate_rval[[ E2 ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression / E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;int-div(evaluate_rval[[ E1 ]], evaluate_rval[[ E2 ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression % E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;int-modulo(evaluate_rval[[ E1 ]], evaluate_rval[[ E2 ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression + E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;int-plus(evaluate_rval[[ E1 ]], evaluate_rval[[ E2 ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression - E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;int-minus(evaluate_rval[[ E1 ]], evaluate_rval[[ E2 ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression &lt; E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;int-less(evaluate_rval[[ E1 ]], evaluate_rval[[ E2 ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression &gt; E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;int-greater(evaluate_rval[[ E1 ]], evaluate_rval[[ E2 ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression &lt;= E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;int-less-equal(evaluate_rval[[ E1 ]], evaluate_rval[[ E2 ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression &gt;= E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;int-greater-equal(evaluate_rval[[ E1 ]], evaluate_rval[[ E2 ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression != E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;not(equal(evaluate_rval[[ E1 ]], evaluate_rval[[ E2 ]]))<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression == E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;equal(evaluate_rval[[ E1 ]], evaluate_rval[[ E2 ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression &amp;&amp; E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;if-true(evaluate_rval[[ E1 ]], evaluate_rval[[ E2 ]], false)<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression || E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;if-true(evaluate_rval[[ E1 ]], true, evaluate_rval[[ E2 ]])<br />
+</span><span class="add"><ins>&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression &lt;&lt; E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;output(evaluate_rval[[ E1 ]], evaluate_rval[[ E2 ]])<br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression &gt;&gt; E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;input(evaluate_rval[[ E1 ]], evaluate_lval[[ E2 ]])<br />
+</ins></span><span class="common"><br />
+&nbsp;&nbsp;rule evaluate_rval[[ E1:Expression , E2:Expression ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;seq(effect(evaluate[[ E1 ]]), evaluate_rval[[ E2 ]])<br />
+<br />
+<br />
+</span><span class="add"><ins>&nbsp;&nbsp;syntax Comm ::= "execute" "[[" StatementSeq "]]"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[function]<br />
+<br />
+&nbsp;&nbsp;rule execute[[ E:Expression ; ]] =&gt; effect(evaluate[[ E ]])<br />
+&nbsp;&nbsp;rule execute[[ ; ]] =&gt; skip<br />
+<br />
+&nbsp;&nbsp;rule execute[[ { SS:StatementSeq } ]] =&gt; execute[[ SS ]]<br />
+&nbsp;&nbsp;rule execute[[ { } ]] =&gt; skip<br />
+<br />
+&nbsp;&nbsp;rule execute[[ if ( E:Expression ) S:Statement ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;execute[[ if ( E ) S else { } ]]<br />
+&nbsp;&nbsp;rule execute[[ if ( E:Expression ) S1:Statement else S2:Statement ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;if-true(evaluate_rval[[ E ]], execute[[ S1 ]], execute[[ S2 ]])<br />
+<br />
+&nbsp;&nbsp;rule execute[[ while ( E:Expression ) S:Statement ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;while-true(evaluate_rval[[ E ]], execute[[ S ]])<br />
+<br />
+&nbsp;&nbsp;rule execute[[ BD:BlockDeclaration ]] =&gt; effect(elaborate[[ BD ]])<br />
+<br />
+&nbsp;&nbsp;rule execute[[ BS:BlockStatement SS:StatementSeq ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;seq(execute[[ BS ]], execute[[ SS ]])<br />
+<br />
+&nbsp;&nbsp;rule execute[[ BD:BlockDeclaration SS:StatementSeq ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;scope(elaborate[[ BD ]], execute[[ SS ]])<br />
+<br />
+<br />
+</ins></span><span class="common">&nbsp;&nbsp;syntax Decl ::= "elaborate" "[[" DeclarationSeq "]]"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[function]<br />
+</span><span class="add"><ins><br />
+&nbsp;&nbsp;rule elaborate[[ # include &lt;iostream&gt; ]] =&gt; bindings(.)<br />
+&nbsp;&nbsp;rule elaborate[[ using namespace std ; ]] =&gt; bindings(.)<br />
+</ins></span><span class="common"><br />
+&nbsp;&nbsp;rule elaborate[[ T:TypeSpecifier I:Id ; ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;accum(bind-value(I, allocate(variables(type[[ T ]]))),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;decl-effect(assign(bound-value(I), 0)))<br />
+<br />
+&nbsp;&nbsp;rule elaborate[[ T:TypeSpecifier I:Id = E:Expression ; ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;accum(elaborate[[ T I ;]],<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;decl-effect(assign(bound-value(I), evaluate_rval[[ E ]])))<br />
+<br />
+&nbsp;&nbsp;rule elaborate[[ T:TypeSpecifier ID:InitDeclarator ,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IDL:InitDeclaratorList ; ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;accum(elaborate[[ T ID ; ]], elaborate[[ T IDL ; ]])<br />
+<br />
+&nbsp;&nbsp;rule elaborate[[ D:Declaration DS:DeclarationSeq ]] =&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;accum(elaborate[[ D ]], elaborate[[ DS ]])<br />
+<br />
+<br />
+&nbsp;&nbsp;syntax Types ::= "type" "[[" TypeSpecifier "]]"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [function]<br />
+<br />
+&nbsp;&nbsp;rule type[[ bool ]] =&gt; booleans<br />
+&nbsp;&nbsp;rule type[[ int ]] =&gt; integers<br />
+<br />
+<br />
+&nbsp;&nbsp;configuration<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;T&gt;<br />
+</span><span class="common">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;k&gt; </span><span class="before-change"><del>elaborate[[$PGM:DeclarationSeq]] </del></span><span class="after-change"><ins>execute[[$PGM:StatementSeq]] </ins></span><span class="common">&lt;/k&gt;<br />
+</span><span class="common">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;env&gt; .Map &lt;/env&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;given&gt; no-value &lt;/given&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;store&gt; .Map &lt;/store&gt;<br />
+</span><span class="add"><ins>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;output stream="stdout"&gt; .List &lt;/output&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input stream="stdin"&gt; .List &lt;/input&gt;<br />
+</ins></span><span class="common">&nbsp;&nbsp;&nbsp;&nbsp;&lt;/T&gt;<br />
+<br />
+endmodule<br />
+</span>
+</div></body></html>
