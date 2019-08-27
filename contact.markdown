@@ -4,21 +4,21 @@ title: Contact
 
 :::: contact
 Email
-:   f [dot] vesely [at] swansea [dot] ac [dot] uk
-
-Address
-:   Department of Computer Science  
-    Computational Foundry  
-    Swansea University Bay Campus  
-    Fabian Way  
-    Swansea SA1 8EN  
-    Wales  
-    United Kingdom
+:   f [dot] vesely [at] northeastern [dot] edu
 
 Office
-:   Room 112, Computational Foundry
+:   132A Nightingale Hall  
+    105-107 Forsyth Street  
+    Boston, MA 02115  
+
+
+Mailing Address
+:   Northeastern University  
+    ATTN: Ferdinand Vesely, 202 WVH  
+    360 Huntington Avenue  
+    Boston, MA 02115-5000  
+    USA
 
 Hours
-:   Tuesday, 2-3pm  
-    Wednesday, 1-2pm
+:   TBD
 ::::
