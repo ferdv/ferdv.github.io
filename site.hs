@@ -2,6 +2,8 @@
 {-# LANGUAGE OverloadedStrings #-}
 import           Data.Monoid (mappend)
 import           Hakyll
+import           Text.Pandoc.Options
+import           Text.Pandoc.Highlighting
 
 import qualified Data.Text as T (replace, pack, unpack)
 
@@ -31,10 +33,30 @@ main = hakyll $ do
         route   idRoute
         compile compressCssCompiler
 
+    match "html/**" $ do
+        route $ gsubRoute "html/" (const "")  
+        compile copyFileCompiler
+
     match (fromList pages) $ do
         route   $ setExtension "html"
         compile $ pandocCompiler
             >>= loadAndApplyTemplate "templates/default.html" defaultContext
+            >>= relativizeUrls
+
+    match "teaching/**.markdown" $ do
+        let readerOpts = defaultHakyllReaderOptions { 
+                               readerStandalone = True
+                             , readerStripComments = True
+                             }
+        let writerOpts = defaultHakyllWriterOptions {
+                               writerHighlightStyle = Just pygments
+                             }
+        {-trace (show readerOpts) $
+          trace (show defaultHakyllReaderOptions) $
+            trace (show defaultHakyllWriterOptions) undefined-}
+        route   $ setExtension "html"
+        compile $ pandocCompilerWith readerOpts def
+            >>= loadAndApplyTemplate "templates/foghorn.html" defaultContext
             >>= relativizeUrls
 
     match "posts/*" $ do
