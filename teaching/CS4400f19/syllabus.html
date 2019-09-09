@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <!--<meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> -->
+        <title>CS 4400/5400 Programming Languages</title>
+        <!-- <meta http-equiv="x-ua-compatible" content="ie=edge"> -->
+        <!-- <link rel="stylesheet" href="/css/default.css" /> -->
+<style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+        <link rel="stylesheet" href="../../css/foghorn.css" />
+        <link rel="icon" type="image/png" href="images/favicon-196x196.png" sizes="196x196" />
+        <link rel="icon" type="image/png" href="images/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+        <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
+        <link rel="icon" type="image/png" href="images/favicon-128.png" sizes="128x128" />    
+    </head>
+
+<body>
+        <header id="title-block-header">
+          <h1 class="title">CS 4400/5400 Programming Languages</h1>
+          <p class="subtitle">Fall 2019</p>
+        </header>
+        <main id="main">
+            <h2 id="time-and-place">Time and Place</h2>
+<p>We meet on <strong>Tuesdays, 6-9:15pm</strong> in <strong><a href="https://www.northeastern.edu/campusmap/map/qad5.html">Hurtig Hall</a> 129</strong>. The first class is on Tue 9/10.</p>
+<h2 id="people">People</h2>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 24%" />
+<col style="width: 28%" />
+<col style="width: 26%" />
+<col style="width: 4%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Role</th>
+<th>Name</th>
+<th>Email</th>
+<th>Office hours</th>
+<th>Location</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Instructor</strong></td>
+<td>Ferdinand Vesely</td>
+<td>f.vesely@northeastern.edu</td>
+<td>Wednesday 2-6pm</td>
+<td><a href="https://www.northeastern.edu/campusmap/map/qad5.html">Nightingale</a> 132A</td>
+</tr>
+<tr class="even">
+<td><strong>TAs</strong></td>
+<td><em>TBD</em></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="course-description">Course Description</h2>
+<p>In CS 4400/5400, we will study concepts underlying programming language constructs, their design and their meaning. We will do this by specifying and implementing small example languages in the functional programming language Haskell, as well as looking at examples from real programming languages.</p>
+<p><strong>Registrar’s description for 4400:</strong> Introduces a systematic approach to understanding the behavior of programming languages. Covers interpreters; static and dynamic scope; environments; binding and assignment; functions and recursion; parameter-passing and method dispatch; objects, classes, inheritance, and polymorphism; type rules and type checking; and concurrency.</p>
+<p><strong>Registrar’s description for 5400:</strong> Studies the basic components of programming languages, specification of syntax and semantics, and description and implementation of programming language features. Discusses examples from a variety of languages.</p>
+<h2 id="prerequisities">Prerequisities</h2>
+<p>The formal prerequisites of CS4400 are CS3000 (or CS4800) and CS3500. For CS5400 it is CS5010. Knowing at least basics of functional programming will make your life easier, but is not required as we will cover the necessary essentials. You might also find it helpful to brush up on material from CS2500.</p>
+<h2 id="topics">Topics</h2>
+<p>This is a rough and tentative list of topics that we will aim to cover this semester. It will be adapted into a schedule once the course gets started and as it progresses. I strongly recommend to check the online version of this syllabus frequently to get a better idea what are the next steps in this course.</p>
+<ol type="1">
+<li>Introduction to Programming Languages. Introducing Haskell</li>
+<li>Abstract syntax. BNF. Basic interpreters. Big- vs. small-step</li>
+<li>Names. Binding. Scope.</li>
+<li>Lambda calculus. Substitution. Reduction</li>
+<li>Functions. Environments. Closures. De Bruijn indices</li>
+<li>Recursion. Fixpoint combinators. The Y combinator</li>
+<li>Functions as values. Higher-order functions</li>
+<li>Strict vs. lazy evaluation. Call by name, call by value, call by need</li>
+<li>Assignment. Stores. Loops</li>
+<li>Wear formal today: “Pen and paper semantics”. Operational. Denotational. Inductive definitions</li>
+<li>Types &amp; type systems. Type safety. Type inference</li>
+<li>Data Types. Product. Sum. Pattern Matching</li>
+<li>Monads. Monadic programming. Type classes</li>
+<li>Classes and objects. Dynamic dispatch</li>
+<li>Continuations. Exceptions. Coroutines</li>
+<li>Concurrency. Process algebras. Bisimulation</li>
+<li>Logic programming</li>
+<li>Advanced type systems. Dependent types. Curry-Howard correspondence</li>
+</ol>
+<h2 id="haskell">Haskell</h2>
+<p>We use <a href="https://www.haskell.org/">Haskell</a> as a language for implementing our example interpreters. Haskell is a programming language that is <em>statically typed</em>, <em>purely functional</em>, and <em>lazy</em>.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> I will assume that a majority of you does not have a previous experience with it. Thus, this course will contain an introduction to programming in Haskell and you can expect to pick up some techniques specific to functional programming along the way. Apart from being an implementation language for our interpreters, Haskell is an interesting language to study, so we will use it to exemplify some languages features.</p>
+<p>The main implementation of Haskell is GHC: the Glasgow Haskell Compiler. It comes with a compiler, <code>ghc</code>, as well as an interactive REPL, <code>ghci</code>.</p>
+<p><strong>Installation.</strong> There are several ways to install Haskell. Generally, the easiest way across major operating systems is to install the <a href="https://www.haskell.org/platform/">Haskell Platform</a>. Its website contains installation instructions for Windows, macOS, and various Linux distributions.</p>
+<p><strong>IDEs.</strong> My personal preference is to use a combination of Vim (or another text editor) and running the compiler or REPL in a terminal. However, there are plugin-based alternatives, e.g.,</p>
+<ul>
+<li><a href="https://www.jetbrains.com/idea/">IntelliJ IDEA</a> with the <a href="https://plugins.jetbrains.com/plugin/8258-intellij-haskell">IntelliJ-Haskell plugin</a>, or</li>
+<li><a href="https://atom.io/">Atom</a> with the <a href="https://atom.io/packages/ide-haskell">ide-haskell plugin</a> and other plugins (such as ide-haskell-repl).</li>
+</ul>
+<p>The Atom option has currently some issues due to a deprecated dependency (ghc-mod) – it will complain, but seems usable. Of course, there is also a Haskell mode for Emacs users.</p>
+<p><strong>Examples.</strong> To give you a quick taste of what programming in Haskell looks like, here are a few basic versions of factorial:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">-- This is a one-line comment</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="co">{- This is</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co">   a comment</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co">   spread across</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co">   multiple lines -}</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="co">-- Variant 1: pattern matching</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="co">-- type signatures are (mostly) optional in Haskell, but not in this course :)</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="ot">fact ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a>fact <span class="dv">0</span> <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a>fact n <span class="ot">=</span> n <span class="op">*</span> fact (n <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb1-13"><a href="#cb1-13"></a></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="co">-- Variant 2: conditional</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="ot">fact' ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb1-16"><a href="#cb1-16"></a>fact' n <span class="ot">=</span> <span class="kw">if</span> n <span class="op">&lt;=</span> <span class="dv">1</span> <span class="kw">then</span> <span class="dv">1</span> <span class="kw">else</span> n <span class="op">*</span> fact' (n <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb1-17"><a href="#cb1-17"></a></span>
+<span id="cb1-18"><a href="#cb1-18"></a><span class="co">-- Variant 3: guards</span></span>
+<span id="cb1-19"><a href="#cb1-19"></a><span class="ot">fact'' ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb1-20"><a href="#cb1-20"></a>fact'' n <span class="op">|</span> n <span class="op">&lt;=</span> <span class="dv">1</span>    <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb1-21"><a href="#cb1-21"></a>         <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">=</span> n <span class="op">*</span> fact'' (n <span class="op">-</span> <span class="dv">1</span>)</span></code></pre></div>
+<p>Here is a simple “Hello World”:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1"></a><span class="ot">main ::</span> <span class="dt">IO</span> () <span class="co">-- think of IO () as a type of computations with side-effects</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a>  <span class="fu">putStrLn</span> <span class="st">&quot;Hello World!&quot;</span></span></code></pre></div>
+<p>And here is an interactive “Hello World”:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb3-2"><a href="#cb3-2"></a>main <span class="ot">=</span> <span class="kw">do</span> <span class="co">-- do-blocks allow us to perform sequential computations</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>  <span class="fu">putStrLn</span> <span class="st">&quot;What is your name?&quot;</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>  name <span class="ot">&lt;-</span> <span class="fu">getLine</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a>  <span class="kw">let</span> message <span class="ot">=</span> <span class="st">&quot;Hello, &quot;</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a>  <span class="fu">putStrLn</span> (message <span class="op">++</span> name)</span></code></pre></div>
+<h2 id="resources">Resources</h2>
+<ul>
+<li>no required reading</li>
+<li>will provide lecture notes / annotated slides</li>
+<li>(potentially) useful books:
+<ul>
+<li>Haskell:
+<ul>
+<li><em>Learn You a Haskell for Great Good!</em> by Miran Lipovaca (available <a href="http://learnyouahaskell.com/chapters">online</a>)</li>
+<li><em>Programming in Haskell</em> by Graham Hutton</li>
+</ul></li>
+<li><em>Essentials of Programming Languages</em> by Daniel P. Friedman and Mitchell Wand – closest to what we will be doing, but with examples in Scheme</li>
+<li><em>Types and Programming Languages</em> by Benjamin C. Pierce – oriented towards type systems</li>
+<li><em>Programming Languages: Application and Interpretation</em> by Shriram Krishnamurthi (available <a href="http://cs.brown.edu/courses/cs173/2012/book/book.pdf">online</a>)</li>
+</ul></li>
+</ul>
+<h2 id="forum">Forum</h2>
+<p>The primary forum for this class is on Piazza, which you can use to ask questions and exchange wisdom while completing assignments. I will also use Piazza to broadcast announcements to the class, so you will be expected to check it at least every few days. Participate actively and use it as a first place to post questions related to assignments, programming, debugging, exams, etc. Please use the forum to post questions and answers that may be useful to others. Bottom line: unless you have a private problem, post to Piazza before writing me/the TA an email.</p>
+<p>Please register for Piazza by going to <a href="http://piazza.com/northeastern/fall2019/cs44005400">http://piazza.com/northeastern/fall2019/cs44005400</a> and registering as a student.</p>
+<h2 id="exams">Exams</h2>
+<p>There will be one midterm and one final. All exams will be closed book and closed notes, and computers are not allowed nor is any access to the Internet via any device. The exams will cover material from lectures, readings, and the projects. They will cover the material discussed during the first and second halves of the class, respectively (i.e., they are not cumulative).</p>
+<h2 id="grades">Grades</h2>
+<p>Your final grade will be based on assignments, exams, and participation, with a rough split of 60%/35%/5%. The exact details are TBD.</p>
+<h2 id="late-policy">Late Policy</h2>
+<p>For the homework assignments, we will use flexible slip dates. Each student is given an automatic extension of 4 calendar days for the semester. You can use the extension on any assignment during the semester in increments of a day<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. For instance, you can hand in one assignment 4 days late, or one assignment 2 days late and two assignments 1 day late. This should let you schedule due dates around the due dates for other courses. After you have used up your slip time, any assignment handed in late will be marked off 20% per day. Assignments more than 2 days late (beyond the use of slip days) will not be accepted. Extensions will not be granted.</p>
+<h2 id="cheating-policy">Cheating Policy</h2>
+<p>It’s ok to ask your peers about the concepts, algorithms, or approaches needed to do the assignments. We encourage you to do so; both giving and taking advice will help you to learn. However, what you turn in must be your own, or for projects, your group’s own work. Looking at or copying code or homework solutions from other people or the Web is strictly prohibited. In particular, looking at other solutions (e.g., from other groups or students who previously took the course) is a direct violation. Projects must be entirely the work of the students turning them in, i.e. you and your group members. If you have any questions about using a particular resource, ask the course staff or post a question to the class forum.</p>
+<p>All students are subject to the Northeastern University’s <a href="http://www.northeastern.edu/osccr/academic-integrity-policy/">Academic Integrity Policy</a>. Per Khoury College policy, all cases of suspected plagiarism or other academic dishonesty must be referred to the Office of Student Conduct and Conflict Resolution (OSCCR). This may result is deferred suspension, suspension, or expulsion from the university.</p>
+<h2 id="accommodations-for-students-with-disabilities">Accommodations for Students with Disabilities</h2>
+<p>If you have a disability-related need for reasonable academic accommodations in this course and have not yet met with a Disability Specialist, please visit www.northeastern.edu/drc and follow the outlined procedure to request services. If the Disability Resource Center has formally approved you for an academic accommodation in this class, please present the instructor with your “Professor Notification Letter” at your earliest convenience, so that we can address your specific needs as early as possible.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>Do not despair if these words currently mean nothing to you in this context. We will make sense of them during the course.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>A “day” refers to 24 hours. Thus, a project turned in 28 hours late will count as two days late.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+        </main>
+  <!--<div id="statcounter_image" style="display:inline;"><a
+       title="free hit counter"
+       href="http://statcounter.com/free-hit-counter/"
+       class="statcounter"><img
+       src="http://c.statcounter.com/10419673/0/67e2ca33/1/"
+       alt="free hit counter" style="border:none;" /></a></div>-->
+</body>
+
