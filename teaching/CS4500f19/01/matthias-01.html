@@ -1,0 +1,138 @@
+<h2 id="software-development">Software Development</h2>
+<p>Welcome to Hell.</p>
+<p>The purpose of this course is to scale your software development skills and attitudes from Fundamentals I, II, and OOD to a reasonably large scale of systems building.</p>
+<p>You will also learn some specific skills, which will probably be irrelevant in a few short years.</p>
+<h3 id="what-is-the-cost-of-software">What is the cost of software?</h3>
+<p><a href="http://felleisen.org/matthias/Articles/bugs-vehicle-recall.pdf">Fiat Chrysler Recalls 5.3 Million Vehicles .. Software Glitch</a></p>
+<p><a href="http://felleisen.org/matthias/Articles/apple-bugs.pdf">Apple’s New So!ware Aim: Fewer Features, But Fewer Bugs</a></p>
+<p>Most software is prototype quality and gets thrown away. Just ask any developer. If software evolves from a prototype to a full-fledged product, however, it may exist way beyond your life span. Some of the code that serves you right now – especially in banks – was written in the 1960s in a language called COBOL (whose inventor should be punished not lauded with a conference). Many of the people who produced this code are dead. This code is wrapped in layers of Pascal, C, C++, Java, Ruby (on Rails), JavaScript, and PHP. On occasion, people who write these outer layers need to dive all the way down to the original code and adjust it.</p>
+<p>So the software pipeline looks like this:</p>
+<pre><code>  -- prototype --+-- bury 
+                 |
+         +-- harden -- develop -- test -- deploy -- maintain --</code></pre>
+<p>And we know this, which is why we teach a rather different core programming curriculum than most schools (and companies acknowledge this).</p>
+<h3 id="how-does-the-core-curriculum-and-sw-dev-address-this-cost-problem">How does the Core Curriculum and Sw Dev address this cost problem</h3>
+<p>Here is our starting point:</p>
+<ul>
+<li>If your software survives the prototype stage,</li>
+<li>it will survive you.</li>
+</ul>
+<p>From this we easily get,</p>
+<ul>
+<li>treat your software well and it will treat you and your successors well.</li>
+</ul>
+<p>That is,</p>
+<ul>
+<li>you and your successors will have a huge advantage</li>
+<li>if you construct this software systematically.</li>
+</ul>
+<p>It will cost you and your successors fewer hours, less hassle. It will cost your team and your company less money.</p>
+<p>But, we all know that seeing a concept just once and in only one context does not really convey it well. So we have a curriculum where you see the idea of</p>
+<ul>
+<li>creating software systematically</li>
+</ul>
+<p>in five different contexts, not counting your first co-op where you may see the opposite.</p>
+<p>Where this course fits in. It is the last course on your development as a programmer. It is <em>not</em> a software engineering course.</p>
+<pre><code>           * &lt;--- sw dev 
+           |
+           &quot;
+           &quot; first co-op 
+           &quot;
+           |
+           * &lt;--- ood 
+          / \
+         /   \
+ logic ---&gt; *     * &lt;--- fundamentals II
+         \   /
+          \ /  
+               * &lt;--- fundamentals I </code></pre>
+<p>For details, you may wish to read the design rationale at <a href="http://felleisen.org/matthias/Thoughts/Developing_Developers.html">Developing Developers</a></p>
+<p>[[ <strong>Note</strong> This link goes to an off-campus site. You might encounter opinions contrary to yours. ]]</p>
+<h3 id="attitude">Attitude</h3>
+<p>Your attitude to code: - code as if the future maintainer of your code is a psychopath who … - this future maintainer might be you, and you don’t want to hate yourself - code calls for permanent good care .. because you never know where it ends up</p>
+<p>Another aspect of code is that it is creative artifact and we are creators. Arguably, the invention of software has turned millions of people into “paid creative artists”. An artist <em>creates</em> artifacts; we create software systems. A typical artist also associates his “ego” with his “products” – and that’s bad for software. Indeed it is bad for art, too, and artist learn to cope in painful “crits”. We will do so, too.</p>
+<h4 id="egoless-programming">Egoless Programming</h4>
+<p>You must disassociate your ego from your code and yet use your ego to become a great developer.</p>
+<p><strong>Reading</strong> The hand-out is a chapter from Weinberger’s <em>Psychology of Programming</em> and it is the only required reading in this course.</p>
+<h3 id="development-skills-wrt-software">Development Skills (wrt Software)</h3>
+<p>You will <em>not</em> learn to use the latest and greatest languages, IDEs, tools, frameworks, web foobars, and app barfoos. Tech schools teach this stuff—but a year later, it’s worthless</p>
+<p>Here are some of the goals. We would like you to develop</p>
+<ul>
+<li>a basic idea of what “plan top-down, build bottom-up” means</li>
+<li>an eye for specifying interfaces and protocols</li>
+<li>… and their limits</li>
+<li>a sense of the value of good tests and test harnesses</li>
+<li>… and their limits</li>
+<li>some insight into systems integration,
+<ul>
+<li>the planning that goes into it and</li>
+<li>the failures that must be planned for</li>
+</ul></li>
+</ul>
+<h3 id="personal-skills-wrt-software">Personal Skills (wrt Software)</h3>
+<ol type="1">
+<li><p>I—as the manager of this company—see incredible value in <em>pair programmin</em> at a large scale. So everyone must work in pairs. By contrast, I do <em>not</em> believe in <em>team programming</em> for such small systems as the one we will produce (no more than 20 Kloc in Java).</p></li>
+<li><p>I also believe in permanent critique.</p></li>
+</ol>
+<ul>
+<li>as a scientist I count those people as my friends who constantly try to poke a hole into my theories. (The others are just pretenders.)</li>
+</ul>
+<p>So this course will therefore resemble a course in the fine arts with permanent crits. Like artists, you will present your code and others will critique it. You will watch such crits and mentally apply the dialogues to your own code base on days when you’re not involved.</p>
+<p>So here is what you can learn:</p>
+<ul>
+<li>from pair programming
+<ul>
+<li>communicating properly with a partner (see ‘log book’)</li>
+<li>working with someone whose skills differ from yours</li>
+<li>working with someone whose personality differs from yours</li>
+<li>coping with an irresponsible partner (see ‘log book’)</li>
+</ul></li>
+<li>from presenting your artifacts
+<ul>
+<li>presenting code</li>
+<li>accepting flaws and errors in your own code that others point out</li>
+<li>reacting to such discoveries</li>
+</ul></li>
+<li>from serving on a review panel
+<ul>
+<li>reading code on the fly for a problem you know</li>
+<li>discovering problems:
+<ul>
+<li>gaps in the design</li>
+<li>failure to match specs</li>
+<li>bugs</li>
+<li>stylistic problems</li>
+<li>how to improve your use of your chosen language</li>
+</ul></li>
+</ul></li>
+</ul>
+<h3 id="what-is-a-software-system">What is a software system?</h3>
+<p>For our purposes, a piece of software is dubbed a <em>system</em> if it has components that</p>
+<ul>
+<li>deal with a <em>start-up</em> phase,</li>
+<li>maintain a <em>steady state</em> phase,</li>
+<li>shut it down gracefully, and</li>
+<li>comes with a facility (config files, config DSL) to configure it to different circumstances.</li>
+</ul>
+<p>A system consists of several software components, with clearly delineated responsibilities with interfaces and protocols that describe their interactions.</p>
+<p>A system may also consist of <em>distributed</em> components. In this course we will construct such a system in a systematic manner from a monolithic system.</p>
+<p>A system may allow extensions at run time. Operating systems, web browsers, web servers, and many other well-known pieces of software are such systems. Our system will allow dynamic extensions for configuration purposes and perhaps passive ones while it runs.</p>
+<p>A system may consist of systems, but a semester is too short to construct meaningful examples of this kind.</p>
+<h3 id="how-do-you-develop-a-software-system">How do you develop a software system?</h3>
+<p>A long long time ago, one of the stone-age software engineering researchers was asked to describe a software construction process. He put up a strawman that generalized the above idea of how software comes about into a so-called <em>waterfall</em> model. (His name is Barry Boehm.)</p>
+<p>Modern software developers babble “agile” and “sprints” and “tdd” and other such words. Some of the suggested readings will make you buzzword compliant in this regard.</p>
+<p>What I know is this:</p>
+<ul>
+<li>someone needs to know where you want to end up</li>
+<li>this someone must identify essential components</li>
+<li>and must know how to arrange the construction of these pieces so that you can demo asap</li>
+</ul>
+<p>What this means is that someone creates an overview picture, figures out (crude) dependencies, and identifies runnable milestones. This is called <em>top-down planning</em> because you start from the big picture and go down to details. Then it’s time to make a plan to build these pieces like a solid house:</p>
+<ul>
+<li>foundation first</li>
+<li>load-carrying walls</li>
+<li>.. all the way to the roof.</li>
+</ul>
+<p>That’s called <em>bottom-up</em> coding.</p>
+<p>Next time we will take a close look at this idea.</p>
+<h3 id="language-wars">Language Wars</h3>
