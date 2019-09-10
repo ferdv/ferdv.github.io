@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <!--<meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> -->
+        <title>CS 4500 Programming Languages (Sections 1 &amp; 3)</title>
+        <!-- <meta http-equiv="x-ua-compatible" content="ie=edge"> -->
+        <!-- <link rel="stylesheet" href="/css/default.css" /> -->
+<style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+        <link rel="stylesheet" href="../../css/foghorn.css" />
+        <link rel="icon" type="image/png" href="images/favicon-196x196.png" sizes="196x196" />
+        <link rel="icon" type="image/png" href="images/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+        <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
+        <link rel="icon" type="image/png" href="images/favicon-128.png" sizes="128x128" />    
+    </head>
+
+<body>
+        <header id="title-block-header">
+          <h1 class="title">CS 4500 Programming Languages (Sections 1 &amp; 3)</h1>
+          <p class="subtitle">Fall 2019</p>
+        </header>
+        <main id="main">
+            <h2 id="time-and-place">Time and Place</h2>
+<h5 id="section-1">Section 1</h5>
+<p>We meet on <strong>Tuesdays and Fridays, 9:50-11:30am</strong> in <strong><a href="https://www.northeastern.edu/campusmap/map/qad5.html">Robinson Hall</a> 109</strong>. The first class is on Fri 9/6.</p>
+<h5 id="section-3">Section 3</h5>
+<p>We meet on <strong>Tuesdays and Fridays, 1:35-3:15pm</strong> in <strong><a href="https://www.northeastern.edu/campusmap/map/qad5.html">Shillman Hall</a> 105</strong>. The first class is on Fri 9/6.</p>
+<h2 id="people">People</h2>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 24%" />
+<col style="width: 28%" />
+<col style="width: 26%" />
+<col style="width: 4%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Role</th>
+<th>Name</th>
+<th>Email</th>
+<th>Office hours</th>
+<th>Location</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Instructor</strong></td>
+<td>Ferdinand Vesely</td>
+<td>f.vesely@northeastern.edu</td>
+<td>Wednesday 2-6pm</td>
+<td><a href="https://www.northeastern.edu/campusmap/map/qad5.html">Nightingale</a> 132A</td>
+</tr>
+<tr class="even">
+<td><strong>TAs</strong></td>
+<td><em>TBD</em></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="course-description">Course Description</h2>
+<p>The <em>technical</em> goal of the course is to expose students to the practice of programming at a reasonably large scale. This version of the course teaches how the program design principles of the three major prerequisite courses scale to a large code base, in any programming language. Indeed, without relying on such fundamental design principles, a large code base may quickly become prohibitively complex and incomprehensible.</p>
+<p>The <em>social</em> goal of the courses is to continue the development of collaboration and communication skills from the prerequisite programming courses. Going beyond pair programming, the course introduces code reviews, where students present their solutions to their peers. Both presenting code and understanding such presentations are critical skills for the modern software developer.</p>
+<p><strong>Registrar’s description:</strong> Considers software development as a systematic process involving specification, design, documentation, implementation, testing, and maintenance. Examines software process models; methods for software specification; modularity, abstraction, and software reuse; and issues of software quality. Students, possibly working in groups, design, document, implement, test, and modify software projects.</p>
+<h2 id="prerequisities">Prerequisities</h2>
+<p>This course is the end of the programming sequence:x <em>Fundamentals I</em>, <em>Fundamentals II</em>, <em>Object-Oriented Design</em>. In addition, it assumes you have been out to one co-op co-op.</p>
+<h2 id="lectures">Lectures</h2>
+<table>
+<tbody>
+<tr class="odd">
+<td>1. Introduction, Overview of Software development</td>
+<td><a href="CS4500f19/01/01-intro-overview.pdf">Slides</a></td>
+<td><a href="CS4500f19/01/matthias-01.html">Matthias’ notes</a></td>
+</tr>
+<tr class="even">
+<td>2. Software Development Process</td>
+<td><a href="CS4500f19/02/02-software-development-process.pdf">Slides</a></td>
+<td><a href="CS4500f19/02/matthias-02.html">Matthias’ notes</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="final-code-reviews">Final Code Reviews</h2>
+<p>In lieu of a final, we will conduct an extensive code walk of your projects. If the course progresses on schedule, the final code walks will be held during the finals examination period. If the course progresses faster than anticipated, all final code walks will take place during the final week of classes.</p>
+<h2 id="forum">Forum</h2>
+<p>The primary forum for this class is on Piazza, which you can use to ask questions and exchange wisdom while completing assignments. I will also use Piazza to broadcast announcements to the class, so you will be expected to check it at least every few days. Participate actively and use it as a first place to post questions related to assignments, programming, debugging, exams, etc. Please use the forum to post questions and answers that may be useful to others. Bottom line: unless you have a private problem, post to Piazza before writing me/the TA an email.</p>
+<p>Please register for Piazza by going to <a href="http://piazza.com/northeastern/fall2019/cs4500fv">http://piazza.com/northeastern/fall2019/cs4500fv</a> and registering as a student.</p>
+<h2 id="grades">Grades</h2>
+<p>The final grades are based on these factors:</p>
+<ul>
+<li>your project and warm-up assignments;</li>
+<li>your presentations;</li>
+<li>your lab book, and</li>
+<li>your active participation.</li>
+</ul>
+<p>Exact weights TBD.</p>
+<h2 id="late-policy">Late Policy</h2>
+<p>For the homework assignments, we will use flexible slip dates. Each student is given an automatic extension of 4 calendar days for the semester. You can use the extension on any assignment during the semester in increments of a day<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. For instance, you can hand in one assignment 4 days late, or one assignment 2 days late and two assignments 1 day late. The slip time will be deducted from each group member’s remaining slip time.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> This should let you schedule due dates around the due dates for other courses. After you have used up your slip time, any assignment handed in late will be marked off 20% per day. Assignments more than 2 days late (beyond the use of slip days) will not be accepted. Extensions will not be granted.</p>
+<h2 id="cheating-policy">Cheating Policy</h2>
+<p>It’s ok to ask your peers about the concepts, algorithms, or approaches needed to do the assignments. We encourage you to do so; both giving and taking advice will help you to learn. However, what you turn in must be your own, or for projects, your group’s own work. Looking at or copying code or homework solutions from other people or the Web is strictly prohibited. In particular, looking at other solutions (e.g., from other groups or students who previously took the course) is a direct violation. Projects must be entirely the work of the students turning them in, i.e. you and your group members. If you have any questions about using a particular resource, ask the course staff or post a question to the class forum.</p>
+<p>All students are subject to the Northeastern University’s <a href="http://www.northeastern.edu/osccr/academic-integrity-policy/">Academic Integrity Policy</a>. Per Khoury College policy, all cases of suspected plagiarism or other academic dishonesty must be referred to the Office of Student Conduct and Conflict Resolution (OSCCR). This may result is deferred suspension, suspension, or expulsion from the university.</p>
+<h2 id="accommodations-for-students-with-disabilities">Accommodations for Students with Disabilities</h2>
+<p>If you have a disability-related need for reasonable academic accommodations in this course and have not yet met with a Disability Specialist, please visit www.northeastern.edu/drc and follow the outlined procedure to request services. If the Disability Resource Center has formally approved you for an academic accommodation in this class, please present the instructor with your “Professor Notification Letter” at your earliest convenience, so that we can address your specific needs as early as possible.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>A “day” refers to 24 hours. Thus, a project turned in 28 hours late will count as two days late.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>Note on slip days: Slip days can only be used if all group members have at least one remaining slip day. If not, the 20% off per day policy stated above will be used for all group members.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+        </main>
+  <!--<div id="statcounter_image" style="display:inline;"><a
+       title="free hit counter"
+       href="http://statcounter.com/free-hit-counter/"
+       class="statcounter"><img
+       src="http://c.statcounter.com/10419673/0/67e2ca33/1/"
+       alt="free hit counter" style="border:none;" /></a></div>-->
+</body>
+
