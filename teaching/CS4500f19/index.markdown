@@ -1,5 +1,5 @@
 ---
-title: CS 4500 Programming Languages (Sections 1 &amp; 3)
+title: CS 4500 Software Development (Sections 1 &amp; 3)
 subtitle: Fall 2019
 css: /css/foghorn.css
 ---
@@ -49,8 +49,8 @@ it assumes you have been out to one co-op co-op.
 
   |           |               |               |
   |-----------|---------------|---------------|
-  | 1. Introduction, Overview of Software development | [Slides](CS4500f19/01/01-intro-overview.pdf) | [Matthias' notes](CS4500f19/01/matthias-01.html) |
-  | 2. Software Development Process| [Slides](CS4500f19/02/02-software-development-process.pdf) | [Matthias' notes](CS4500f19/02/matthias-02.html) |
+  | 1. Introduction, Overview of Software development | [Slides](./01/01-intro-overview.pdf) | [Matthias' notes](./01/matthias-01.html) |
+  | 2. Software Development Process| [Slides](./02/02-software-development-process.pdf) | [Matthias' notes](./02/matthias-02.html) |
  
 
 ## Final Code Reviews

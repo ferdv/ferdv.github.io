@@ -1,0 +1,102 @@
+<h2 id="plan-top-down-build-bottom-up">Plan Top-Down, Build Bottom-Up</h2>
+<h4 id="getting-started">Getting Started</h4>
+<p>When you wish to create a non-trivial system of cooperating pieces, you need to identify the pieces, you need to figure out how they interact (which may identify more pieces) and then you need a plan of how to go about it. When you have a plan, you need to execute. There is one well established, proven way to go about this all:</p>
+<pre><code>     plan top down, 
+     build bottom up. </code></pre>
+<p>This idea doesn’t just work in software but in many fields, and it is easy to illustrate with concrete examples.</p>
+<h3 id="a-short-detour">A Short Detour</h3>
+<p>Imagine you want to build a house, not just buy some cookie-cutter ‘thing’ from a developer or an old 1918 condo.</p>
+<p>You will collect ideas: on the facade, the roof line, the front porch, the placement of the house, the tiles you embed in the stucco, and so on. You will also think about the interior: the number of bedrooms, whether you want a den, a formal dining room, a formal living room, the relative placement of these rooms, and perhaps some more details.</p>
+<p>Then you will meet with an architect, who will listen, interpret, suggest changes, and make some quick sketches.</p>
+<p>At that point, (you think) you’re done but the work begins. The architect must translate this into various forms of blueprints and pretty drawings. The drawing are for you; the blueprints and plans are for the contractor and the subs.</p>
+<p>You review and you correct and the architect changes the plans. This feedback loop goes on for a while, and then you agree to start building. You think you’re done.</p>
+<p>Construction starts:</p>
+<ul>
+<li><p>Your contract may have to tear down the house that’s there; do you want to keep this gorgeous rose climber on the back wall?</p></li>
+<li><p>You contractor may have to drain the swamp that’s underneath the old house; or would you rather build a “floating slab”?</p></li>
+<li><p>Your load-bearing walls are up but when you see the outline for the other walls, one of the rooms makes you feel claustrophobic. Move the wall?</p></li>
+<li><p>Your contractor discovers that the roof tiles you want for the shallow roof are unbearably expensive. Should you change the roof?</p></li>
+</ul>
+<p>Literally, you will build your house bottom up—and you will still make changes to some elements and occasionally the plan itself.</p>
+<h3 id="software-construction-models">Software Construction Models</h3>
+<p>Let’s compare this process with software development ideas that were/are (supposedly) en vogue.</p>
+<h4 id="waterfall">Waterfall</h4>
+<p>A long long time ago, in a galaxy far away, an early software engineering researcher was asked to adapt this construction process to the world of software. He came up with the waterfall model:</p>
+<pre><code> requirements analysis +-+
+                     |
+             v
+     software architecture +-+
+     (system spec)       |
+                 v
+          component specification +-+
+                    |
+                    v
+              coding up the specifications +-+
+                         |
+                         v
+             testing components against specs +-+
+                            |
+                            v
+             integration testing of components +-+
+                                 |
+                                 v
+                      deployment of software system +-+
+                                  |
+                                  v
+                      maintenance of system over decades </code></pre>
+<p>For each stage, a specialized team would pick up where the previous one left off (or where the ultimate customer gets involved) and work out the next intermediate product. When it was done, it would throw its product over the wall and move on to the next project.</p>
+<p>Another claim, usually associated with the waterfall model, concerned the cost of bugs. Boehm suggested that a delay by one stage would increase the cost of finding and fixing the flaw by an order of magnitude.</p>
+<p>Back then, nobody really believed that anybody could throw a product at any stage over the wall and have the next team move on—-without ever going back and modifying intermediate results from early stages. And nobody had real data to justify the order-of-magnitude claims about bugs. It was just a proposal (“theory”) so that people could discuss models of software development. But people often talked about this model of software development as if it were a basic truth.</p>
+<p><a href="https://leanpub.com/leprechauns">The Leprechauns of Software Engineering</a></p>
+<p>The key is that all of these steps are actually involved in software development <em>but</em> it is better to imagine them arranged in a spiral than in a linear, “waterfall” fashion. Also, it is critical to eliminate the “walls” that separate the different people who work on the various aspects of the process.</p>
+<h4 id="agile-et-al.">Agile Et Al.</h4>
+<p>About 10-20 years ago, people pushed back with development models and propaganda of their own. But these are basically variants of the above:</p>
+<ul>
+<li>test-driven development</li>
+<li>agile development</li>
+<li>extreme programming</li>
+</ul>
+<p>The emphasis has definitely shifted from carefully separating these stages to programming and coding and testing. Over time, computers have turned into elements of a permanently networked world-wide system of interconnected software. Hence deploying software is no longer the big <em>technical</em> problem that it once was. We can push a button, and gmail changes on a world-wide basis in almost no time.</p>
+<p><strong>Reflect</strong> Did the <em>social</em> and <em>psychological</em> barrier to software deployment get reduced to the same extent?</p>
+<p>Despite this shift, software development still has all the above elements to some degree. Someone needs to figure out what kind of software to build. Someone needs to translate this goal into specifications for components. Someone will need to code the specifications. Etc. It is just that the actual responsibility shifted.</p>
+<p>And yes, it is now understood that we don’t separate coding from testing and specification from testing as strictly as people imagined in the stone age of software development. We understand, for example, that working thru examples illuminates the specifications and prepares the coding. We understand that deployment is part of the specification—people don’t want sudden shifts in interfaces (-&gt; gmail).</p>
+<h3 id="true-story.">True story.</h3>
+<p>My manager once asked me to sort the results of a query that utility workers could make with our software. So we prototyped the sorting algorithm, making sure it fit into 2K and ran reasonably fast. And my manage proudly demoed the new component to the customer .. only to hear him say, “but I want to sort.” Hmph .. It turned out the customer had meant “search” and we were lucky we had discovered this problem via a quick demo, rather than after deploying it (and then fixing the bug).</p>
+<h3 id="our-process-principles">Our Process Principles</h3>
+<p>We will borrow elements from all places and we imagine customers, because they don’t know what they want anyway. Let’s call these principal elements of any development process.</p>
+<p><strong>Step 1</strong> Figure out what you want.</p>
+<p>Start from a phrase, collect ideas around this phrase until you know that every extension of this “web” produces things way beyond the desired software system.</p>
+<p>Draw a line between pieces that belong to the system as a whole, and things that don’t belong in there. Now you have an environment and a system.</p>
+<p><strong>Step 2</strong> Analyze use cases.</p>
+<p>How does the environment get the system to compute? Where does the response go? Figuring out what has to happen from the answer for the first question to the one for the second yields use cases. Try to get many of them.</p>
+<p><strong>Step 3</strong> Identify software components and their possible interactions. **</p>
+<p>Components represent knowledge and information. The use cases suggest such components. They also suggest which components “know” things that others may have to “know” eventually. This determines the interface of a component. Knowledge flowing from one component to another may require the introduction of additional components.</p>
+<p><strong>Step 4</strong> Plan for a stripped down prototype.</p>
+<p>Which use case is the most essential one? Which components do we absolutely need to build a core system to demo a working version of the use case?</p>
+<p>These are the pieces that we will build first, bottom up. Then we integrate them into a working prototype.</p>
+<p><strong>Step 5</strong> Iteratively refine the prototype.</p>
+<p>Deal with more use cases. Improve existing ones. Make sure the use cases reuse components but don’t interfere.</p>
+<h3 id="example">Example</h3>
+<h4 id="grocery-store">Grocery Store</h4>
+<p>Imagine a small grocery store that wants to automate its “points of sales” and inventory management, meaning software that deals with checking out, ordering, bookkeeping.</p>
+<p>What do we need to consider? cash register: prices/codes, payment (money/debit/credit), receipts banks shelving and tagging of goods with codes storage room: arrival of goods, removal to shelves accounting ordering</p>
+<p>who’s just outside the system? how doe these people trigger an interaction?</p>
+<p>use cases: customer wishes to pay for a cart of purchases inventory manager must check status of goods and re-order (if necessary) accountant needs to balance books and pay bills …</p>
+<p>which one demonstrates usefulness quickly: customer service is most visible; speeds up checkout (perhaps) … connect to accountant ==&gt; two important classes of “clients”</p>
+<p>let’s study cash register use case:</p>
+<p>customer -&gt; PoS -&gt; Debit Card -&gt; bank -&gt; ackn -&gt; Printer -&gt; receipt<br />
+-&gt; Inventory -&gt; alert</p>
+<p>Each of these pieces needs interface capability to serve this use case. Debit Card: check (connect to bank) -&gt; acknowledge sufficient funds transfer funds -&gt; acknowledge payment</p>
+<pre><code> Inventory:   removed goods from shelves 
+ Printer:     list of goods bought, total, receipt of funds </code></pre>
+<h4 id="game-system">Game System</h4>
+<p>Imagine a small circle of hacker friends who play the <a href="https://boardgamegeek.com/boardgame/153/take-5">Take 5</a> game. They have decided to automate it so that they compare their AI hacking skills. They settle on some programming language and decide to implement a framework into which they can plug their AI players and run games and entire tournaments.</p>
+<p>Then they decide that they actually hate the chosen language. Nobody wants to program a player in it. They are okay with writing whatever software is needed to make it all work out. Otherwise they will use TCP to connect independent processes to run their players and communicate with each other. While they are at it, they decide that they are going for a distributed version, allowing them to connect their players from home without leaving the comfort of the great indoors.</p>
+<p>elements:</p>
+<p>referee players cards -&gt; points, bull points rounds game<br />
+initial setup turns</p>
+<p>simplest use case consists of 2 steps: everything needed to set up a game and play a turn - ref hands cards to players - every player returns one card - when the ref as a card per player, it flips it</p>
+<p>ref requests card from player , plus optional positioning - executes the stack manipulation: - player may receive a stack of cards</p>
+<p>Player: receive initial hand decide on which card for initial stack take turn</p>
+<p>What does it take to describe the interface.</p>
+<p>take turn -&gt; current stacks &lt;- one of: card with position or card (accept bull points)</p>
