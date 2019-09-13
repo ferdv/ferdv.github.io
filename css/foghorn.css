@@ -26,7 +26,7 @@ body {
 	text-align: justify;
 	}
 header, nav, article, footer {
-	width: 700px;
+	width: 750px;
 	margin:0 auto;
 	}
 article {
@@ -60,7 +60,7 @@ h1 {
 	font-weight: normal;
 	}
 h1.subtitle {
-    font-size: 1.4em;
+    font-size: 1.5em;
   }
 h2 {
 	font-weight: normal;
