@@ -20,5 +20,5 @@ Mailing Address
     USA
 
 Hours
-:   TBD
+:   Wednesday, 2-6pm
 ::::
