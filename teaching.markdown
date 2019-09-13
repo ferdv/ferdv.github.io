@@ -4,9 +4,9 @@ title: Teaching
 
 ### Current (Fall 2019)
 
-* [CS 4400 - Programming Languages](/teaching/CS4400f19/syllabus.html)
-* [CS 5400 - Principles of Programming Languages](/teaching/CS4400f19/syllabus.html)
-* CS 4500 - Software Development (sections 1 &amp; 3)
+* [CS 4400 - Programming Languages](./teaching/CS4400f19/syllabus.html)
+* [CS 5400 - Principles of Programming Languages](./teaching/CS4400f19/syllabus.html)
+* [CS 4500 - Software Development (sections 1 &amp; 3)](./teaching/CS4500f19/)
 
 ### Past
 
