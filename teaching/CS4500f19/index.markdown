@@ -53,6 +53,10 @@ it assumes you have been out to one co-op co-op.
   | 2. Software Development Process| [Slides](./02/02-software-development-process.pdf) | [Matthias' notes](./02/matthias-02.html) |
  
 
+## Assignments
+
+  * [Assignment A -- Groups & Your Favorite Programming Language](A/A.html)
+
 ## Final Code Reviews
 
 In lieu of a final, we will conduct an extensive code walk of your projects. If the course progresses on schedule, the final code walks will be held during the finals examination period. If the course progresses faster than anticipated, all final code walks will take place during the final week of classes. 
