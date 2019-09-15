@@ -54,6 +54,12 @@ This is a rough and tentative list of topics that we will aim to cover this seme
 1. Logic programming
 1. Advanced type systems. Dependent types. Curry-Howard correspondence
 
+## Schedule
+
+| Date   | Topic                              | Material                  |
+|--------|------------------------------------|---------------------------|
+| 09/10  | Overview & Quick Intro to Haskell  | [Slides](m/lec01/slides.pdf)  [Lec01.hs](m/lec01/Lec01.hs) |
+
 ## Haskell
 
 We use [Haskell](https://www.haskell.org/) as a language for implementing our example interpreters. Haskell is a programming language that is *statically typed*, *purely functional*, and *lazy*.[^haskellwords] I will assume that a majority of you does not have a previous experience with it. Thus, this course will contain an introduction to programming in Haskell and you can expect to pick up some techniques specific to functional programming along the way. Apart from being an implementation language for our interpreters, Haskell is an interesting language to study, so we will use it to exemplify some languages features.

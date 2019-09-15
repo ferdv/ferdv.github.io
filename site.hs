@@ -59,6 +59,10 @@ main = hakyll $ do
             >>= loadAndApplyTemplate "templates/foghorn.html" defaultContext
             >>= relativizeUrls
 
+    match "teaching/*/m/**" $ do
+        route   idRoute
+        compile copyFileCompiler
+
     match "posts/*" $ do
         route $ setExtension "html"
         compile $ pandocCompiler
