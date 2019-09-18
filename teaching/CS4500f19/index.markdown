@@ -49,8 +49,10 @@ it assumes you have been out to one co-op co-op.
 
   |           |               |               |
   |-----------|---------------|---------------|
-  | 1. Introduction, Overview of Software development | [Slides](./01/01-intro-overview.pdf) | [Matthias' notes](./01/matthias-01.html) |
-  | 2. Software Development Process| [Slides](./02/02-software-development-process.pdf) | [Matthias' notes](./02/matthias-02.html) |
+  | 1. Introduction, Overview of Software development | [Slides](./m/01/01-intro-overview.pdf) | [Matthias' notes](./m/01/matthias-01.html) |
+  | 2. Software Development Process | [Slides](./m/02/02-software-development-process.pdf) | [Matthias' notes](./m/02/matthias-02.html) |
+  | 3. Quick Overview of UML | [Slides](./m/03/03-uml.pdf) | |
+  | 4. Good Code. Naming Principles | [Slides](./m/04/04-good-code-names.pdf) | |
  
 
 ## Assignments
