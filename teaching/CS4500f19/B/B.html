@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <!--<meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> -->
+        <title>Labyrinth &amp; Formats</title>
+        <!-- <meta http-equiv="x-ua-compatible" content="ie=edge"> -->
+        <!-- <link rel="stylesheet" href="/css/default.css" /> -->
+<style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+        <link rel="stylesheet" href="../../../css/foghorn.css" />
+        <link rel="icon" type="image/png" href="images/favicon-196x196.png" sizes="196x196" />
+        <link rel="icon" type="image/png" href="images/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+        <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
+        <link rel="icon" type="image/png" href="images/favicon-128.png" sizes="128x128" />    
+    </head>
+
+<body>
+        <header id="title-block-header">
+          <h1 class="title">Labyrinth &amp; Formats</h1>
+          <p class="subtitle">CS 4500 Assignment B</p>
+        </header>
+        <main id="main">
+            <p><strong>Due</strong> Tuesday, September 24, midnight</p>
+<p><strong>Submission</strong> You must deliver your artifacts in a directory called <code>B</code> in your repository (master branch, see note below):</p>
+<ol type="1">
+<li><p>For task 1, <code>traversal.md</code> – the specification document.</p></li>
+<li><p>For task 2, an executable called <code>B</code>, together with a file called <code>format</code> <em>only</em> containing one of these 3 strings <code>json</code>, <code>xml</code>, or <code>sexp</code>.</p></li>
+</ol>
+<p>All auxiliary files must be put into a sub-directory called Other.</p>
+<hr />
+<p><strong>Note:</strong> When this assignment is released you will not have the details for your repository yet. These will be provided shortly after releasing this assignment.</p>
+<hr />
+<h1 id="task-1">Task 1</h1>
+<p>Your company has hired a group of stellar programmers. Your manager has put you in charge of writing a specification for the interface for a module, dubbed <code>Labyrinth</code>, which these stellar programmers will implement in your favorite language and ship back real soon.</p>
+<p>As the name suggests, the high-level purpose of the desired module is to provide the services of a basic labyrinth. For our purposes a labyrinth is a connectivity specification for nodes in a simple graph, and a simple graph connects each node to at most one other node. The desired software must support these operations:</p>
+<ol type="1">
+<li>the creation of a plain labyrinth with named nodes;</li>
+<li>the addition of a colored token to a node;</li>
+<li>the query whether some colored token can reach some named graph node.</li>
+</ol>
+<p>Formulate your specification in a mix of English and technical terms appropriate for your chosen language. For example, in Java you would use the term package and you might use types while a Python programmer would speak of modules and use informal data definitions.</p>
+<p>Write the specification using the <strong>Markdown</strong> format. When printed, it must fit on a single page. Specify the precise language (name, version) in which you expect the product to be written in.</p>
+<p>The goal of Task 1 is to get a glimpse of the tasks that team leaders perform in software companies. This specification is quite small so that a single page should easily suffice to give precise instructions to developers.</p>
+<h1 id="task-2">Task 2</h1>
+<p>In this task you’ll explore data exchange formats in your chosen language. We gave you a choice of supporting JSON, XML, or s-expressions. We recommend using JSON, but we’ll give you the flexibility to choose a different format.</p>
+<p>Develop a program that reads a series of well-formed XML/JSON/s-exp values from standard input (STDIN). Values are restricted to the following format:</p>
+<ol type="1">
+<li>strings</li>
+<li>arrays, where the first element is a string</li>
+<li>objects, where the object has a key “this” and whose value is a string</li>
+</ol>
+<p>No other format of input should be accepted.</p>
+<p>In addition to reading from STDIN, your program should accept two command line options: <code>-up</code> or <code>-down</code>. Based on the argument, the program will sort the values in ascending (<code>-up</code>) or descending (<code>-down</code>) order, according to the string designated string parts (i.e., the string itself, the first element of an array, or the “this” component of an object.</p>
+<h3 id="example-input">Example Input</h3>
+<p>Here are example inputs:</p>
+<ol type="1">
+<li>JSON</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1"></a>        <span class="ot">[</span><span class="st">&quot;b&quot;</span><span class="ot">,</span> <span class="dv">1</span><span class="ot">,</span> <span class="dv">2</span><span class="ot">,</span> <span class="dv">3</span><span class="ot">]</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a>          <span class="er">&quot;a&quot;</span>   </span>
+<span id="cb1-4"><a href="#cb1-4"></a>        </span>
+<span id="cb1-5"><a href="#cb1-5"></a>        <span class="fu">{</span><span class="dt">&quot;this&quot;</span> <span class="fu">:</span> <span class="st">&quot;c&quot;</span><span class="fu">,</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a>             <span class="dt">&quot;other&quot;</span> <span class="fu">:</span> <span class="dv">0</span><span class="fu">}</span></span></code></pre></div>
+<ol start="2" type="1">
+<li>XML</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1"></a>        <span class="kw">&lt;?xml</span> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; <span class="kw">?&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>        <span class="kw">&lt;array&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a>          <span class="kw">&lt;element&gt;</span>b<span class="kw">&lt;/element&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a>          <span class="kw">&lt;element&gt;</span>1<span class="kw">&lt;/element&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a>          <span class="kw">&lt;element&gt;</span>2<span class="kw">&lt;/element&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a>          <span class="kw">&lt;element&gt;</span>3<span class="kw">&lt;/element&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a>        <span class="kw">&lt;/array&gt;</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a></span>
+<span id="cb2-9"><a href="#cb2-9"></a>        <span class="kw">&lt;?xml</span> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; <span class="kw">?&gt;</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a>        <span class="kw">&lt;element&gt;</span>a<span class="kw">&lt;/element&gt;</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a></span>
+<span id="cb2-12"><a href="#cb2-12"></a>        <span class="kw">&lt;?xml</span> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; <span class="kw">?&gt;</span></span>
+<span id="cb2-13"><a href="#cb2-13"></a>        <span class="kw">&lt;object&gt;</span></span>
+<span id="cb2-14"><a href="#cb2-14"></a>          <span class="kw">&lt;this&gt;</span>c<span class="kw">&lt;/this&gt;</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a>          <span class="kw">&lt;other&gt;</span>0<span class="kw">&lt;/other&gt;</span></span>
+<span id="cb2-16"><a href="#cb2-16"></a>        <span class="kw">&lt;/object&gt;</span></span></code></pre></div>
+<ol start="3" type="1">
+<li>S-expressions</li>
+</ol>
+<pre class="sexp"><code>        (&quot;b&quot; 1 2 3)
+
+        (&quot;a&quot;)
+
+        ((this &quot;c&quot;)
+         (other 0))</code></pre>
+<h4 id="example-output">Example Output</h4>
+<p>If invoked with <code>-up</code> the program should output something like this for input in JSON.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1"></a>        <span class="er">&quot;a&quot;</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a></span>
+<span id="cb4-3"><a href="#cb4-3"></a>        <span class="ot">[</span><span class="st">&quot;b&quot;</span><span class="ot">,</span> <span class="dv">1</span><span class="ot">,</span> <span class="dv">2</span><span class="ot">,</span> <span class="dv">3</span><span class="ot">]</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a>        </span>
+<span id="cb4-5"><a href="#cb4-5"></a>        <span class="fu">{</span><span class="dt">&quot;this&quot;</span> <span class="fu">:</span> <span class="st">&quot;c&quot;</span><span class="fu">,</span> <span class="dt">&quot;other&quot;</span> <span class="fu">:</span> <span class="dv">0</span><span class="fu">}</span></span></code></pre></div>
+<p>Similarly for XML and s-expressions. The output should be in the same format as the input. Specify which format your program is using (as <code>json</code>, <code>xml</code>, or <code>sexp</code>) in a text file called <code>format</code> supplied with your executable.</p>
+<p>The goal of Task 2 is to figure out:</p>
+<ol type="1">
+<li>how your language processes command line arguments,</li>
+<li>whether it has a good library for reading and writing structured data formats, and</li>
+<li>how to deploy programs that run on Linux in your chosen language. See sources like <a href="http://www.learnlinux.org.za/courses/build/shell-scripting/ch01s04.html">this one</a> for details.</li>
+</ol>
+        </main>
+  <!--<div id="statcounter_image" style="display:inline;"><a
+       title="free hit counter"
+       href="http://statcounter.com/free-hit-counter/"
+       class="statcounter"><img
+       src="http://c.statcounter.com/10419673/0/67e2ca33/1/"
+       alt="free hit counter" style="border:none;" /></a></div>-->
+</body>
+
