@@ -58,6 +58,7 @@ it assumes you have been out to one co-op co-op.
 ## Assignments
 
   * [Assignment A -- Groups & Your Favorite Programming Language](A/A.html)
+  * [Assignment B -- Labyrinth &amp; Formats](B/B.html)\ \ \ \ [(PDF)](m/B.pdf)
 
 ## Final Code Reviews
 
