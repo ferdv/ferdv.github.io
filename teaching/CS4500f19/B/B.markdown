@@ -30,7 +30,7 @@ All auxiliary files must be put into a sub-directory called Other.
 
 Your company has hired a group of stellar programmers. Your manager has put you in charge of writing a specification for the interface for a module, dubbed `Labyrinth`, which these stellar programmers will implement in your favorite language and ship back real soon.
 
-As the name suggests, the high-level purpose of the desired module is to provide the services of a basic labyrinth. For our purposes a labyrinth is a connectivity specification for nodes in a simple graph, and a simple graph connects each node to at most one other node. The desired software must support these operations:
+As the name suggests, the high-level purpose of the desired module is to provide the services of a basic labyrinth. For our purposes a labyrinth is a connectivity specification for nodes in a simple graph, and a simple graph contains at most one edge between any pair of nodes. The desired software must support these operations:
 
 1. the creation of a plain labyrinth with named nodes;
 2. the addition of a colored token to a node;
