@@ -180,7 +180,7 @@ count "x" ["x", "xxx", "x"] == 2
 In Haskell, we can specify a (polymorphic) binary tree as the following datatype:
 
 ```haskell
-data Tree a = Node Tree a Tree
+data Tree a = Node (Tree a) a (Tree a)
             | Empty
             deriving (Show, Eq)
 ```

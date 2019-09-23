@@ -10,11 +10,11 @@ We meet on **Tuesdays, 6-9:15pm** in **[Hurtig Hall](https://www.northeastern.ed
 
 ## People
 
-  | Role           | Name             | Email                     | Office hours      | Location  |
-  |----------------|------------------|---------------------------|-------------------|-----------|
-  | **Instructor** | Ferdinand Vesely | f.vesely@northeastern.edu | Wednesday 2-6pm   | [Nightingale](https://www.northeastern.edu/campusmap/map/qad5.html) 132A
-  | **TAs**        | Joshua Hailman   | jhailman@ccs              | Monday 5-7pm      | [WVH](https://www.northeastern.edu/campusmap/map/qad5.html) 102
-  |                | Vanja Srivastava | srivastava.v@husky        | *TBD*             | *TBD*     |
+| Role           | Name             | Email                     | Office hours      | Location  |
+|----------------|------------------|---------------------------|-------------------|-----------|
+| **Instructor** | Ferdinand Vesely | f.vesely@northeastern.edu | Wednesday 2-6pm   | [Nightingale](https://www.northeastern.edu/campusmap/map/qad5.html) 132A
+| **TAs**        | Joshua Hailman   | jhailman@ccs              | Monday 5-7pm      | [WVH](https://www.northeastern.edu/campusmap/map/qad5.html) 102
+|                | Vanja Srivastava | srivastava.v@husky        | *TBD*             | *TBD*     |
 
 
 ## Course Description
