@@ -11,7 +11,7 @@ header-includes:
    - \usepackage[scaled=0.85]{beramono}
 ---
 
-**Due:** Thursday, September 26, by midnight.
+**Due:** Friday, September 27, by midnight.
 
 **Submission:** 
 
