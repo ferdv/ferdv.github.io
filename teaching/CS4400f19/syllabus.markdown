@@ -13,7 +13,7 @@ We meet on **Tuesdays, 6-9:15pm** in **[Hurtig Hall](https://www.northeastern.ed
   | Role           | Name             | Email                     | Office hours      | Location  |
   |----------------|------------------|---------------------------|-------------------|-----------|
   | **Instructor** | Ferdinand Vesely | f.vesely@northeastern.edu | Wednesday 2-6pm   | [Nightingale](https://www.northeastern.edu/campusmap/map/qad5.html) 132A
-  | **TAs**        | Joshua Hailman   | jhailman@ccs              | Monday 5-7pm      | [West Village H](https://www.northeastern.edu/campusmap/map/qad5.html) 102
+  | **TAs**        | Joshua Hailman   | jhailman@ccs              | Monday 5-7pm      | [WVH](https://www.northeastern.edu/campusmap/map/qad5.html) 102
   |                | Vanja Srivastava | srivastava.v@husky        | *TBD*             | *TBD*     |
 
 
@@ -66,7 +66,7 @@ This is a rough and tentative list of topics that we will aim to cover this seme
 
 | Assignment            | Date Set | Date Due |                                  |
 |-----------------------|----------|----------|----------------------------------|
-| 1. [Haskell practice](cw/a01/assignment01.html) |  09/23   |  09/26   | [PDF](m/cw/a01/assignment01.pdf) |
+| 1. [Haskell practice](cw/a01/assignment01.html) |  09/23   |  09/27   | [PDF](m/cw/a01/assignment01.pdf) |
 
 ## Haskell
 
