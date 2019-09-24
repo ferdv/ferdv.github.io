@@ -80,12 +80,11 @@ and registering as a student.
 
 The final grades are based on these factors: 
 
-- your project and warm-up assignments; 
-- your presentations; 
-- your lab book, and 
-- your active participation.
-
-Exact weights TBD.
+- 54% project (incuding the final code walk)
+- 16% warm-up assignments
+- 20% presentations
+- 5% lab book
+- 5% participation
 
 <!--
 - your project and warm-up assignments (60%), which includes the final code walk; 
