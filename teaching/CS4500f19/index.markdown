@@ -53,6 +53,8 @@ it assumes you have been out to one co-op co-op.
   | 2. Software Development Process | [Slides](./m/02/02-software-development-process.pdf) | [Matthias' notes](./m/02/matthias-02.html) |
   | 3. Quick Overview of UML | [Slides](./m/03/03-uml.pdf) | |
   | 4. Good Code. Naming Principles | [Slides](./m/04/04-good-code-names.pdf) | |
+  | 5. Code, pt. 2 | [Slides](./m/05/05-code-pt-2.pdf) | |
+  | 6. Objects, Structures, Interfaces | [Slides](./m/06/06-objects-structures-interfaces.pdf) | |
  
 
 ## Assignments
