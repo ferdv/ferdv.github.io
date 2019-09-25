@@ -15,11 +15,17 @@ We meet on **Tuesdays and Fridays, 1:35-3:15pm** in **[Shillman Hall](https://ww
 
 ## People
 
-  | Role       | Name             | Email               | Office hours          | Location  |
-  |------------|------------------|---------------------|-------------------|---|
-  | **Instructor** | Ferdinand Vesely | f.vesely@northeastern.edu | Wednesday 2-6pm | [Nightingale](https://www.northeastern.edu/campusmap/map/qad5.html) 132A
-  | **TAs**        | *TBD*
-
+<div style="font-size: 90%;">
+  | Role       | Name                        | Email                    | Office hours     | Location  |
+  |------------|-----------------------------|--------------------------|------------------|-----------|
+  | **Instructor** | Ferdinand Vesely        | f.vesely@northeastern    | Wed 2-6pm        | [Nightingale](https://www.northeastern.edu/campusmap/map/qad5.html) 132A
+  | **TAs**        | Ivan Chen               | chen.if@husky            | Mon 12:30-2:30pm | WVH, 3rd floor (by 366) |
+  |                |                         |                          | Thu 1:30-2:30pm  | Snell Library 002       |
+  |                | Sai Sankar Gochhayat    | gochhayat.s@husky        | Tue 4:30-6:30pm  | WVH, 3rd floor (by 366) |
+  |                |                         |                          | Thu 5-6pm        | WVH, 3rd floor (by 366) |
+  |                | Divya Payyadi Venkatesh | payyadivenkatesh.d@husky | 5-7pm            | Hastings 100            |
+  |                |                         |                          | Wed 5-6pm        | Snell Library 002       |
+</div>
 
 ## Course Description
 
