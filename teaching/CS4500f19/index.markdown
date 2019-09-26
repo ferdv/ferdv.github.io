@@ -49,7 +49,7 @@ Considers software development as a systematic process involving specification, 
 
 This course is the end of the programming sequence:x *Fundamentals
 I*, *Fundamentals II*, *Object-Oriented Design*. In addition,
-it assumes you have been out to one co-op co-op.
+it assumes you have been out to one co-op.
  
 ## Lectures
 
@@ -67,6 +67,7 @@ it assumes you have been out to one co-op co-op.
 
   * [Assignment A -- Groups & Your Favorite Programming Language](A/A.html)
   * [Assignment B -- Labyrinth &amp; Formats](B/B.html)\ \ \ \ [(PDF)](m/B.pdf)
+  * Assignment C -- set on Thursday 09/26, due by Monday 09/30
 
 ## Final Code Reviews
 
