@@ -67,7 +67,7 @@ it assumes you have been out to one co-op.
 
   * [Assignment A -- Groups & Your Favorite Programming Language](A/A.html)
   * [Assignment B -- Labyrinth &amp; Formats](B/B.html)\ \ \ \ [(PDF)](m/B.pdf)
-  * Assignment C -- set on Thursday 09/26, due by Monday 09/30
+  * [Assignment C -- More Labyrinth](C/C.html)\ \ \ \ [(PDF)](m/C.pdf)\ \ \ \ Set: Thursday 09/26, Due: Tuesday 10/01 11:59pm
 
 ## Final Code Reviews
 
