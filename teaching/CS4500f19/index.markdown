@@ -61,13 +61,15 @@ it assumes you have been out to one co-op.
   | 4. Good Code. Naming Principles | [Slides](./m/04/04-good-code-names.pdf) | |
   | 5. Code, pt. 2 | [Slides](./m/05/05-code-pt-2.pdf) | |
   | 6. Objects, Structures, Interfaces | [Slides](./m/06/06-objects-structures-interfaces.pdf) | |
- 
+ <!-- | 7. Architectures, TCP | | | -->
 
 ## Assignments
-
+  
   * [Assignment A -- Groups & Your Favorite Programming Language](A/A.html)
   * [Assignment B -- Labyrinth &amp; Formats](B/B.html)\ \ \ \ [(PDF)](m/B.pdf)
-  * [Assignment C -- More Labyrinth](C/C.html)\ \ \ \ [(PDF)](m/C.pdf)\ \ \ \ Set: Thursday 09/26, Due: Tuesday 10/01 11:59pm
+  * [Assignment C -- More Labyrinth](C/C.html)\ \ \ \ [(PDF)](m/C.pdf)  
+    Set: Thursday 09/26  
+    Due: Tuesday 10/01 11:59pm
 
 ## Final Code Reviews
 

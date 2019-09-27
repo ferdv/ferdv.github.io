@@ -9,7 +9,7 @@ header-includes:
    - \usepackage{fullpage}
 ---
 
-**Due** Tuesday, October 1, 11:59pm
+**Due:** Tuesday, October 1, 11:59pm
 
 <!-- 
 @(define hw "Exploring Your TAHBPL Some More")
@@ -39,7 +39,9 @@ Task 1:
 
 Task 2:
 
-  : Source file: `server-for-given-traversal.PP` (see below) 
+  : A source file, `server-for-given-traversal.PP`  
+  **OR** Markdown memo, `server-for-given-traversal.md`  
+  **OR** both (see below)
 
 Task 3:
 
@@ -49,7 +51,7 @@ Task 4:
 
   : `micro-service.md`
 
-Note: `PP` is a language-specific filename extension (e.g., `java` for Java, `py` for Python, ... you get the gist), unless you need to take the alternative route with Task 2 (see below), in which case the extension is `md`.
+Note: `PP` is a language-specific filename extension (e.g., `java` for Java, `py` for Python, ... you get the gist).
 
 Any and all auxiliary files must be put into a sub-directory called `Other` within `C`.  
 
@@ -89,7 +91,9 @@ If the specification requests capabilities that are unnecessary to
 implement `client-for-your-traversal` (see below), you do not have to
 implement them.
 
-The specification you receive may be requesting the implementation in a language different than your chosen language. It might also be using terminology that is strongly related to the requested implementation language. As an experienced programmer, you should be able to understand and adopt the terminology and implement the specification in your chosen language. 
+<!-- The specification you receive may be requesting the implementation in a language different than your chosen language. It might also be using terminology that is strongly related to the requested implementation language. As an experienced programmer, you should be able to understand and adopt the terminology and implement the specification in your chosen language. -->
+
+The specification you receive may be requesting an implementation in a language different than your chosen language. If you cannot implement it in the requested language, implement it in your chosen language. As an experienced programmer, even if the details of the specification language are foreign to you, you should be able to adapt it to your setting. If you take this route, supply an additional memo in `server-for-given-traversal.md` (in addition to your source file), explaining how you adapted the specification to your language and the choices you had to make.
 
 ### What if we cannot implement the given specification?
 
