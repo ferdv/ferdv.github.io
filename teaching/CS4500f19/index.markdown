@@ -61,7 +61,7 @@ it assumes you have been out to one co-op.
   | 4. Good Code. Naming Principles | [Slides](./m/04/04-good-code-names.pdf) | |
   | 5. Code, pt. 2 | [Slides](./m/05/05-code-pt-2.pdf) | |
   | 6. Objects, Structures, Interfaces | [Slides](./m/06/06-objects-structures-interfaces.pdf) | |
- <!-- | 7. Architectures, TCP | | | -->
+  | 7. Software Architectures / netcat & telnet, protocol diagrams  | [Slides](./m/07/07-software-architectures.pdf) | |
 
 ## Assignments
   
