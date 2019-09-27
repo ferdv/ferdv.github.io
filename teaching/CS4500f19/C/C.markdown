@@ -93,7 +93,7 @@ implement them.
 
 <!-- The specification you receive may be requesting the implementation in a language different than your chosen language. It might also be using terminology that is strongly related to the requested implementation language. As an experienced programmer, you should be able to understand and adopt the terminology and implement the specification in your chosen language. -->
 
-The specification you receive may be requesting an implementation in a language different than your chosen language. If you cannot implement it in the requested language, implement it in your chosen language. As an experienced programmer, even if the details of the specification language are foreign to you, you should be able to adapt it to your setting. If you take this route, supply an additional memo in `server-for-given-traversal.md` (in addition to your source file), explaining how you adapted the specification to your language and the choices you had to make.
+The specification you receive may be requesting an implementation in a language different than your chosen language. If you cannot implement it in the requested language, implement it in your chosen language. As an experienced programmer, even if the details of the specification language are foreign to you, you should be able to adapt it to your setting. If you take this route, supply an additional memo in `server-for-given-traversal.md` (in addition to your source file), explaining how you interpreted the specification for your language and each choice you had to make.
 
 ### What if we cannot implement the given specification?
 
