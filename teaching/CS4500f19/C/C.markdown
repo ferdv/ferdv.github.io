@@ -124,8 +124,10 @@ must deal with:
       ["lab", {"from" : name:string, "to" : name:string} ...]
     ```
 
-    The command is valid if the `name`s specified in the `"from"` fields
-of the objects are pairwise distinct. 
+    ~~The command is valid if the `name`s specified in the `"from"` fields
+of the objects are pairwise distinct.~~
+    The command is valid if the `name` pairs specified in the `"from"`-`"to"` fields are pairwise distinct, considered as *unordered*. That is, if `{"from" : "A", "to" : "B"}`{.json} appears, there is no other `{"from" : "A", "to" : "B"}`{.json} and no `{"from" : "B", "to" : "A"}`{.json}.
+
 
     The command must be used once and as the first one; if it is invalid, the client shuts down.
 
