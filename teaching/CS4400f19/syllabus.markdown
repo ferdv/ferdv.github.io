@@ -59,8 +59,9 @@ This is a rough and tentative list of topics that we will aim to cover this seme
 
 | Date   | Topic                              | Material                  |
 |--------|------------------------------------|---------------------------|
-| 09/10  | Overview & Quick Intro to Haskell  | [Slides](m/lec01/slides.pdf)  [Lec01.hs](m/lec01/Lec01.hs) |
+| 09/10  | Overview & Quick Intro to Haskell  | [Slides](m/lec01/slides.pdf)\  \ [Lec01.hs](m/lec01/Lec01.hs) |
 | 09/17  | Overview of Interpreters; Abstract Syntax; Arithmetic Expressions | [Lec02.hs](m/lec02/Lec02.hs) |
+| 09/24  | Evaluating with Environments; More than One Value Type | [Lec03.hs](m/lec03/Lec03.hs)\ \ [Lec03a.hs](m/lec03/Lec03a.hs)
 
 ## Assignments
 

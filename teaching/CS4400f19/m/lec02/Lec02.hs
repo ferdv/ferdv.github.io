@@ -23,7 +23,7 @@ data AExpr = Add AExpr AExpr
           -- let (x :: Vars) = (ae :: AExpr) in (ae :: AExpr
            | Var Vars
            | Num Integer
-           deriving (Eq, Show, Eq)
+           deriving (Eq, Show)
            -- Note: Here we are telling Haskell that we want to be able to 
            --   1. determine the equality of arithmetic expressions,
            --   2. be able to convert them to strings (pretty-print)
