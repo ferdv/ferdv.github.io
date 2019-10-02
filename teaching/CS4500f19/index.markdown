@@ -53,15 +53,15 @@ it assumes you have been out to one co-op.
  
 ## Lectures
 
-  |           |               |               |
-  |-----------|---------------|---------------|
-  | 1. Introduction, Overview of Software development | [Slides](./m/01/01-intro-overview.pdf) | [Matthias' notes](./m/01/matthias-01.html) |
-  | 2. Software Development Process | [Slides](./m/02/02-software-development-process.pdf) | [Matthias' notes](./m/02/matthias-02.html) |
-  | 3. Quick Overview of UML | [Slides](./m/03/03-uml.pdf) | |
-  | 4. Good Code. Naming Principles | [Slides](./m/04/04-good-code-names.pdf) | |
-  | 5. Code, pt. 2 | [Slides](./m/05/05-code-pt-2.pdf) | |
-  | 6. Objects, Structures, Interfaces | [Slides](./m/06/06-objects-structures-interfaces.pdf) | |
-  | 7. Software Architectures / netcat & telnet, protocol diagrams  | [Slides](./m/07/07-software-architectures.pdf) | |
+  |     |           |               |               |
+  |-----|-----------|---------------|---------------|
+  |     | 1. Introduction, Overview of Software development | [Slides](./m/01/01-intro-overview.pdf) | [Matthias' notes](./m/01/matthias-01.html) |
+  |     | 2. Software Development Process | [Slides](./m/02/02-software-development-process.pdf) | [Matthias' notes](./m/02/matthias-02.html) |
+  |     | 3. Quick Overview of UML | [Slides](./m/03/03-uml.pdf) | |
+  |     | 4. Good Code. Naming Principles | [Slides](./m/04/04-good-code-names.pdf) | |
+  |     | 5. Code, pt. 2 | [Slides](./m/05/05-code-pt-2.pdf) | |
+  |     | 6. Objects, Structures, Interfaces | [Slides](./m/06/06-objects-structures-interfaces.pdf) | |
+  |     | 7. Software Architectures / netcat & telnet, protocol diagrams  | [Slides](./m/07/07-software-architectures.pdf) | |
 
 ## Assignments
   
@@ -70,6 +70,10 @@ it assumes you have been out to one co-op.
   * [Assignment C -- More Labyrinth](C/C.html)\ \ \ \ [(PDF)](m/C.pdf)  
     Set: Thursday 09/26  
     Due: Tuesday 10/01 11:59pm
+  * [Assignment D -- Labyrinth TCP Client / Reflection on Implementing Specifications](D/D.html)\ \ \ \ [(PDF)](m/D.pdf)  
+    Set: Wednesday 10/02  
+    Due: Tuesday 10/08 11:59pm
+
 
 ## Final Code Reviews
 
