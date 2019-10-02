@@ -147,7 +147,220 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Write a memo containing two paragraphs: one that explains why you are abandoning your originally chosen language, and another explaining how you have checked that you are familiar with the above concepts in your new language.</li>
 </ol>
 <h1 id="protocol-for-task-1">Protocol for Task 1</h1>
-<p><em>The protocol will appear here by Wednesday 10/2, noon.</em></p>
+<h2 id="protocol-for-a-labyrinth-server-client-interaction">Protocol for a Labyrinth Server-Client Interaction</h2>
+<p>The first three sections explain the interaction arrangements between the user, the client program (<code>D</code>), and the <code>server</code> component. The remaining sections specify the format of the messages.</p>
+<h3 id="start-up-steps">Start Up Steps</h3>
+
+<pre><code>---------------------------------------------------------------------------------------------
+   labyrinth server                                      +------- user launches `./D'
+                            ||                           |              | 
+           |                ||          lab client &lt;----+               |
+           |                ||            |                             |
+           |&lt;-----------------------------| tcp connect                 |
+           |                ||            |                             |
+           |&lt;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~| sign-up name                |
+           |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&gt;| receive session id          | 
+           |                ||            |                             |
+           |                ||            |&lt;----------------------------| create labyrinth</code></pre>
+
+<p>The client program should be prepared to consume up to three arguments:</p>
+<ul>
+<li>the TCP address of the server, default: <code>127.0.0.1</code></li>
+<li>the port number at the server; default: <code>8000</code></li>
+<li>the name of the user; default: <code>John Doe</code></li>
+</ul>
+<h3 id="processing-phase">Processing Phase</h3>
+
+<pre><code>---------------------------------------------------------------------------------------------
+   labyrinth server         ||       lab client                     user enters requests
+                            ||                                          | 
+           |                ||            |                             |
+           |                ||            |&lt;----------------------------| add token requests 
+           |                ||            |                             |
+          ...              ....          ...                           ...
+           |                ||            |                             |
+           |                ||            |&lt;----------------------------| reachable? query
+           |&lt;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~| send batch                  |
+           |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&gt;| receive at response         | 
+           |                ||            |----------------------------&gt;| render response 
+           |                ||            |                             | ...
+           |                ||            |&lt;----------------------------| add token requests 
+           |                ||            |                             |
+          ...              ....          ...                           ...
+           |                ||            |                             |
+           |                ||            |&lt;----------------------------| reachable? query
+           |&lt;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~| send batch                  |
+           |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&gt;| receive at response         | 
+           |                ||            |----------------------------&gt;|
+          ...              ....          ...                           ...</code></pre>
+
+<h3 id="shut-down-steps">Shut Down Steps</h3>
+
+<pre><code>---------------------------------------------------------------------------------------------
+   labyrinth server         ||       lab client                     user closes STDIN
+           |                ||            |                             |
+           |                ||            |&lt;--------------------------- | ^D to client
+           |&lt;-----------------------------| tcp disconnect             ---
+           |                ||           ---                            </code></pre>
+
+<h3 id="user-requests">User Requests</h3>
+<p>The user employs the exact same JSON commands as specified in <a href="https://vesely.io/teaching/CS4500f19/C/C.html">Assignment C</a></p>
+<h3 id="tcp-messages">TCP Messages</h3>
+<p>Note the difference between the labyrinth creation JSON request and the protocol message passed through TCP.</p>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 48%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>message</th>
+<th>well-formed JSON format</th>
+<th>denotation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>sign-up name</td>
+<td>string</td>
+<td>“observations” are expressed</td>
+</tr>
+<tr class="even">
+<td>session name</td>
+<td>string (to distinguish connections)</td>
+<td>in terms of a unique session name</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>labyrinth creation</td>
+<td><code>["lab", [string, ...],</code></td>
+<td>sets up labyrinth with nodes</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>    <code>[[string, string], ...]]</code></td>
+<td>…and edges</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>batch</td>
+<td><code>[["add",Color,string], ...,</code></td>
+<td>a batch adds tokens…</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>  <code>["move",Color,string]]</code></td>
+<td>…and ends in a query</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>response</td>
+<td>[ADD, …, Boolean]</td>
+<td>the ADDs (see below) are well-formed but invalid ADD requests,</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td>the Boolean is the answer to the move query</td>
+</tr>
+</tbody>
+</table>
+<p>From the perspective of the client program, all JSON values that match the above format are well-formed and valid, and can be sent to the server. If the user enters JSON that does not represent a well-formed request, the client program says</p>
+<pre><code>  [&quot;not a request&quot;, JSON] </code></pre>
+<p>where <code>JSON</code> stands for the JSON the user entered.</p>
+<p>From the perspective of <code>server</code>, validity requires the satisfaction of additional constraints:</p>
+<table>
+<thead>
+<tr class="header">
+<th>message type</th>
+<th>well-formed shape</th>
+<th>validity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>LAB =</td>
+<td><code>["lab", LON, LOE]</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>LON =</td>
+<td>array of Nodes</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Node =</td>
+<td>String</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>LOE =</td>
+<td>array of 2-element arrays</td>
+<td>each of which contains two Nodes</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td>meaning the strings must be in LON</td>
+</tr>
+<tr class="even">
+<td>ADD =</td>
+<td><code>["add", Color, Node]</code></td>
+<td>the Node must be in LON</td>
+</tr>
+<tr class="odd">
+<td>QQ =</td>
+<td><code>["move", Color, Node]</code></td>
+<td>the Color must have been set,</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td>and the Node must be in LON</td>
+</tr>
+<tr class="odd">
+<td>Color =</td>
+<td>String, one of: <code>"white"</code>, <code>"black"</code>,</td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><code>"red"</code>, <code>"green"</code>, or <code>"blue"</code></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>The server will shut down the connection if:</p>
+<ul>
+<li>the “batch” command is ill-formed,</li>
+<li>the “create” command is invalid, or</li>
+<li>the “move” command is invalid.</li>
+</ul>
+<p>Any ADD request which is well-formed but invalid gets sent back as a part of the response to a batch.</p>
+<p>The client program <code>D</code> renders responses as quasi-English JSON for the user as follows:</p>
+<ul>
+<li><code>["the server will call me", String]</code></li>
+<li><code>["invalid", ADD]</code></li>
+<li><code>["the response to", QQ, "is", Boolean]</code></li>
+</ul>
 <section class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
