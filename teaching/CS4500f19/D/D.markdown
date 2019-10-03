@@ -184,8 +184,8 @@ Note the difference between the labyrinth creation JSON request and the protocol
  
 |  message                |  well-formed JSON format                             | denotation                        |
 | ----------------------- | ---------------------------------------------------- | --------------------------------- |
-| sign-up name            | string                                               | "observations" are expressed      |
-| session name            | string (to distinguish connections)                  | in terms of a unique session name |
+| sign-up name            | string                                               | "observations" are identified     |
+| session ~~name~~ id     | string (to distinguish connections)                  | using a unique session id         |
 |                         |                                                      |                                   |
 | labyrinth creation      | `["lab", [string, ...], `                            | sets up labyrinth with nodes      |
 |                         | \ \ \ \ `[[string, string], ...]]`                   | ...and edges                      |
