@@ -20,7 +20,7 @@ eval e (Let x ae1 ae2) =
 eval e (Var x) = get x e  -- find the appropriate binding
 
 {-
-  Environments can have differen concrete implementations
+  Environments can have different concrete implementations
   as long as they have operations for 
     1. creating an empty environment,
     2. extending an environment with a binding (add), and
