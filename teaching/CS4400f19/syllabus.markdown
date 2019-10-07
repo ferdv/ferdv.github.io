@@ -69,7 +69,7 @@ This is a rough and tentative list of topics that we will aim to cover this seme
 | Assignment            | Date Set | Date Due |                                  |
 |-----------------------|----------|----------|----------------------------------|
 | [Assignment 1: Haskell practice](cw/01/assignment01.html) |  09/23   |  09/27   | [PDF](m/cw/01/assignment01.pdf) |
-| [Assignment 2: ABL](cw/02/Assignment2.html)| Week of 09/30 | 10/16 | [PDF](m/cw/02/Assignment2.pdf)\ \ [Pack](m/cw/02/Assignment2.zip)
+| [Assignment 2: ABL](cw/02/Assignment2.html)| Week of 09/30 | 10/17 | [PDF](m/cw/02/Assignment2.pdf)\ \ [Pack](m/cw/02/Assignment2.zip)
 | Assignment 3 | Week of 10/14 | 10/30 |
 | Assignment 4 | Week of 11/04 | 11/20 |
 | Assignment 5 | Week of 11/18 | 12/04 |

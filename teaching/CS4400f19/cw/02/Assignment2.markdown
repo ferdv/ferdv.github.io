@@ -16,7 +16,7 @@ geometry:
 
 # General
 
-**Due:** Wednesday, October 16, 11:59pm.
+**Due:** Thursday, October 17, 11:59pm.
 
 **Instructions:**
 
