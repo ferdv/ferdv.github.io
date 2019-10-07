@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Ferdinand Vesely" />
+  <title>Programming Languages</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../../../../css/foghorn.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Programming Languages</h1>
+<p class="subtitle">Lecture Notes for CS4400/5400</p>
+<p class="author">Ferdinand Vesely</p>
+</header>
+<h1 id="lambda-calculus">Lambda Calculus</h1>
+<p>Lambda calculus is a theory of functions. What is a function? There are two basic views one can take when characterizing them:</p>
+<ol type="1">
+<li>Function as a graph</li>
+<li>Function as a value</li>
+</ol>
+<p>Considering a function <span class="math inline">\(f\)</span> as a graph is to consider it as a set of pairs – mappings between input and output values <span class="math inline">\((x, f(x))\)</span>. For example the square function on natural numbers <span class="math inline">\(^2 : \mathbb{N} \to \mathbb{N}\)</span> can be characterized as a set of pairs <span class="math inline">\((n, n^2)\)</span>. For example:</p>
+<p><span class="math display">\[
+  \{ (0, 0), (1, 1), (2, 4), (3, 9), (4, 16), (5, 25), ... \}
+\]</span></p>
+<p>Using a function as a graph is to find an output that corresponds to our input. The alternative view to take is to consider a function as rules – equations, which tell us how to compute the output of the function from its input. For example, the square function <span class="math inline">\(^2 : \mathbb{N} \to \mathbb{N}\)</span> is defined by the equation:</p>
+<p><span class="math display">\[
+  n^2 = n \times n
+\]</span></p>
+<p>How do we use this function? We <em>substitute</em> an expression that looks like the left-hand side with the right-hand side, replacing the <em>argument</em> <span class="math inline">\(n\)</span> with the expression and then computing the resulting expression. For example, our calculation might proceed as follows:</p>
+<p><span class="math display">\[
+  \begin{aligned}
+    {4^2}^2 + 3^2 
+      &amp;= (4 \times 4)^2 + 3^2\\
+      &amp;= \left((4 \times 4) \times (4 \times 4)\right) + 3^2\\
+      &amp;= \left((4 \times 4) \times (4 \times 4)\right) + (3 \times 3)\\
+%      &amp;= \left(16 \times (4 \times 4)\right) + (3 \times 3)\\
+%      &amp;= \left(16 \times (4 \times 4)\right) + 9\\
+%      &amp;= \left(16 \times 16\right) + 9\\
+%      &amp;= 256 + 9\\
+      &amp;... \\
+      &amp;= 265
+  \end{aligned}
+\]</span></p>
+<p>Or, as follows: <span class="math display">\[
+  \begin{aligned}
+    {4^2}^2 + 3^2 
+      &amp;= (4 \times 4)^2 + 3^2\\
+      &amp;= 16^2 + 3^2\\
+      &amp;= 16^2 + 9\\
+      &amp;= 256 + 9\\
+      &amp;... \\
+      &amp;= 265
+  \end{aligned}
+\]</span></p>
+<p>In any case, the important thing to note is that we replace any occurrence of <span class="math inline">\(n^2\)</span> for any <span class="math inline">\(n\)</span> using the defining equation. In general, if we define a function <span class="math inline">\(f\)</span> by the equation <span class="math inline">\(f(x) = E\)</span>, where <span class="math inline">\(E\)</span> is some mathematical expression (potentially containing <span class="math inline">\(x\)</span>), then we use (apply) this function by replacing any occurrence of <span class="math inline">\(f(y)\)</span> by <span class="math inline">\(E[x := D]\)</span>, that is the expression <span class="math inline">\(E\)</span> where all occurrences of <span class="math inline">\(x\)</span> are replaced by <span class="math inline">\(D\)</span>. This is called <em>substitution</em> of a variable <span class="math inline">\(x\)</span> in an expression <span class="math inline">\(E\)</span> for another expression <span class="math inline">\(D\)</span>. E.g., if</p>
+<p><span class="math display">\[
+  f(x) = x + x
+\]</span></p>
+<p>then:</p>
+<p><span class="math display">\[
+  \begin{aligned} 
+  f(20) + f(2 \times 3) 
+    &amp;= (x + x)[x := 20] + (x + x)[x := 2 \times 3] \\
+    &amp;= (20 + 20) + ((2 \times 3) + (2 \times 3)) \\
+    ...           
+  \end{aligned}
+\]</span> The next question is, how important is the name of the function? We use names as mnemonics, so that we can say we can</p>
+<ol type="1">
+<li>say “let <span class="math inline">\(f\)</span> be the function defined by the equation <span class="math inline">\(f(x) = E\)</span>” (where <span class="math inline">\(E\)</span> is an arbitrary mathematical expression), and</li>
+<li>replace any occurrence of <span class="math inline">\(f\)</span> applied to an argument with an instance of <span class="math inline">\(E\)</span> where <span class="math inline">\(x\)</span> is replaced with the argument expression.</li>
+</ol>
+<p>We can do this without inventing names, by using functions as anonymous objects – just like we easily use numbers or strings or arrays. In mathematics an anonymous function will be written as <span class="math inline">\(x \mapsto E\)</span>. For example, the square function is <span class="math inline">\(x \mapsto x \times x\)</span>, the above function <span class="math inline">\(f\)</span> is <span class="math inline">\(x \mapsto x + x\)</span>.</p>
+<p>The above exposition applies to programming too. Basically all sensible programming languages allow us to define functions to abstract a computation by replacing a concrete expression with a variable – a place-holder. In Python we might write:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">def</span> square(x):</span>
+<span id="cb1-2"><a href="#cb1-2"></a>  <span class="cf">return</span> x <span class="op">*</span> x</span></code></pre></div>
+<p>In C:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1"></a><span class="dt">int</span> square(<span class="dt">int</span> x) {</span>
+<span id="cb2-2"><a href="#cb2-2"></a>  <span class="cf">return</span> x * x; </span>
+<span id="cb2-3"><a href="#cb2-3"></a>}</span></code></pre></div>
+<p>In Haskell:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1"></a><span class="ot">square ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Integer</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>square x <span class="ot">=</span> x <span class="op">*</span> x</span></code></pre></div>
+<p>In Scheme:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode scheme"><code class="sourceCode scheme"><span id="cb4-1"><a href="#cb4-1"></a>(<span class="ex">define</span><span class="fu"> </span>(square x)</span>
+<span id="cb4-2"><a href="#cb4-2"></a>  (* x x))</span></code></pre></div>
+<p>In any programming language we operate with the understanding that whenever <code>square</code> is invoked with an argument, that occurrence might as well be replaced with the body of the function (either before or after evaluating the argument). More and more programming languages, particularly those which allow passing functions as arguments, allow creating functions without naming them – so called anonymous functions. Python and Scheme have <code>lambda</code>:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">lambda</span> x : x <span class="op">*</span> x</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode scheme"><code class="sourceCode scheme"><span id="cb6-1"><a href="#cb6-1"></a>(<span class="kw">lambda</span> (x) (* x x))</span></code></pre></div>
+<p>OCaml has <code>fun</code> or <code>function</code>:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">fun</span> x =&gt; x * x</span></code></pre></div>
+<p>Haskell has <code>\</code>:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1"></a>\x <span class="ot">-&gt;</span> x <span class="op">*</span> x</span></code></pre></div>
+<p>C++ has, well…</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb9-1"><a href="#cb9-1"></a>[](<span class="dt">int</span> x){ <span class="cf">return</span> x * x; }</span></code></pre></div>
+<p>As hinted by the Scheme and Python examples, Lambda calculus is the underlying theory behind these anonymous expressions. In its pure form, it is concerned with what it means to apply an abstracted expression (as an anonymous function) to an argument. It studies this as a purely syntactic operation.</p>
+<p>Where Python and Scheme have <code>lambda</code>, OCaml has <code>fun</code> and <code>function</code>, Lambda calculus has <span class="math inline">\(\lambda\)</span>. That is an anonymous function with the formal parameter <span class="math inline">\(x\)</span> is constructed using <span class="math inline">\(\lambda x...\)</span> We can write the squaring function in lambda notation as</p>
+<p><span class="math display">\[\lambda x.\ x \times x\]</span></p>
+<p>We say that this is a <em>lambda abstraction</em> that <em>binds</em> the variable <span class="math inline">\(x\)</span> in <span class="math inline">\(x \times x\)</span>. In other words, <span class="math inline">\(x\)</span> is bound in $x x.. An application is written (similarly to Scheme, OCaml, or Haskell) as by writing the function and argument next to each other (juxtaposition). For example, where in Scheme we could write</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode scheme"><code class="sourceCode scheme"><span id="cb10-1"><a href="#cb10-1"></a>((<span class="kw">lambda</span> (x) (* x x)) <span class="dv">10</span>)</span></code></pre></div>
+<p>and in Haskell</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1"></a>(\x <span class="ot">-&gt;</span> x <span class="op">*</span> x) <span class="dv">10</span></span></code></pre></div>
+<p>In lambda notation we write:</p>
+<p><span class="math display">\[
+(\lambda x.\ x \times x)\ 10
+\]</span></p>
+<p>As I mentioned before, Lambda calculus looks at the application of a function as a syntactic operation, in terms of <em>substitution</em>, as the process of replacing any occurrence of the abstracted variable with the actual argument. For the above, this is replacing any occurrence of <span class="math inline">\(x\)</span> in <span class="math inline">\(x \times x\)</span> with <span class="math inline">\(10\)</span>:</p>
+<p><span class="math display">\[
+  \begin{aligned}
+  (\lambda x.\ x \times x)\ 10
+    &amp;= (x \times x)[x := 10]\\
+    &amp;= 10 \times 10
+  \end{aligned}
+\]</span></p>
+<p>Another way of thinking about the bound variable <span class="math inline">\(x\)</span> in the <span class="math inline">\(\lambda x.\ x \times x\)</span> as a placeholder or hole, where the argument “fits”.</p>
+<p><span class="math display">\[
+  (\lambda \boxed{\phantom{x}}.\ \boxed{\phantom{x}} \times \boxed{\phantom{x}})\ 10
+    = \boxed{10} \times \boxed{10}
+\]</span></p>
+<h2 id="pure-lambda-calculus">Pure Lambda Calculus</h2>
+<p>Here we will look at the formal theory of pure Lambda Calculus. We will look at the syntax and a notion of computation.</p>
+<h3 id="syntax">Syntax</h3>
+<p>The basic syntax of the calculus is really simple:</p>
+<pre><code>  &lt;Lambda&gt; ::= &lt;Variable&gt;
+             | (&lt;Lambda&gt; &lt;Lambda&gt;)
+             | (λ &lt;Variable&gt; . &lt;Lambda&gt;)</code></pre>
+<p>That is all there really is:<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<ul>
+<li>variable reference, e.g. <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span>, <span class="math inline">\(z\)</span>, <span class="math inline">\(a\)</span>, <span class="math inline">\(\mathit{square}\)</span></li>
+<li>application, e.g., <span class="math inline">\((x\ y)\)</span>, <span class="math inline">\((\lambda x.\ x)\ (\lambda x.\ x)\)</span></li>
+<li>lambda abstraction, e.g., <span class="math inline">\((\lambda x.\ x\ x)\)</span></li>
+</ul>
+<p>You might ask: what can we do with such a minuscule language? Turns out a lot. As proven by A.M. Turing, this pure version of Lambda calculus is equivalent in computational power to Turing Machines!</p>
+<h3 id="meaning">Meaning</h3>
+<h4 id="beta-reduction">Beta Reduction</h4>
+<h4 id="substitution">Substitution</h4>
+<h4 id="variables-bound-free">Variables: Bound, Free</h4>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>Later, we will add extensions that make many things simpler and also allow us to build realistic programming languages.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</body>
+</html>
