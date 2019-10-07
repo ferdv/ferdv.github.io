@@ -94,7 +94,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Function as a graph</li>
 <li>Function as a value</li>
 </ol>
-<p>Considering a function <span class="math inline">\(f\)</span> as a graph is to consider it as a set of pairs – mappings between input and output values <span class="math inline">\((x, f(x))\)</span>. For example the square function on natural numbers <span class="math inline">\(^2 : \mathbb{N} \to \mathbb{N}\)</span> can be characterized as a set of pairs <span class="math inline">\((n, n^2)\)</span>. For example:</p>
+<p>Considering a function <span class="math inline">\(f\)</span> as a graph is to consider it as a set of pairs – mappings between input and output values <span class="math inline">\((x, f(x))\)</span>. For example the square function on natural numbers <span class="math inline">\(^2 : \mathbb{N} \to \mathbb{N}\)</span> can be characterized as a set of pairs <span class="math inline">\((n, n^2)\)</span>:</p>
 <p><span class="math display">\[
   \{ (0, 0), (1, 1), (2, 4), (3, 9), (4, 16), (5, 25), ... \}
 \]</span></p>
@@ -128,7 +128,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       &amp;= 265
   \end{aligned}
 \]</span></p>
-<p>In any case, the important thing to note is that we replace any occurrence of <span class="math inline">\(n^2\)</span> for any <span class="math inline">\(n\)</span> using the defining equation. In general, if we define a function <span class="math inline">\(f\)</span> by the equation <span class="math inline">\(f(x) = E\)</span>, where <span class="math inline">\(E\)</span> is some mathematical expression (potentially containing <span class="math inline">\(x\)</span>), then we use (apply) this function by replacing any occurrence of <span class="math inline">\(f(y)\)</span> by <span class="math inline">\(E[x := D]\)</span>, that is the expression <span class="math inline">\(E\)</span> where all occurrences of <span class="math inline">\(x\)</span> are replaced by <span class="math inline">\(D\)</span>. This is called <em>substitution</em> of a variable <span class="math inline">\(x\)</span> in an expression <span class="math inline">\(E\)</span> for another expression <span class="math inline">\(D\)</span>. E.g., if</p>
+<p>In any case, the important thing to note is that we replace any occurrence of <span class="math inline">\(n^2\)</span> for any <span class="math inline">\(n\)</span> using the defining equation. In general, if we define a function <span class="math inline">\(f\)</span> by the equation <span class="math inline">\(f(x) = E\)</span>, where <span class="math inline">\(E\)</span> is some mathematical expression (potentially containing <span class="math inline">\(x\)</span>), then we use (apply) this function by replacing any occurrence of <span class="math inline">\(f(D)\)</span> (where <span class="math inline">\(D\)</span> is a mathematical expression) by <span class="math inline">\(E[x := D]\)</span>, that is the expression <span class="math inline">\(E\)</span> where all occurrences of <span class="math inline">\(x\)</span> are replaced by <span class="math inline">\(D\)</span>. This is called <em>substitution</em> of a variable <span class="math inline">\(x\)</span> in an expression <span class="math inline">\(E\)</span> for another expression <span class="math inline">\(D\)</span>. E.g., if</p>
 <p><span class="math display">\[
   f(x) = x + x
 \]</span></p>
@@ -146,10 +146,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>replace any occurrence of <span class="math inline">\(f\)</span> applied to an argument with an instance of <span class="math inline">\(E\)</span> where <span class="math inline">\(x\)</span> is replaced with the argument expression.</li>
 </ol>
 <p>We can do this without inventing names, by using functions as anonymous objects – just like we easily use numbers or strings or arrays. In mathematics an anonymous function will be written as <span class="math inline">\(x \mapsto E\)</span>. For example, the square function is <span class="math inline">\(x \mapsto x \times x\)</span>, the above function <span class="math inline">\(f\)</span> is <span class="math inline">\(x \mapsto x + x\)</span>.</p>
-<p>The above exposition applies to programming too. Basically all sensible programming languages allow us to define functions to abstract a computation by replacing a concrete expression with a variable – a place-holder. In Python we might write:</p>
+<p>The above exposition applies to programming too. Basically, all sensible “higher-level” programming languages allow us to define functions to abstract a computation by replacing a concrete expression with a variable – a placeholder. In Python we might write:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">def</span> square(x):</span>
 <span id="cb1-2"><a href="#cb1-2"></a>  <span class="cf">return</span> x <span class="op">*</span> x</span></code></pre></div>
-<p>In C:</p>
+<p>In C/C++:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1"></a><span class="dt">int</span> square(<span class="dt">int</span> x) {</span>
 <span id="cb2-2"><a href="#cb2-2"></a>  <span class="cf">return</span> x * x; </span>
 <span id="cb2-3"><a href="#cb2-3"></a>}</span></code></pre></div>
@@ -159,7 +159,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>In Scheme:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode scheme"><code class="sourceCode scheme"><span id="cb4-1"><a href="#cb4-1"></a>(<span class="ex">define</span><span class="fu"> </span>(square x)</span>
 <span id="cb4-2"><a href="#cb4-2"></a>  (* x x))</span></code></pre></div>
-<p>In any programming language we operate with the understanding that whenever <code>square</code> is invoked with an argument, that occurrence might as well be replaced with the body of the function (either before or after evaluating the argument). More and more programming languages, particularly those which allow passing functions as arguments, allow creating functions without naming them – so called anonymous functions. Python and Scheme have <code>lambda</code>:</p>
+<p>In any programming language we operate with the rough understanding that whenever <code>square</code> is invoked with an argument, that application might as well be replaced with the body of the function with the argument variable replaced with the actual argument (either before or after evaluating the argument itself). More and more programming languages, particularly those which allow passing functions as arguments, allow creating functions without naming them – so called anonymous functions. Python and Scheme have <code>lambda</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">lambda</span> x : x <span class="op">*</span> x</span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="sourceCode scheme"><code class="sourceCode scheme"><span id="cb6-1"><a href="#cb6-1"></a>(<span class="kw">lambda</span> (x) (* x x))</span></code></pre></div>
 <p>OCaml has <code>fun</code> or <code>function</code>:</p>
@@ -168,10 +168,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1"></a>\x <span class="ot">-&gt;</span> x <span class="op">*</span> x</span></code></pre></div>
 <p>C++ has, well…</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb9-1"><a href="#cb9-1"></a>[](<span class="dt">int</span> x){ <span class="cf">return</span> x * x; }</span></code></pre></div>
-<p>As hinted by the Scheme and Python examples, Lambda calculus is the underlying theory behind these anonymous expressions. In its pure form, it is concerned with what it means to apply an abstracted expression (as an anonymous function) to an argument. It studies this as a purely syntactic operation.</p>
+<p>As hinted by the Scheme and Python examples, Lambda calculus is the underlying theory behind these anonymous functions. In its pure form, it is exclusively concerned with what it means to apply an abstracted expression (as an anonymous function), to an argument. It studies this as a purely syntactic operation.</p>
 <p>Where Python and Scheme have <code>lambda</code>, OCaml has <code>fun</code> and <code>function</code>, Lambda calculus has <span class="math inline">\(\lambda\)</span>. That is an anonymous function with the formal parameter <span class="math inline">\(x\)</span> is constructed using <span class="math inline">\(\lambda x...\)</span> We can write the squaring function in lambda notation as</p>
 <p><span class="math display">\[\lambda x.\ x \times x\]</span></p>
-<p>We say that this is a <em>lambda abstraction</em> that <em>binds</em> the variable <span class="math inline">\(x\)</span> in <span class="math inline">\(x \times x\)</span>. In other words, <span class="math inline">\(x\)</span> is bound in $x x.. An application is written (similarly to Scheme, OCaml, or Haskell) as by writing the function and argument next to each other (juxtaposition). For example, where in Scheme we could write</p>
+<p>We say that this is a <em>lambda abstraction</em> that <em>binds</em> the variable <span class="math inline">\(x\)</span> in <span class="math inline">\(x \times x\)</span>. In other words, <span class="math inline">\(x\)</span> is bound in <span class="math inline">\(x \times x\)</span>. An application is written (similarly to Scheme, OCaml, or Haskell) by writing the function and argument next to each other (juxtaposition). For example, where in Scheme we could write</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode scheme"><code class="sourceCode scheme"><span id="cb10-1"><a href="#cb10-1"></a>((<span class="kw">lambda</span> (x) (* x x)) <span class="dv">10</span>)</span></code></pre></div>
 <p>and in Haskell</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1"></a>(\x <span class="ot">-&gt;</span> x <span class="op">*</span> x) <span class="dv">10</span></span></code></pre></div>
@@ -193,7 +193,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     = \boxed{10} \times \boxed{10}
 \]</span></p>
 <h2 id="pure-lambda-calculus">Pure Lambda Calculus</h2>
-<p>Here we will look at the formal theory of pure Lambda Calculus. We will look at the syntax and a notion of computation.</p>
+<p>Here, we will look at the formal theory of pure Lambda Calculus. We will look at the syntax and a notion of computation.</p>
 <h3 id="syntax">Syntax</h3>
 <p>The basic syntax of the calculus is really simple:</p>
 <pre><code>  &lt;Lambda&gt; ::= &lt;Variable&gt;
