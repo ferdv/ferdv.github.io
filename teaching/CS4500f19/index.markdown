@@ -53,15 +53,18 @@ it assumes you have been out to one co-op.
  
 ## Lectures
 
-  |     |           |               |               |
-  |-----|-----------|---------------|---------------|
-  |     | 1. Introduction, Overview of Software development | [Slides](./m/01/01-intro-overview.pdf) | [Matthias' notes](./m/01/matthias-01.html) |
-  |     | 2. Software Development Process | [Slides](./m/02/02-software-development-process.pdf) | [Matthias' notes](./m/02/matthias-02.html) |
-  |     | 3. Quick Overview of UML | [Slides](./m/03/03-uml.pdf) | |
-  |     | 4. Good Code. Naming Principles | [Slides](./m/04/04-good-code-names.pdf) | |
-  |     | 5. Code, pt. 2 | [Slides](./m/05/05-code-pt-2.pdf) | |
-  |     | 6. Objects, Structures, Interfaces | [Slides](./m/06/06-objects-structures-interfaces.pdf) | |
-  |     | 7. Software Architectures / netcat & telnet, protocol diagrams  | [Slides](./m/07/07-software-architectures.pdf) | |
+  |       |           |               |               |
+  |-------|-----------|---------------|---------------|
+  |       | 1. Introduction, Overview of Software development | [Slides](./m/01/01-intro-overview.pdf) | [Matthias' notes](./m/01/matthias-01.html) |
+  |       | 2. Software Development Process | [Slides](./m/02/02-software-development-process.pdf) | [Matthias' notes](./m/02/matthias-02.html) |
+  |       | 3. Quick Overview of UML | [Slides](./m/03/03-uml.pdf) | |
+  |       | 4. Good Code. Naming Principles | [Slides](./m/04/04-good-code-names.pdf) | |
+  |       | 5. Code, pt. 2 | [Slides](./m/05/05-code-pt-2.pdf) | |
+  |       | 6. Objects, Structures, Interfaces | [Slides](./m/06/06-objects-structures-interfaces.pdf) | |
+  |       | 7. Software Architectures / netcat & telnet, protocol diagrams  | [Slides](./m/07/07-software-architectures.pdf) | |
+  | 10/04 | 8. Unit Testing  | [Slides](./m/08/08-unit-testing.pdf) | |
+  | 10/08 | 9. Project: Tsuro'  | <!-- [Slides](./m/09/09-project.pdf) --> | |
+  | 10/11 | 10. Design Patterns  | <!-- [Slides](./m/10/10-design-patterns.pdf) --> | |
 
 ## Assignments
   
@@ -74,6 +77,14 @@ it assumes you have been out to one co-op.
     Set: Wednesday 10/02  
     Due: Tuesday 10/08 11:59pm
 
+## Project Assignments
+  * Part 1 
+      - A  
+        Set: Tuesday 10/08  
+        Due: Friday 10/11
+      - B  
+        Set: Wednesday 10/09  
+        Set: Wednesday 10/16
 
 ## Final Code Reviews
 
