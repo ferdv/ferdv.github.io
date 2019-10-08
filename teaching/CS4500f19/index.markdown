@@ -63,7 +63,7 @@ it assumes you have been out to one co-op.
   |       | 6. Objects, Structures, Interfaces | [Slides](./m/06/06-objects-structures-interfaces.pdf) | |
   |       | 7. Software Architectures / netcat & telnet, protocol diagrams  | [Slides](./m/07/07-software-architectures.pdf) | |
   | 10/04 | 8. Unit Testing  | [Slides](./m/08/08-unit-testing.pdf) | |
-  | 10/08 | 9. Project: Tsuro'  | <!-- [Slides](./m/09/09-project.pdf) --> | |
+  | 10/08 | 9. Project: Tsuro'  | [Slides](./m/09/09-project.pdf) | |
   | 10/11 | 10. Design Patterns  | <!-- [Slides](./m/10/10-design-patterns.pdf) --> | |
 
 ## Assignments
@@ -78,13 +78,13 @@ it assumes you have been out to one co-op.
     Due: Tuesday 10/08 11:59pm
 
 ## Project Assignments
-  * Part 1 
-      - A  
+  * [Phase 1 - Analysis, Plan, Tile Design](m/1.pdf) 
+      - Part A - Analysis and Plan  
         Set: Tuesday 10/08  
-        Due: Friday 10/11
-      - B  
+        Due: Friday 10/11 11:59pm
+      - Part B - Tile Design  
         Set: Wednesday 10/09  
-        Set: Wednesday 10/16
+        Due: Wednesday 10/16 11:49
 
 ## Final Code Reviews
 
