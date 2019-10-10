@@ -81,6 +81,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
+  
+  
+  
+  
+  
+  
+  
+  
 </head>
 <body>
 <header id="title-block-header">
@@ -208,12 +216,314 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>You might ask: what can we do with such a minuscule language? Turns out a lot. As proven by A.M. Turing, this pure version of Lambda calculus is equivalent in computational power to Turing Machines!</p>
 <h3 id="beta-reduction">Beta Reduction</h3>
 <h3 id="substitution">Substitution</h3>
-<h3 id="variables-bound-free">Variables: Bound, Free</h3>
+<h3 id="variables-bound-free.-closed-expressions">Variables: Bound, Free. Closed Expressions</h3>
 <h3 id="reduction-strategies">Reduction Strategies</h3>
 <h4 id="full-beta">Full Beta</h4>
 <h4 id="normal-order">Normal Order</h4>
 <h4 id="call-by-name">Call by Name</h4>
 <h4 id="call-by-value">Call by Value</h4>
+<h2 id="programming-in-pure-lambda-calculus">Programming in Pure Lambda Calculus</h2>
+<h3 id="multiple-arguments">Multiple Arguments</h3>
+<p>So far, we have looked at lambda abstractions which only take a single argument. However, unary functions are only a small part of our experience with programming. We use functions with multiple arguments all the time. How do we pass more than one argument to a lambda?</p>
+<p>One approach would be to extend the calculus with a notion of tuples. Perhaps throw in some pattern matching, for good measure:</p>
+<p><span class="math display">\[
+  (\lambda (x, y).\ x\ y)\ (a, b)
+\]</span></p>
+<p>However, this means that we are abandoning the very minimal core lambda calculus with all its simplicity. And we don’t have to! As we know well by now, applying an abstraction simply replaces its bound variable with the argument that it’s applied to, as in this trivial example:</p>
+<p><span class="math display">\[
+  (\lambda x. x\ y)\ b \longrightarrow (x\ y)[x := b] = (b\ y)
+\]</span></p>
+<p>What happens if the abstraction actually just returns another abstraction.</p>
+<p><span class="math display">\[
+\begin{aligned}
+  (\lambda x.\ (\lambda y.\ x\ y))\ b \longrightarrow (\lambda y.\ x\ y)[x := b]
+  = (\lambda y.\ b\ y)
+\end{aligned}
+\]</span></p>
+<p>Since neither of the bound variable of the inner abstraction (<span class="math inline">\(y\)</span>) and the variable we are substituting for (<span class="math inline">\(x\)</span>), nor the bound variable of the inner abstraction (<span class="math inline">\(y\)</span>) and the term we are substituting (<span class="math inline">\(b\)</span>) are in conflict, we simply substitute <span class="math inline">\(x\)</span> for <span class="math inline">\(b\)</span> <em>inside</em> the inner abstraction. This yields an abstraction which can be applied to another argument. That is applying <span class="math inline">\((\lambda x.\ (\lambda y.\ x\ y))\)</span> to <span class="math inline">\(b\)</span> returned an abstraction which is “hungry” for another argument. We can now apply that abstraction to another argument:</p>
+<p><span class="math display">\[
+(\lambda y.\ b\ y)\ a \longrightarrow (b\ y)[y := a] = b\ a
+\]</span></p>
+<p>Let’s do the same in one expression:</p>
+<p><span class="math display">\[
+\begin{aligned}
+  (((\lambda x.\ (\lambda y.\ x\ y))\ b)\ a 
+  &amp;\longrightarrow ((\lambda y.\ x\ y)[x := b])\ a \\
+  &amp;= (\lambda y.\ b\ y)\ a \\
+  &amp;\longrightarrow (b\ y)[y := a]\\
+  &amp;= (b\ a)
+\end{aligned}
+\]</span></p>
+<p>We just applied an abstraction to two arguments. To make this a little easier to see, we can use left-associativity of application and the fact that the scope of a binder goes as far right as possible to rewrite the original expression as</p>
+<p><span class="math display">\[
+  (\lambda x.\ \lambda y.\ x\ y)\ b\ a
+\]</span></p>
+<p>This technique is called <em>currying</em> (after <a href="https://en.wikipedia.org/wiki/Haskell_Curry">Haskell Curry</a>, although he was not the first one to come up with it). It is so common that, usually a short-hand is introduced for abstractions with more than one argument:</p>
+<p><span class="math display">\[
+\begin{aligned}
+  (\lambda x\ y.\ ...) &amp;\equiv (\lambda x.\ \lambda y.\ ...)\\
+  (\lambda x\ y\ z.\ ...) &amp;\equiv (\lambda x.\ \lambda y.\ \lambda z.\ ...)\\
+  \text{etc.}
+\end{aligned}
+\]</span></p>
+<p>If we allow arithmetic in our lambda expressions a nice example will be:</p>
+<p><span class="math display">\[
+\begin{aligned}
+  \left(\lambda x\ y.\ \frac{x + y}{y}\right) 4\ 2 
+  &amp;\longrightarrow \left(\lambda y.\ \frac{4 + y}{y}\right) 2 \\
+  &amp;\longrightarrow \frac{4 + 2}{2}
+\end{aligned}
+\]</span></p>
+<p>Currying is used as the default for functions of multiple arguments by Haskell and OCaml (determined mostly by their standard libraries). On the other hand, Standard ML’s library uses tuples as default.</p>
+<h3 id="data-types">Data types</h3>
+<p>We see that we can represent functions with multiple arguments in PLC. Surely, for representing other kinds of data (such as booleans, numbers, data structures), we need to introduce extensions and add these as primitive operations? Not really…</p>
+<h4 id="booleans">Booleans</h4>
+<p>Many types of values can be represented using <em>Church encodings</em>. Booleans are probably the simplest and most straightforward:</p>
+<p><span class="math display">\[
+\begin{aligned}
+  \mathsf{true} &amp;= \lambda t\ f.\ t &amp;\qquad&amp;(= \lambda t.\ \lambda f.\ t)\\
+  \mathsf{false} &amp;= \lambda t\ f.\ f &amp; &amp;(= \lambda t.\ \lambda f.\ f)\\
+\end{aligned}
+\]</span></p>
+<p>What do these mean? The representation of <span class="math inline">\(\mathsf{true}\)</span> is a function that takes two arguments and returns the first one. On the other hand, <span class="math inline">\(\mathsf{false}\)</span> returns its second argument. To make sense of these, we need to put them to work and see how they work with boolean operations.</p>
+<p>We start with the conditional: <span class="math inline">\(\textsf{if-else}\)</span>. It should take three arguments and return its second one if the first one evaluates to <span class="math inline">\(\textsf{true}\)</span>, and its third argument otherwise. That is we are looking for an expression:</p>
+<p><span class="math display">\[
+  \textsf{if-then}\ \textsf{true}\ x\ y \longrightarrow ... \longrightarrow x
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+  \textsf{if-then}\ \textsf{false}\ x\ y \longrightarrow ... \longrightarrow y
+\]</span></p>
+<p>Notice something?</p>
+<p><span class="math display">\[
+\begin{aligned}
+  \textsf{true}\ x\ y &amp;\longrightarrow x\\
+  \textsf{false}\ x\ y &amp;\longrightarrow y
+\end{aligned}
+\]</span></p>
+<p>That means that all <span class="math inline">\(\textsf{if-then}\)</span> needs to do is to apply its first argument to its second and third argument, since the boolean representation takes care of the selection itself:</p>
+<p><span class="math display">\[
+  \textsf{if-then} = \lambda b\ t\ f.\ b\ t\ f
+\]</span></p>
+<p>What about boolean operations?</p>
+<!--$$
+\begin{aligned}
+  \textsf{and}\ \textsf{true}\ \textsf{true} &\longrightarrow ... \longrightarrow \textsf{true}\\
+  \textsf{and}\ \textsf{false}\ \textsf{true} &\longrightarrow ... \longrightarrow \textsf{false}\\
+  \textsf{and}\ \textsf{true}\ \textsf{false} &\longrightarrow ... \longrightarrow \textsf{false}\\
+  \textsf{and}\ \textsf{false}\ \textsf{false} &\longrightarrow ... \longrightarrow \textsf{false}
+\end{aligned}
+$$-->
+<p>Let’s try to look at conjunction: <code>and</code>. We look for <code>???</code> to put in:</p>
+<pre><code>(λa b. ???) true true   --&gt; ... --&gt; true
+(λa b. ???) true false  --&gt; ... --&gt; false
+(λa b. ???) false true  --&gt; ... --&gt; false
+(λa b. ???) false false --&gt; ... --&gt; false</code></pre>
+<p>First note that <code>true true x --&gt; true</code> for any <span class="math inline">\(x\)</span>, so it seems that <code>λa b. a b x</code> could work if we find an appropriate <span class="math inline">\(x\)</span>:</p>
+<pre><code>(λa b. a b x) true true --&gt; (λb. true b x) true --&gt; true true x --&gt; ... --&gt; true</code></pre>
+<p>Now note that in all but the first case <code>and</code> should reduce to <code>false</code>. In the second case,</p>
+<pre><code>(λa b. a b x) true false --&gt; ... --&gt; true false x --&gt; ... --&gt; false</code></pre>
+<p>for any <span class="math inline">\(x\)</span>, so that still works. Now, how can we get <code>false true x --&gt; false</code>? By taking <span class="math inline">\(x\)</span> to be <code>false</code>:</p>
+<pre><code>(λa b. a b false) false true --&gt; ... --&gt; false true false --&gt; ... --&gt; false</code></pre>
+<p>The final case also works:</p>
+<pre><code>(λa b. a b false) false false --&gt; ... --&gt; false false false --&gt; ... --&gt; false</code></pre>
+<p>Hence <span class="math display">\[
+  \textsf{and} = \lambda a\ b.\ a\ b\ \textsf{false}
+\]</span></p>
+<p>Another way of thinking about the definition of <code>and</code> is to define it terms of if-then-else. E.g., in Haskell,</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">and</span><span class="ot"> ::</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb18-2"><a href="#cb18-2"></a><span class="fu">and</span> a b <span class="ot">=</span> <span class="kw">if</span> a <span class="kw">then</span> b <span class="kw">else</span> <span class="dt">False</span></span></code></pre></div>
+<p>which just says that if the first argument is true then the result of <code class="sourceCode haskell"><span class="fu">and</span></code> depends on the second one, and if its false the result will be false regardless of the second argument.</p>
+<p>Based on this, we can express the and operation using <code>if-else</code>, which we defined above, and show that it is equivalent to the previous definition by simplifying it using normal order reduction:</p>
+<pre><code>and =   λa b. if-else a b false
+    =   λa b. (λb t f. b t f) a b false
+    --&gt; λa b. (λt f. a t f) b false
+    --&gt; λa b. (λt. a b) false
+    --&gt; λa b. a b false</code></pre>
+<p>Can you come up with a representation of <span class="math inline">\(\textsf{or}\)</span>? <span class="math inline">\(\textsf{not}\)</span>?</p>
+<h4 id="natural-numbers-church-numerals">Natural Numbers: Church Numerals</h4>
+<p>Natural numbers are Church-encoded as Church numerals:</p>
+<pre><code>zero = λs z. z
+one = λs z. s z
+two = λs z. s (s z)
+three = λs z. s (s (s z))
+...</code></pre>
+<p>A numeral for <span class="math inline">\(n\)</span> can be understood as a function that takes some representation of a successor function and some representation of zero and applies the successor to zero <span class="math inline">\(n\)</span> times.</p>
+<p>How about operations on numerals? The successor of a numeral <code>λs z...</code> is computed by inserting one more application of <code>s</code> inside of the abstraction:</p>
+<pre><code>succ (λs z. z) --&gt; ... --&gt; λs z. s z
+succ (λs z. s z) --&gt; ... --&gt; λs z. s (s z)
+succ (λs z. s (s z)) --&gt; ... --&gt; λs z. s (s (s z))
+...</code></pre>
+<p>We know that <code>succ</code> takes a numeral (which is an abstraction) and returns another numeral, which is again an abstraction:</p>
+<pre><code>succ = λn. (λs z. ...n...)</code></pre>
+<p>Taking <code>λs z. z</code> as an example input:</p>
+<pre><code>(λn. (λs z. ...n...)) (λs z. z) 
+  --&gt; (λs z. ...(λs z. z)...)) 
+  --&gt; (λs z. s z)</code></pre>
+<p>We see that we need to apply an extra <code>s</code> <em>under</em> <code>λs z.</code>:</p>
+<pre><code>(λs z. s ...(λs z. z)...) --&gt; ... --&gt; (λs z. s z)</code></pre>
+<p>To do this we need to “open” the abstraction representing 0. This can be achieved by passing the outer <code>s</code> and <code>z</code> as arguments. We achieve what we wanted.</p>
+<pre><code>(λs z. s ...(λs z. z) s z...) --&gt; (λs z. s ...z...) = (λs z. s z)</code></pre>
+<p>Working backwards, we arrive at our successor function:</p>
+<pre><code>(λs z. s z) 
+  &lt;-- (λs z. s ((λs z. z) s z)) 
+  &lt;-- (λn. λs z. s (n s z)) (λs z. z)
+  = succ (λs z. z)</code></pre>
+<p>Successor can be thus defined as:</p>
+<pre><code>succ = λn. (λs z. s (n s z)) = λn s z. s (n s z)</code></pre>
+<p>Once we have a successor operation, defining addition is quite simple if we keep in mind that a Church numeral <span class="math inline">\(m\)</span> applies its first argument (<code>s</code>) to its second argument (<code>z</code>) <span class="math inline">\(m\)</span> times:</p>
+<pre><code>plus = λm n. m succ n</code></pre>
+<!--```
+plus = λm n. (λs z. m s (n s z))
+```-->
+<!--To understand this:
+- `m` and `n` are functions that apply their first argument (`s`) to their second argument (`z`) $m$ and $n$ times
+- Thus `n s z` applies `s` to `z` $n$ times
+- Then the result of that is taken and `s` is applied to it $m$ times-->
+<p>Multiplication follows the same principle:</p>
+<p><span class="math display">\[
+m * n = \underbrace{n + (... n}_{m \text{ times}} + 0)
+\]</span></p>
+<p>Hence:</p>
+<pre><code>times = λm n. m (plus n) zero</code></pre>
+<p>We can have subtraction via a predecessor function, which is quite a tricky one:</p>
+<pre><code>pred = λn f x. n (λg h. h (g f)) (λu. x) (λu. u)
+minus = λm n. (n pred) m</code></pre>
+<p>We can check if a variable is zero:</p>
+<pre><code>is-zero = λn.n (λx. false) true</code></pre>
+<p>We can define <span class="math inline">\(\leq\)</span></p>
+<pre><code>leq = λm n. is-zero (minus m n)</code></pre>
+<p>And we can define equality:</p>
+<pre><code>equal = λm n. and (leq m n) (leq n m)</code></pre>
+<h4 id="pairs">Pairs</h4>
+<p>Pairs can be encoded using an abstraction which “stores” its two arguments:</p>
+<pre><code>pair = λl r s. s l r</code></pre>
+<p>You can think of a <code>s</code> as a “chooser” function which either picks <code>l</code> or <code>r</code>. Selectors for the first and second element are then, respectively, defined as:</p>
+<pre><code>fst = λp. p (λl r. l)
+snd = λp. p (λl r. r)</code></pre>
+<p>Take a look at the selector functions we pass to the pair representation. Are they familiar? (Hint: booleans)</p>
+<h3 id="recursion">Recursion</h3>
+<p>We have seen that we can define booleans, together with a conditional, and numbers, together with arithmetic operations in pure lambda calculus. However, to reach full Turing power, we lack one important ingredient: the ability to loop. To loop in a functional setting, we need the little brother of looping: self-reference.</p>
+<p>To see that we can loop, let us look at a term, for which <span class="math inline">\(\beta\)</span>-reduction never terminates in a normal form. This interesting term, called <span class="math inline">\(\Omega\)</span>, is defined as follows:</p>
+<pre><code>Ω = (λx. x x) (λx. x x)</code></pre>
+<p>We see that we have an abstraction which applies its argument to itself and which is applied to itself. How does reduction proceed?</p>
+<pre><code>(λx. x x) (λx. x x) --&gt; (x x)[x := (λx. x x)] 
+  = (λx. x x) (λx. x x) --&gt; (x x)[x := (λx. x x)] 
+  = (λx. x x) (λx. x x) --&gt; (x x)[x := (λx. x x)] 
+  ...</code></pre>
+<p>Immediately after the first reduction step, we are back where we started! Well, we see we can loop forever (diverge), but how is this useful?</p>
+<p>In a programming language like OCaml, we are used to defining recursive functions which refer to themselves inside of their body:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span id="cb38-1"><a href="#cb38-1"></a><span class="kw">let</span> <span class="kw">rec</span> fact = <span class="kw">fun</span> n -&gt; </span>
+<span id="cb38-2"><a href="#cb38-2"></a>  <span class="kw">if</span> n = <span class="dv">0</span> <span class="kw">then</span> <span class="dv">1</span> <span class="kw">else</span> n * fact (n - <span class="dv">1</span>)</span></code></pre></div>
+<p>How do we achieve this in lambda? While we have been freely using equations to define names for lambda expressions, these were just meta-definitions of names. That is, when we write</p>
+<pre><code>fact = λn. if-true (is-zero n) one (mult n (?fact? (pred n)))</code></pre>
+<p>we rely on our meta-language and our common understanding of it to replace any occurrence of <code>?fact?</code> with the right-hand side of the above equation, as many times as needed. But this is not beta-reduction, that is we are not defining a recursive function as an object in lambda calculus. To get there, we can think of a recursive definition as follows: “Assuming we have a function to call in the recursive case, we can complete the definition”. In Haskell or OCaml, we can simply assume that we already have the function that we are defining. But what is really going on here, is that we can abstract the recursive call as an argument – which corresponds to saying “assuming we already have a function to call in the recursive case”:</p>
+<pre><code>fact = λf. λn. if-true (is-zero n) one (mult n (f (pred n)))</code></pre>
+<p>Now factorial does not refer to itself anymore, we just need to give it a function to call in the else branch. Easy:</p>
+<pre><code>fact = (λf. λn. if-true (is-zero n) one (mult n (f (pred n)))) (λn. if-true (is-zero n) one (mult n (f (pred n))))</code></pre>
+<p>Wait, but now what about <code>f</code> in the second case? Ah, no problem:</p>
+<pre><code>fact = (λf. λn. if-true (is-zero n) one (mult n (f (pred n)))) 
+          ((λf. λn. if-true (is-zero n) one (mult n (f (pred n))))
+            (λn. if-true (is-zero n) one (mult n (f (pred n))))) </code></pre>
+<p>This apparently won’t work… unless we have a way of supplying an argument for <code>f</code> as many times as it’s needed. That is, a way to allow the function reference itself whenever it needs to. This is where <em>fixpoint combinators</em> come in.</p>
+<p>In math, a fixed point of a function <span class="math inline">\(f\)</span> is an input for which the function returns the input itself:</p>
+<p><span class="math display">\[
+f(x) = x
+\]</span></p>
+<p>If the above holds, we say that <span class="math inline">\(x\)</span> is a fixed point of <span class="math inline">\(f\)</span>. A fixpoint combinator (in general called <span class="math inline">\(\operatorname{fix}\)</span>) is an operation that computes the fixed point of a function. That is, it is a function for which the following equation holds:</p>
+<pre><code>fix f = f (fix f)</code></pre>
+<p>This equation just spells out that when a function is applied to its fixpoint, the fixpoint shall be returned. Let’s use the above equation on itself, by replacing occurrences of <code>fix f</code> with the right-hand side:</p>
+<pre><code>fix f = f (fix f)
+      = f (f (fix f))
+      = f (f (f (fix f)))
+      = ...</code></pre>
+<p>Now glance above: “If only we had a way of supplying an argument for <code>f</code> as many times as it’s needed.” Seems we are onto something. Let’s replace <code>f</code> with our factorial:</p>
+<pre><code>fact = λf. λn. if-true (is-zero n) one (mult n (f (pred n)))
+ 
+fix fact
+  =   fact (fix fact)
+  =   (λf. λn. if-true (is-zero n) one (mult n (f (pred n)))) (fix fact)
+  --&gt; (λn. if-true (is-zero n) one (mult n ((fix fact) (pred n))))</code></pre>
+<p>This looks promising. The problem? We haven’t <em>defined</em> what <code>fix</code> is, we are just abusing our meta-notation again. In fact, there is more than one possible definition of <code>fix</code>. The simplest one is the <em>Y</em> combinator:</p>
+<pre><code>Y = λf. (λx. f (x x)) (λx. f (x x))</code></pre>
+<p>Notice how the structure is very similar to <span class="math inline">\(\Omega\)</span> above. We should check if it is a fixpoint combinator, that is, if it satisfies the fixpoint equation:</p>
+<pre><code>Y g = (λf. (λx. f (x x)) (λx. f (x x))) g
+    = (λx. g (x x)) (λx. g (x x)))
+    = g ((λx. g (x x)) (λx. g (x x)))
+    = g ((λf. ((λx. f (x x)) (λx. f (x x)))) g)
+    = g (Y g)</code></pre>
+<p>We have ourselves a fixpoint combinator. Let us try to use it to define our factorial function:</p>
+<pre><code>fact0 = (λf. λn. if-true (is-zero n) one (mult n (f (pred n))))
+fact = Y fact0</code></pre>
+<p>What happens when we try to apply a factorial to a numeral?</p>
+<pre><code>fact three 
+  =   Y fact0 three
+  =   (λf. (λx. f (x x)) (λx. f (x x))) fact0 three
+  --&gt; (λx. fact0 (x x)) (λx. fact0 (x x)) three
+  --&gt; fact0 ((λx. fact0 (x x)) (λx. fact0 (x x))) three
+  =   fact0 (Y fact0) three
+  --&gt; (λn. if-true (is-zero n) one (mult n ((Y fact0) (pred n)))) three
+  --&gt; if-true (is-zero three) one (mult three ((Y fact0) (pred three)))
+  --&gt; ...
+  --&gt; mult three ((Y fact0) (pred three))
+  =   mult three (fact0 (Y fact0) (pred three))
+  --&gt; ...
+  --&gt; mult three (fact0 (Y fact0) (if-true (is-zero (pred three)) one (mult (pred three) ((Y fact0) (pred (pred three)))))
+  ...</code></pre>
+<p>Consider what happens with the <span class="math inline">\(Y\)</span> combinator, if we apply the CBV strategy.</p>
+<pre><code>Y g =   (λf. (λx. f (x x)) (λx. f (x x))) g
+    --&gt; (λx. g (x x)) (λx. g (x x))
+    --&gt; g ((λx. g (x x)) (λx. g (x x)))
+    --&gt; g (g (λx. g (x x)) (λx. g (x x)))
+    --&gt; g (g (g (λx. g (x x)) (λx. g (x x))))
+    --&gt; ...</code></pre>
+<p>For CBV, we need the Z combinator:</p>
+<pre><code>λf. (λx. f (λy. x x y)) (λx. f (λy. x x y))</code></pre>
+<h4 id="let-bindings">Let bindings</h4>
+<p>The last useful notation to introduce are let-bindings. We have already implemented them as part of our arithmetic expressions language – both as a substitution-based and environment-based evaluator. Let bindings can be introduced to pure lambda-calculus as <em>syntactic sugar</em> – a construct that is defined by translation to a combination of other constructs in the language. Introducing a let-binging corresponds to creating a λ-abstraction and immediately applying it to the bound expression:</p>
+<pre><code>let x = e1 in e2 ≡ (λx. e2) e1</code></pre>
+<p>We have to define <code>let</code> as syntactic sugar – we cannot write it as a function, the way we did for <code>if-then</code>, <code>add</code>, etc. Why is that the case?</p>
+<p>We can also define a recursive version of let – called <code class="sourceCode ocaml"><span class="kw">let</span> <span class="kw">rec</span></code> in OCaml, <code class="sourceCode scheme"><span class="kw">letrec</span></code> in Scheme:</p>
+<pre><code>let rec f = e1 in e2 ≡ let f = fix (λf. e1) in e2
+                     ≡ (λf. e2) (fix (λf. e1))
+  </code></pre>
+<p>Where <code>fix</code> is an appropriate fixpoint combinator (e.g., <span class="math inline">\(Y\)</span> under CBN, <span class="math inline">\(Z\)</span> under CBV and CBN).</p>
+<h2 id="extensions">Extensions</h2>
+<p>While it is useful to show how various important programming concepts and constructs can be expressed in pure lambda-calculus directly, in general, it is a rather inefficient approach.</p>
+<p>The approach usually taken in designing lambda-calculus-based languages, is to take the calculus as a <em>core</em> language and add extensions to support various kinds of data.</p>
+<h4 id="pairs-1">Pairs</h4>
+<pre><code>&lt;Lambda&gt; ::= &lt;Variable&gt;
+           | (&lt;Lambda&gt; &lt;Lambda&gt;)
+           | (λ &lt;Variable&gt; . &lt;Lambda&gt;)
+           | ( &lt;Lambda&gt; , &lt;Lambda&gt; )
+           | fst &lt;Lambda&gt;
+           | snd &lt;Lambda&gt;</code></pre>
+<p>Often just written informally as an extension of a previous BNF:</p>
+<pre><code>&lt;Lambda&gt; ::= ...
+           | ( &lt;Lambda&gt; , &lt;Lambda&gt; )
+           | fst &lt;Lambda&gt;
+           | snd &lt;Lambda&gt;</code></pre>
+<p>Together with the extension to syntax, we need to specify what the meaning of these new construct is. That is, we need to update the reduction strategy and provide reduction rules for the pairs. For primitive operations, these reduction rules are sometimes called <span class="math inline">\(\delta\)</span>-rules or <span class="math inline">\(\delta\)</span>-reduction rules:</p>
+<pre><code>fst (l, r) --&gt; l
+snd (l, r) --&gt; r</code></pre>
+<!-- #### Lists -->
+<h2 id="reduction-vs.-evaluation">Reduction vs. Evaluation</h2>
+<p>So far, in connection with Lambda calculus, we have only talked about reduction as a transformation of an expression containing redexes into another expression where the redex has been <em>reduced</em>. To actually <em>evaluate</em> a lambda-expression, we can simply iterate the reduction step (with a particular strategy), until we reach a normal form: an expression that cannot be reduced further. Note that some expressions (such as <span class="math inline">\(\Omega\)</span>) do not have a normal form – under any reduction strategy. Formally, an iteration of reduction steps <span class="math inline">\(\longrightarrow\)</span> is written as <span class="math inline">\(\longrightarrow^{*}\)</span>, which stands for “reduces in zero or more steps to”. Mathematically, it is a <em>reflexive-transitive</em> closure of <span class="math inline">\(\longrightarrow\)</span>. In particular:</p>
+<pre><code>M --&gt;* M
+M --&gt;* M&#39; if ∃N. M --&gt; N and N --&gt;* M&#39;</code></pre>
+<p>That is:</p>
+<ul>
+<li>an expression reduces in zero or more steps to itself</li>
+<li>an expression <span class="math inline">\(M\)</span> reduces in zero or more steps to the expression <span class="math inline">\(M&#39;\)</span>, if there is an intermediate expression <span class="math inline">\(N\)</span> and <span class="math inline">\(M\)</span> reduces to <span class="math inline">\(N\)</span> and <span class="math inline">\(N\)</span> reduces in one or more steps to <span class="math inline">\(M&#39;\)</span></li>
+</ul>
+<!-- ### Environment-based Evaluation
+
+### Scoping
+
+### Closures
+
+## De Bruijn Indices
+-->
 <section class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
