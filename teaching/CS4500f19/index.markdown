@@ -64,7 +64,8 @@ it assumes you have been out to one co-op.
   |       | 7. Software Architectures / netcat & telnet, protocol diagrams  | [Slides](./m/07/07-software-architectures.pdf) | |
   | 10/04 | 8. Unit Testing  | [Slides](./m/08/08-unit-testing.pdf) | |
   | 10/08 | 9. Project: Tsuro'  | [Slides](./m/09/09-project.pdf) | |
-  | 10/11 | 10. Design Patterns  | <!-- [Slides](./m/10/10-design-patterns.pdf) --> | |
+  | 10/11 | 10. Design Patterns  | [Slides](./m/10/10-design-patterns.pdf) | |
+  | 10/15 | 11. Integration Testing  | [Slides](./m/11/11-integration-testing.pdf) | |
 
 ## Assignments
   
@@ -85,6 +86,7 @@ it assumes you have been out to one co-op.
       - [Part B - Tile Design](m/1.pdf#part-b-board-and-tile-design)  
         Set: Wednesday 10/09  
         Due: Wednesday 10/16 11:49
+  * [Phase 2 - Rule Checkers & the Game Board](m/2.pdf) 
 
 ## Final Code Reviews
 
