@@ -89,6 +89,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   
   
   
+  
+  
+  
+  
 </head>
 <body>
 <header id="title-block-header">
@@ -205,23 +209,159 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 id="syntax">Syntax</h3>
 <p>The basic syntax of the calculus is really simple:</p>
 <pre><code>  &lt;Lambda&gt; ::= &lt;Variable&gt;
-             | (&lt;Lambda&gt; &lt;Lambda&gt;)
-             | (λ &lt;Variable&gt; . &lt;Lambda&gt;)</code></pre>
+             | ( &lt;Lambda&gt; &lt;Lambda&gt; )
+             | ( λ &lt;Variable&gt; . &lt;Lambda&gt; )</code></pre>
 <p>That is all there really is:<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 <ul>
 <li>variable reference, e.g. <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span>, <span class="math inline">\(z\)</span>, <span class="math inline">\(a\)</span>, <span class="math inline">\(\mathit{square}\)</span></li>
-<li>application, e.g., <span class="math inline">\((x\ y)\)</span>, <span class="math inline">\((\lambda x.\ x)\ (\lambda x.\ x)\)</span></li>
-<li>lambda abstraction, e.g., <span class="math inline">\((\lambda x.\ x\ x)\)</span></li>
+<li>application, e.g., <span class="math inline">\((x\ y)\)</span>, <span class="math inline">\(((\lambda x.\ x)\ (\lambda x.\ x))\)</span></li>
+<li>lambda abstraction, e.g.,
+<ul>
+<li><span class="math inline">\((\lambda x.\ x)\)</span> – expressing the identity function</li>
+<li><span class="math inline">\((\lambda x.\ x\ x)\)</span> – a function that applies its argument to itself</li>
+</ul></li>
 </ul>
-<p>You might ask: what can we do with such a minuscule language? Turns out a lot. As proven by A.M. Turing, this pure version of Lambda calculus is equivalent in computational power to Turing Machines!</p>
+<p>You might ask: what can we do with such a minuscule language? Turns out a lot. As proven by A.M. Turing, this pure version of Lambda calculus is equivalent in computational power to Turing Machines. That means we are able to build up a programming language out of these three constructs. We will look at how to do that in the section on <a href="#programming-in-pure-lambda-calculus">Programming in Pure Lambda Calculus</a> below.</p>
+<h4 id="syntax-conventions-and-terminology">Syntax Conventions and Terminology</h4>
+<p>Terminology: Take a lambda abstraction:</p>
+<p><span class="math display">\[
+  (\lambda x.\ N)
+\]</span></p>
+<ol type="1">
+<li><span class="math inline">\(\lambda x\)</span> is a <em>binder</em> binding <span class="math inline">\(x\)</span></li>
+<li><span class="math inline">\(N\)</span> is the <em>body</em> of the abstraction</li>
+</ol>
+<p>To avoid writing too many parentheses, these conventions are usually taken for granted:</p>
+<ol type="1">
+<li>Outermost parentheses are usually dropped: <code>x x</code>, <code>λx. x</code>.</li>
+<li>Application <em>associates to the left</em>. That is, <code>(((a b) c) d)</code> is the same as <code>((a b c) d)</code> is the same as <code>(a b c d)</code>, which is the same as <code>a b c d</code> (see previous rule).</li>
+<li>Lambda abstraction bodies extend as far to the right as possible. That is, <code>(λa. (λb. ((a b) c)))</code> is the same as <code>λa. λb a b c</code>.</li>
+</ol>
 <h3 id="beta-reduction">Beta Reduction</h3>
-<h3 id="substitution">Substitution</h3>
+<p>Computation in pure lambda calculus is expressed in a single rule: the <span class="math inline">\(\beta\)</span>-reduction rule:</p>
+<p><span class="math display">\[
+  (\lambda x.\ M)\ N \longrightarrow_\beta M[x := N]
+\]</span></p>
+<p>The long arrow stands for “reduces to”. On the left-hand side, we have an application of a lambda abstraction to an arbitrary term. On the right-hand side, we substitute the abstraction’s bound variable with the argument. A term that matches the pattern on the left-hand side (that is, a lambda abstraction applied to something) is called a <em>redex</em>, short for <em>reducible expression</em>. For example:</p>
+<ul>
+<li><code>(λx. x) a --&gt;β a</code></li>
+<li><code>(λx. x x) (λy. y) --&gt;β (λy. y) (λy. y)</code></li>
+<li>the above reduces further: <code>(λy. y) (λy. y) --&gt;β (λy. y)</code></li>
+<li>not a redex: <code>(x x)</code></li>
+<li>also not a redex: <code>x (λy. y)</code></li>
+<li>also not a redex: <code>(λy. (λx. x) y)</code>, although it does contain a redex <code>((λx. x) y)</code></li>
+</ul>
 <h3 id="variables-bound-free.-closed-expressions">Variables: Bound, Free. Closed Expressions</h3>
+<p>We have already mentioned the notion of a bound variable. A variable is said to be <em>bound</em> in an expression, if it appears under a λ-abstraction binding that particular variable. Or, in other words, it is bound if it appears in the scope of a binder. For example:</p>
+<ul>
+<li><code>x</code> is bound in <code>(λx. x x)</code> – it appears in the scope of the binder <code>λx</code></li>
+<li>both <code>x</code> and <code>y</code> are bound in <code>(λx. λy. x y)</code> – <code>x</code> appears in the scope of <code>λx</code>, <code>y</code> in the scope of <code>λy</code></li>
+<li><code>x</code> is <em>not</em> bound in <code>(λy. x y)</code>, but <code>y</code> is – <code>x</code> does not appear in the scope of any binder here, while <code>y</code> appears in the scope of <code>λy</code></li>
+</ul>
+<p>A <em>free</em> variable is one which appears in a position where it is not bound. For example:</p>
+<ul>
+<li><code>x</code> is free in <code>x x</code>, in <code>λy. x y</code>, or in <code>(λy. y y) x</code></li>
+<li><code>x</code> is <em>not</em> free in <code>(λx. x x) (λx. x)</code></li>
+<li><code>x</code> is <em>both</em> bound and free in <code>(λx. x y) x</code>, while <code>y</code> is only free</li>
+</ul>
+<p>As you can see above, a variable might be both bound and free in an a expression.</p>
+<p>An expression which contains no free variables is <em>closed</em>, for example:</p>
+<ul>
+<li><code>λx. x</code></li>
+<li><code>λx. λy. x y x</code></li>
+</ul>
+<p>A closed lambda expression is also called a <em>combinator</em>.</p>
+<p>A variable is called <em>fresh</em> for an expression, if it does not appear free in that expression. For example, <code>x</code> is fresh for <code>y z</code> or <code>(λx. x x)</code>.</p>
+<h3 id="names-of-bound-variables-dont-matter">Names of Bound Variables Don’t Matter</h3>
+<p>Intuitively, an identity function should be an identity function, no matter what we choose to name its bound variable. That is, <code>(λx. x)</code> should be considered the same as <code>(λy. y)</code> or <code>(λz. z)</code>. This is captured in the notion of alpha equivalence: two expressions are <em>α-equivalent</em>, if they only differ in the names of their bound variables. This also means, that we are free to <em>α-convert</em> any lambda term by consistently renaming bound variables. However, the new names must differ from free variables under the particular binder. We are thus free to convert <code>(λx. x)</code> to, e.g., <code>(λa. a)</code>; <code>(λy. z y)</code> to <code>(λx. z x)</code>, but not to <code>(λz. z z)</code>.</p>
+<h3 id="substitution">Substitution</h3>
+<p>We were happy to use substitution in an informal manner up until now:</p>
+<blockquote>
+<p><span class="math inline">\(M[x := N]\)</span> means replacing occurrences of the variable <span class="math inline">\(x\)</span> in the expression <span class="math inline">\(M\)</span> with the expression <span class="math inline">\(N\)</span>.</p>
+</blockquote>
+<p>Here we want to pin it down. For that, we will need to consider the difference between bound and free variables. Let’s try to start with a naive definition of substitution.</p>
+<h4 id="naive-substitution">Naive Substitution</h4>
+<p>There are three syntactic forms, we need to consider each form:</p>
+<p>Variable: <code>x[y := N] = ?</code></p>
+<p>Application: <code>(M1 M2)[y := N] = ?</code></p>
+<p>Abstraction: <code>(λx. M)[y := N] = ?</code></p>
+<p>Variables are straightforward: we either find the variable to be substituted or we find a different one:</p>
+<ol type="1">
+<li><p><code>y[y := N] = N</code></p></li>
+<li><p><code>x[y := N] = x</code> if <code>x</code> <span class="math inline">\(\neq\)</span> <code>y</code></p></li>
+</ol>
+<p>Application is also relatively simple – we simply substitute in both left-hand and right-hand side:</p>
+<ol start="3" type="1">
+<li><code>(M1 M2)[y := N] = (M1[y := N] M2[y := N])</code></li>
+</ol>
+<p>Now, for a lambda abstraction we need to consider the variables involved. We certainly don’t want to override the bound variable of a function:</p>
+<ol start="4" type="1">
+<li><code>(λy. M)[y := N] = (λy. M)</code></li>
+</ol>
+<p>The remaining case seems simple enough too:</p>
+<ol start="5" type="1">
+<li><code>(λx. M)[y := N] = (λx. M[y := N])</code> if <code>x</code> <span class="math inline">\(\neq\)</span> <code>y</code></li>
+</ol>
+<p>If we test this substitution everything seems to be okay:</p>
+<pre><code>  (x x)[x := (λy. y)] = (x[x := (λy. y)] x[x := (λy. y)])
+                      = (λy. y) (λy. y)
+
+  ((λx. x y) x)[x := (λy. y)] = (λx. x y)[x := (λy. y)] x[x := (λy. y)]
+                              = (λx. x y) (λy. y)</code></pre>
+<p>However, what happens if the expression that we are substituting contains the bound variable?</p>
+<pre><code>  (λy. x)[x := y] = λy. y</code></pre>
+<p>We see that in this case, we have just “captured” variable <code>y</code> and changed its status from free to bound. This changes the meaning of a variable – whereas the original meaning of <code>y</code> was given by the context of the left-hand side expression, now it is given by the binder <code>λy</code>. In particular, we changed a constant function—which, after the substitution should return a free <code>y</code>, no matter what argument it is applied to—to an identity function, that just returns whatever its argument is.</p>
+<p>From this we see that we need substitution to behave differently when there the expression that we are trying to substitute, contains free variables that clash with variables bound by a lambda-abstraction.</p>
+<h4 id="safe-substitution">Safe Substitution</h4>
+<p>To fix this we can restrict when the last case of our substitution applies:</p>
+<ol start="5" type="1">
+<li><code>(λx. M)[y := N] = (λx. M[y := N])</code> if <code>x</code> <span class="math inline">\(\neq\)</span> <code>y</code> and if <code>x</code> is not free in <code>N</code></li>
+</ol>
+<p>Now our substitution is “safe”. However, this turns it into a partial function – it is left undefined for cases where the bound variable <code>x</code> appears free in <code>N</code>. To go around this, we can make use of alpha-conversion: we consistently rename the bound variable <code>x</code> to one that doesn’t clash with free variables in <code>N</code> or <code>M</code>.</p>
+<ol start="5" type="1">
+<li><code>(λx. M)[y := N] = (λx. M[x := x'][y := N])</code> if <code>x</code> <span class="math inline">\(\neq\)</span> <code>y</code> and <code>x'</code> is fresh for <code>y</code>, <code>N</code> and <code>M</code></li>
+</ol>
+<p>Now substitution is a total function again. For an implementation, we just need to choose how to pick a fresh variable.</p>
 <h3 id="reduction-strategies">Reduction Strategies</h3>
-<h4 id="full-beta">Full Beta</h4>
+<p>Beta reduction tells us how to reduce a redex. The missing piece of the puzzle is how to decide where to look for a redex and apply the beta-reduction rule. This is given by reduction strategies.</p>
+<p>(The following text is taken, with minor modifications, from <em>Types and Programming Languages</em>)</p>
+<h4 id="full-beta-reduction">Full Beta-Reduction</h4>
+<p>Under this strategy, any redex may be reduced at any time. At each step we pick some redex, anywhere inside the term we are evaluating, and reduce it. For example, consider the term:</p>
+<pre><code>(λa. a) ((λb. b) (λz. (λc. c) z))</code></pre>
+<p>This term contains three redexes:</p>
+<ul>
+<li><code>(λa. a) ((λb. b) (λz. (λc. c) z))</code></li>
+<li><code>(λb. b) (λz. (λc. c) z)</code></li>
+<li><code>(λc. c) z</code></li>
+</ul>
+<p>Under full beta-reduction, we might choose, for example, to begin with the innermost redex, then do the one in the middle, then the outermost:</p>
+<p>U+10FC74</p>
+<pre><code>(λa. a) ((λb. b) (λz. (λc. c) z))
+  --&gt; (λa. a) ((λb. b) (λz. z))
+  --&gt; (λa. a) (λz. z)
+  --&gt; λz. z</code></pre>
+<p><code>λz. z</code> cannot be reduced any further and is a <em>normal form</em>.</p>
+<p>Note, that under full beta-reduction, each reduction step can have more than possible one result, depending on which redex is chosen.</p>
 <h4 id="normal-order">Normal Order</h4>
+<p>Under normal order, the leftmost, outermost redex is always reduced first. Our example would be reduced as follows:</p>
+<pre><code>(λa. a) ((λb. b) (λz. (λc. c) z))
+  --&gt; (λb. b) (λz. (λc. c) z)
+  --&gt; λz. (λc. c) z
+  --&gt; λz. z</code></pre>
+<p>Again, <code>λz. z</code> is the normal form and cannot be reduced further.</p>
+<p>Because each redex is chosen in a deterministic manner, each reduction step has one possible result – reduction thus becomes a (partial) function.</p>
 <h4 id="call-by-name">Call by Name</h4>
+<p>Call by name puts more restrictions on which redexes are fair game, and disallows reductions inside abstractions. For our example, we perform the same reduction steps as normal form, but stop short of “going under” the last abstraction.</p>
+<pre><code>(λa. a) ((λb. b) (λz. (λc. c) z))
+  --&gt; (λb. b) (λz. (λc. c) z)
+  --&gt; λz. (λc. c) z</code></pre>
+<p>Haskell uses an optimization of call by name, called call by need or lazy evaluation. Under call by name based strategies, arguments are only evaluated if they are needed.</p>
 <h4 id="call-by-value">Call by Value</h4>
+<p>Under call by value, only outermost redexes are reduced and each redex is only reduce after its right-hand side has been fully reduced to a normal form.</p>
+<pre><code>(λa. a) ((λb. b) (λz. (λc. c) z))
+  --&gt; (λa. a) (λz. (λc. c) z)
+  --&gt; λz. (λc. c) z</code></pre>
+<p>Evaluation strategies based on call by value are used by the majority of languages: an argument expression is evaluated to a value before it is passed into the function as an argument. Such a strategy is also called <em>strict</em>, because it strictly evaluates all arguments, regardless of whether they are used.</p>
 <h2 id="programming-in-pure-lambda-calculus">Programming in Pure Lambda Calculus</h2>
 <h3 id="multiple-arguments">Multiple Arguments</h3>
 <p>So far, we have looked at lambda abstractions which only take a single argument. However, unary functions are only a small part of our experience with programming. We use functions with multiple arguments all the time. How do we pass more than one argument to a lambda?</p>
@@ -331,8 +471,8 @@ $$-->
   \textsf{and} = \lambda a\ b.\ a\ b\ \textsf{false}
 \]</span></p>
 <p>Another way of thinking about the definition of <code>and</code> is to define it terms of if-then-else. E.g., in Haskell,</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">and</span><span class="ot"> ::</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
-<span id="cb18-2"><a href="#cb18-2"></a><span class="fu">and</span> a b <span class="ot">=</span> <span class="kw">if</span> a <span class="kw">then</span> b <span class="kw">else</span> <span class="dt">False</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb25-1"><a href="#cb25-1"></a><span class="fu">and</span><span class="ot"> ::</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb25-2"><a href="#cb25-2"></a><span class="fu">and</span> a b <span class="ot">=</span> <span class="kw">if</span> a <span class="kw">then</span> b <span class="kw">else</span> <span class="dt">False</span></span></code></pre></div>
 <p>which just says that if the first argument is true then the result of <code class="sourceCode haskell"><span class="fu">and</span></code> depends on the second one, and if its false the result will be false regardless of the second argument.</p>
 <p>Based on this, we can express the and operation using <code>if-else</code>, which we defined above, and show that it is equivalent to the previous definition by simplifying it using normal order reduction:</p>
 <pre><code>and =   λa b. if-else a b false
@@ -388,7 +528,7 @@ m * n = \underbrace{n + (... n}_{m \text{ times}} + 0)
 <pre><code>times = λm n. m (plus n) zero</code></pre>
 <p>We can have subtraction via a predecessor function, which is quite a tricky one:</p>
 <pre><code>pred = λn f x. n (λg h. h (g f)) (λu. x) (λu. u)
-minus = λm n. (n pred) m</code></pre>
+minus = λm n. n pred m</code></pre>
 <p>We can check if a variable is zero:</p>
 <pre><code>is-zero = λn.n (λx. false) true</code></pre>
 <p>We can define <span class="math inline">\(\leq\)</span></p>
@@ -413,8 +553,8 @@ snd = λp. p (λl r. r)</code></pre>
   ...</code></pre>
 <p>Immediately after the first reduction step, we are back where we started! Well, we see we can loop forever (diverge), but how is this useful?</p>
 <p>In a programming language like OCaml, we are used to defining recursive functions which refer to themselves inside of their body:</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span id="cb38-1"><a href="#cb38-1"></a><span class="kw">let</span> <span class="kw">rec</span> fact = <span class="kw">fun</span> n -&gt; </span>
-<span id="cb38-2"><a href="#cb38-2"></a>  <span class="kw">if</span> n = <span class="dv">0</span> <span class="kw">then</span> <span class="dv">1</span> <span class="kw">else</span> n * fact (n - <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span id="cb45-1"><a href="#cb45-1"></a><span class="kw">let</span> <span class="kw">rec</span> fact = <span class="kw">fun</span> n -&gt; </span>
+<span id="cb45-2"><a href="#cb45-2"></a>  <span class="kw">if</span> n = <span class="dv">0</span> <span class="kw">then</span> <span class="dv">1</span> <span class="kw">else</span> n * fact (n - <span class="dv">1</span>)</span></code></pre></div>
 <p>How do we achieve this in lambda? While we have been freely using equations to define names for lambda expressions, these were just meta-definitions of names. That is, when we write</p>
 <pre><code>fact = λn. if-true (is-zero n) one (mult n (?fact? (pred n)))</code></pre>
 <p>we rely on our meta-language and our common understanding of it to replace any occurrence of <code>?fact?</code> with the right-hand side of the above equation, as many times as needed. But this is not beta-reduction, that is we are not defining a recursive function as an object in lambda calculus. To get there, we can think of a recursive definition as follows: “Assuming we have a function to call in the recursive case, we can complete the definition”. In Haskell or OCaml, we can simply assume that we already have the function that we are defining. But what is really going on here, is that we can abstract the recursive call as an argument – which corresponds to saying “assuming we already have a function to call in the recursive case”:</p>
@@ -455,7 +595,7 @@ fix fact
 <p>We have ourselves a fixpoint combinator. Let us try to use it to define our factorial function:</p>
 <pre><code>fact0 = (λf. λn. if-true (is-zero n) one (mult n (f (pred n))))
 fact = Y fact0</code></pre>
-<p>What happens when we try to apply a factorial to a numeral?</p>
+<p>What happens when we try to apply <code>fact</code> to a numeral?</p>
 <pre><code>fact three 
   =   Y fact0 three
   =   (λf. (λx. f (x x)) (λx. f (x x))) fact0 three
@@ -470,7 +610,7 @@ fact = Y fact0</code></pre>
   --&gt; ...
   --&gt; mult three (fact0 (Y fact0) (if-true (is-zero (pred three)) one (mult (pred three) ((Y fact0) (pred (pred three)))))
   ...</code></pre>
-<p>Consider what happens with the <span class="math inline">\(Y\)</span> combinator, if we apply the CBV strategy.</p>
+<p>However, the <span class="math inline">\(Y\)</span> combinator is not universally applicable under any reduction strategy. Consider what happens with the <span class="math inline">\(Y\)</span> combinator, if we apply the CBV strategy.</p>
 <pre><code>Y g =   (λf. (λx. f (x x)) (λx. f (x x))) g
     --&gt; (λx. g (x x)) (λx. g (x x))
     --&gt; g ((λx. g (x x)) (λx. g (x x)))
@@ -487,8 +627,7 @@ fact = Y fact0</code></pre>
 <pre><code>let rec f = e1 in e2 ≡ let f = fix (λf. e1) in e2
                      ≡ (λf. e2) (fix (λf. e1))
   </code></pre>
-<p>Where <code>fix</code> is an appropriate fixpoint combinator (e.g., <span class="math inline">\(Y\)</span> under CBN, <span class="math inline">\(Z\)</span> under CBV and CBN).</p>
-<h2 id="extensions">Extensions</h2>
+<p>Where <code>fix</code> is an appropriate fixpoint combinator (e.g., <span class="math inline">\(Y\)</span> under CBN, <span class="math inline">\(Z\)</span> under CBV and CBN). ## Extensions</p>
 <p>While it is useful to show how various important programming concepts and constructs can be expressed in pure lambda-calculus directly, in general, it is a rather inefficient approach.</p>
 <p>The approach usually taken in designing lambda-calculus-based languages, is to take the calculus as a <em>core</em> language and add extensions to support various kinds of data.</p>
 <h4 id="pairs-1">Pairs</h4>
@@ -504,26 +643,35 @@ fact = Y fact0</code></pre>
            | fst &lt;Lambda&gt;
            | snd &lt;Lambda&gt;</code></pre>
 <p>Together with the extension to syntax, we need to specify what the meaning of these new construct is. That is, we need to update the reduction strategy and provide reduction rules for the pairs. For primitive operations, these reduction rules are sometimes called <span class="math inline">\(\delta\)</span>-rules or <span class="math inline">\(\delta\)</span>-reduction rules:</p>
-<pre><code>fst (l, r) --&gt; l
-snd (l, r) --&gt; r</code></pre>
+<pre><code>fst (l, r) --&gt;δ l
+snd (l, r) --&gt;δ r</code></pre>
 <!-- #### Lists -->
 <h2 id="reduction-vs.-evaluation">Reduction vs. Evaluation</h2>
-<p>So far, in connection with Lambda calculus, we have only talked about reduction as a transformation of an expression containing redexes into another expression where the redex has been <em>reduced</em>. To actually <em>evaluate</em> a lambda-expression, we can simply iterate the reduction step (with a particular strategy), until we reach a normal form: an expression that cannot be reduced further. Note that some expressions (such as <span class="math inline">\(\Omega\)</span>) do not have a normal form – under any reduction strategy. Formally, an iteration of reduction steps <span class="math inline">\(\longrightarrow\)</span> is written as <span class="math inline">\(\longrightarrow^{*}\)</span>, which stands for “reduces in zero or more steps to”. Mathematically, it is a <em>reflexive-transitive</em> closure of <span class="math inline">\(\longrightarrow\)</span>. In particular:</p>
-<pre><code>M --&gt;* M
-M --&gt;* M&#39; if ∃N. M --&gt; N and N --&gt;* M&#39;</code></pre>
-<p>That is:</p>
+<h3 id="reducing-to-a-normal-form">Reducing to a Normal Form</h3>
+<p>So far, in connection with Lambda calculus, we have only talked about reduction as a transformation of an expression containing redexes into another expression where the redex has been <em>reduced</em>. To actually <em>evaluate</em> a lambda-expression, we can simply iterate the reduction step (with a particular strategy), until we reach a normal form: an expression that cannot be reduced further. Note that some expressions (such as <span class="math inline">\(\Omega\)</span>) do not have a normal form – under any reduction strategy. Formally, an iteration of reduction steps <span class="math inline">\(\longrightarrow\)</span> is written as <span class="math inline">\(\longrightarrow^{*}\)</span>, which stands for “reduces in zero or more steps to”. Mathematically, it is a <em>reflexive-transitive</em> closure of <span class="math inline">\(\longrightarrow\)</span>. It is defined by the following two rules:</p>
+<ol type="1">
+<li><code>M --&gt;* M</code></li>
+<li><code>M --&gt;* M'</code> there is a <code>N</code>, such that <code>M --&gt; N</code> and <code>N --&gt;* M'</code></li>
+</ol>
+<p>This can be lso expressed as:</p>
 <ul>
 <li>an expression reduces in zero or more steps to itself</li>
 <li>an expression <span class="math inline">\(M\)</span> reduces in zero or more steps to the expression <span class="math inline">\(M&#39;\)</span>, if there is an intermediate expression <span class="math inline">\(N\)</span> and <span class="math inline">\(M\)</span> reduces to <span class="math inline">\(N\)</span> and <span class="math inline">\(N\)</span> reduces in one or more steps to <span class="math inline">\(M&#39;\)</span></li>
 </ul>
-<!-- ### Environment-based Evaluation
-
-### Scoping
-
-### Closures
-
-## De Bruijn Indices
--->
+<p>In Haskell, this is expressed as iteration. Assuming that the one-step reduction function implementing a particular strategy has the type <code class="sourceCode haskell"><span class="dt">Lambda</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Lambda</span></code>, we define an iteration function as:</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb64-1"><a href="#cb64-1"></a><span class="ot">iter ::</span> (a <span class="ot">-&gt;</span> <span class="dt">Maybe</span> a) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a</span>
+<span id="cb64-2"><a href="#cb64-2"></a>iter step e <span class="ot">=</span></span>
+<span id="cb64-3"><a href="#cb64-3"></a>  <span class="kw">case</span> step e <span class="kw">of</span></span>
+<span id="cb64-4"><a href="#cb64-4"></a>       <span class="dt">Just</span> e&#39; <span class="ot">-&gt;</span> iter step e&#39;</span>
+<span id="cb64-5"><a href="#cb64-5"></a>       <span class="dt">Nothing</span> <span class="ot">-&gt;</span> e</span></code></pre></div>
+<p>That is, while we can perform reduction steps on an expression, we do so. If the input expression cannot be reduced (it contains no redex), just return it.</p>
+<p>If we have an implementation of a reduction strategy, say, <code class="sourceCode haskell"><span class="ot">stepNormal ::</span> <span class="dt">Lambda</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Lambda</span></code>, then we can build a “reducer” by passing it as an argument to <code>iter</code>:</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb65-1"><a href="#cb65-1"></a><span class="ot">iterNormal ::</span> <span class="dt">Lambda</span> <span class="ot">-&gt;</span> <span class="dt">Lambda</span></span>
+<span id="cb65-2"><a href="#cb65-2"></a>iterNormal <span class="ot">=</span> iter stepNormal</span></code></pre></div>
+<h3 id="environment-based-evaluation">Environment-based Evaluation</h3>
+<h3 id="scoping">Scoping</h3>
+<h3 id="closures">Closures</h3>
+<h2 id="de-bruijn-indices">De Bruijn Indices</h2>
 <section class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
