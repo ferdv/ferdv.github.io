@@ -16,16 +16,18 @@ We meet on **Tuesdays and Fridays, 1:35-3:15pm** in **[Shillman Hall](https://ww
 ## People
 
 <div style="font-size: 90%;">
-  | Role       | Name                    | Email                    | Office hours     | Location  |
-  |------------|-------------------------|--------------------------|------------------|-----------|
-  | **Instructor** | Ferdinand Vesely        | f.vesely@northeastern    | Wed 2-6pm        | [Nightingale](https://www.northeastern.edu/campusmap/map/qad5.html) 132A
-  | **TAs**        | Ivan Chen               | chen.if@husky            | Mon 12:30-2:30pm | WVH, 3rd floor (by 366) |
-  |            |                         |                          | Thu 1:30-2:30pm  | Snell Library 002       |
-  |            | Sai Sankar Gochhayat    | gochhayat.s@husky        | Tue 4:30-6:30pm  | WVH, 3rd floor (by 366) |
-  |            |                         |                          | Thu 5-6pm        | WVH, 3rd floor (by 366) |
-  |            | Divya Payyadi Venkatesh | payyadivenkatesh.d@husky | 5-7pm            | Hastings 100            |
-  |            |                         |                          | Wed 5-6pm        | Snell Library 002       |
+  | Role           | Name                    | Email                    | Office hours     | Location                |
+  |----------------|-------------------------|--------------------------|------------------|-------------------------|
+  | **Instructor** | Ferdinand Vesely        | f.vesely@northeastern    | Wed 2-6pm        | Nightingale 132A        |
+  | **TAs**        | Ivan Chen               | chen.if@husky            | Mon 1:15-2:30pm  | WVH, 3rd floor (by 366) |
+  |                |                         |                          | Thu 1-2:30pm     | WVH, 3rd floor          |
+  |                | Sai Sankar Gochhayat    | gochhayat.s@husky        | Tue 4:30-6:30pm  | WVH, 3rd floor          |
+  |                |                         |                          | Thu 5-6pm        | WVH, 3rd floor          |
+  |                | Divya Payyadi Venkatesh | payyadivenkatesh.d@husky | 5-7pm            | Hastings 100            |
+  |                |                         |                          | Wed 5-6pm        | Snell Library 002       |
 </div>
+
+[Campus map](https://www.northeastern.edu/campusmap/printable/campusmap.pdf)
 
 ## Course Description
 
@@ -55,17 +57,19 @@ it assumes you have been out to one co-op.
 
   |       |           |               |               |
   |-------|-----------|---------------|---------------|
-  |       | 1. Introduction, Overview of Software development | [Slides](./m/01/01-intro-overview.pdf) | [Matthias' notes](./m/01/matthias-01.html) |
-  |       | 2. Software Development Process | [Slides](./m/02/02-software-development-process.pdf) | [Matthias' notes](./m/02/matthias-02.html) |
-  |       | 3. Quick Overview of UML | [Slides](./m/03/03-uml.pdf) | |
-  |       | 4. Good Code. Naming Principles | [Slides](./m/04/04-good-code-names.pdf) | |
-  |       | 5. Code, pt. 2 | [Slides](./m/05/05-code-pt-2.pdf) | |
-  |       | 6. Objects, Structures, Interfaces | [Slides](./m/06/06-objects-structures-interfaces.pdf) | |
-  |       | 7. Software Architectures / netcat & telnet, protocol diagrams  | [Slides](./m/07/07-software-architectures.pdf) | |
+  | 09/06 | 1. Introduction, Overview of Software development | [Slides](./m/01/01-intro-overview.pdf) | [Matthias' notes](./m/01/matthias-01.html) |
+  | 09/10 | 2. Software Development Process | [Slides](./m/02/02-software-development-process.pdf) | [Matthias' notes](./m/02/matthias-02.html) |
+  | 09/13 | 3. Quick Overview of UML | [Slides](./m/03/03-uml.pdf) | |
+  | 09/17 | 4. Good Code. Naming Principles | [Slides](./m/04/04-good-code-names.pdf) | |
+  | 09/20 | 5. Code, pt. 2 | [Slides](./m/05/05-code-pt-2.pdf) | |
+  | 09/24 | 6. Objects, Structures, Interfaces | [Slides](./m/06/06-objects-structures-interfaces.pdf) | |
+  | 09/27 | 7. Software Architectures / netcat & telnet, protocol diagrams  | [Slides](./m/07/07-software-architectures.pdf) | |
+  | 10/01 | [*No lecture. Group work opportunity*]{style="color: gray;"} | | |
   | 10/04 | 8. Unit Testing  | [Slides](./m/08/08-unit-testing.pdf) | |
   | 10/08 | 9. Project: Tsuro'  | [Slides](./m/09/09-project.pdf) | |
   | 10/11 | 10. Design Patterns  | [Slides](./m/10/10-design-patterns.pdf) | |
   | 10/15 | 11. Integration Testing  | [Slides](./m/11/11-integration-testing.pdf) | |
+  | 10/18 | [*No lecture. Group work opportunity*]{style="color: gray;"} | | |
 
 ## Assignments
   
