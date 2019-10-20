@@ -71,7 +71,7 @@ This is a rough and tentative list of topics that we will aim to cover this seme
 |-----------------------|----------|----------|----------------------------------|
 | [Assignment 1: Haskell practice](cw/01/assignment01.html) |  09/23   |  09/27   | [PDF](m/cw/01/assignment01.pdf) |
 | [Assignment 2: ABL](cw/02/Assignment2.html)| Week of 09/30 | 10/17 | [PDF](m/cw/02/Assignment2.pdf)\ \ [Pack](m/cw/02/Assignment2.zip)
-| Assignment 3 | Week of 10/14 | 10/30 |
+| [Assignment 3: Pure Lambda Calculus](m/cw/03/Assignment3.pdf) | 10/20 | 11/01 | [Pack](m/cw/03/Assignment3.zip)
 | Assignment 4 | Week of 11/04 | 11/20 |
 | Assignment 5 | Week of 11/18 | 12/04 |
 
