@@ -70,6 +70,7 @@ it assumes you have been out to one co-op.
   | 10/11 | 10. Design Patterns  | [Slides](./m/10/10-design-patterns.pdf) | |
   | 10/15 | 11. Integration Testing  | [Slides](./m/11/11-integration-testing.pdf) | |
   | 10/18 | [*No lecture. Group work opportunity*]{style="color: gray;"} | | |
+  | 10/22 | 12. Design by Contract   | [Slides](./m/12/12-design-by-contract.pdf) | |
 
 ## Assignments
   
@@ -89,8 +90,14 @@ it assumes you have been out to one co-op.
         Due: Friday 10/11 11:59pm
       - [Part B - Tile Design](m/1.pdf#part-b-board-and-tile-design)  
         Set: Wednesday 10/09  
-        Due: Wednesday 10/16 11:49
-  * [Phase 2 - Rule Checkers & the Game Board](m/2.pdf) 
+        Due: Wednesday 10/16 11:59pm
+  * [Phase 2 - Rule Checkers & the Game Board](m/2.pdf)  
+    Set: Thursday 10/17  
+    Due: Wednesday 10/23 11:59pm
+  * [Phase 3 - Referee & Players, Rule Checker, Game Board](m/3.pdf)  
+    Set: Thursday 10/24  
+    Due: Wednesday 10/30 11:59pm
+    
 
 ## Final Code Reviews
 
