@@ -481,6 +481,13 @@ $$-->
     --&gt; λa b. (λt. a b) false
     --&gt; λa b. a b false</code></pre>
 <p>Can you come up with a representation of <span class="math inline">\(\textsf{or}\)</span>? <span class="math inline">\(\textsf{not}\)</span>?</p>
+<h4 id="pairs">Pairs</h4>
+<p>Pairs can be encoded using an abstraction which “stores” its two arguments:</p>
+<pre><code>pair = λl r s. s l r</code></pre>
+<p>You can think of a <code>s</code> as a “chooser” function which either picks <code>l</code> or <code>r</code>. Selectors for the first and second element are then, respectively, defined as:</p>
+<pre><code>fst = λp. p (λl r. l)
+snd = λp. p (λl r. r)</code></pre>
+<p>Take a look at the selector functions we pass to the pair representation. Are they familiar? (Hint: booleans)</p>
 <h4 id="natural-numbers-church-numerals">Natural Numbers: Church Numerals</h4>
 <p>Natural numbers are Church-encoded as Church numerals:</p>
 <pre><code>zero = λs z. z
@@ -526,22 +533,48 @@ m * n = \underbrace{n + (... n}_{m \text{ times}} + 0)
 \]</span></p>
 <p>Hence:</p>
 <pre><code>times = λm n. m (plus n) zero</code></pre>
-<p>We can have subtraction via a predecessor function, which is quite a tricky one:</p>
-<pre><code>pred = λn f x. n (λg h. h (g f)) (λu. x) (λu. u)
-minus = λm n. n pred m</code></pre>
+<p>We can define subtraction via a predecessor function, which is surprisingly more tricky than the successor function. For a numeral <code>λs z. s (s ... (s z))</code>, the predecessor should return a numeral with one less <code>s</code>. One way of defining a predecessor is via a function that “counts” the number of <code>s</code> applications in a numeral, but also remembers the previous count, that is, one less than the total number of applications of <code>s</code>:</p>
+<pre><code>pred = λn. snd (n (λp. pair (succ (fst p)) (fst p)) (pair zero zero))</code></pre>
+<p>Here the numeral <code>n</code> (of which we want to compute the predecessor) is applied to two arguments:</p>
+<ol type="1">
+<li>The function <code>(λp. pair (succ (fst p)) (fst p))</code>. This function takes a pair (bound to <code>p</code>) containing two numerals. It returns a pair containing the successor of the first element of <code>p</code>, together with its original value. That means, everytime the function is applied to a pair containing numerals <code>n</code> and <code>m</code>, it returns a pair with numerals corresponding to <code>n + 1</code> and <code>n</code> (<code>m</code> is discarded).</li>
+<li>A pair containing two zeros: <code>(pair zero zero)</code>.</li>
+</ol>
+<p>Finally, the second element of the pair is returned – which contains the count of <code>s</code> applications, except for the last one.</p>
+<p>Here is an example. We let <code>f = (λp. pair (succ (fst p)) (fst p))</code></p>
+<pre><code>pred three 
+    = (λn. snd (n f (pair zero zero))) (λs z. s (s (s z)))
+  --&gt; snd ((λs z. s (s (s z))) f (pair zero zero))
+  --&gt; snd ((λz. f (f (f z))) (pair zero zero))
+  --&gt; snd (f (f (f (pair zero zero))))
+    = snd (f (f ((λp. pair (succ (fst p)) (fst p)) (pair zero zero))))
+  --&gt; snd (f (f (pair (succ (fst (pair zero zero))) (fst (pair zero zero)))))
+  --&gt; ...
+  --&gt; snd (f (f (pair (succ (fst zero)) (fst zero zero))))
+  --&gt; snd (f (f (pair (succ zero) zero)))
+  --&gt; ...
+  --&gt; snd (f (f (pair one zero)))
+    = snd (f ((λp. pair (succ (fst p)) (fst p)) (pair one zero)))
+  --&gt; snd (f (pair (succ (fst (pair one zero))) (fst (pair one zero))))
+  --&gt; snd (f (pair (succ one) one))
+  --&gt; ...
+  --&gt; snd (f (pair two one))
+  --&gt; ...
+  --&gt; snd (pair (succ two) two)
+  --&gt; ...
+  --&gt; snd (pair three two)
+  --&gt; ...
+  --&gt; two</code></pre>
+<p>To subtract <code>n</code> from <code>m</code>, we need to take 1 away from <code>m</code> <code>n</code> times.</p>
+<pre><code>minus = λm n. n pred m</code></pre>
+<p>For completeness, an alternative predecessor definition is as follows (TODO: explain):</p>
+<pre><code>pred&#39; = λn f x. n (λg h. h (g f)) (λu. x) (λu. u)</code></pre>
 <p>We can check if a variable is zero:</p>
 <pre><code>is-zero = λn.n (λx. false) true</code></pre>
 <p>We can define <span class="math inline">\(\leq\)</span></p>
 <pre><code>leq = λm n. is-zero (minus m n)</code></pre>
 <p>And we can define equality:</p>
 <pre><code>equal = λm n. and (leq m n) (leq n m)</code></pre>
-<h4 id="pairs">Pairs</h4>
-<p>Pairs can be encoded using an abstraction which “stores” its two arguments:</p>
-<pre><code>pair = λl r s. s l r</code></pre>
-<p>You can think of a <code>s</code> as a “chooser” function which either picks <code>l</code> or <code>r</code>. Selectors for the first and second element are then, respectively, defined as:</p>
-<pre><code>fst = λp. p (λl r. l)
-snd = λp. p (λl r. r)</code></pre>
-<p>Take a look at the selector functions we pass to the pair representation. Are they familiar? (Hint: booleans)</p>
 <h3 id="recursion">Recursion</h3>
 <p>We have seen that we can define booleans, together with a conditional, and numbers, together with arithmetic operations in pure lambda calculus. However, to reach full Turing power, we lack one important ingredient: the ability to loop. To loop in a functional setting, we need the little brother of looping: self-reference.</p>
 <p>To see that we can loop, let us look at a term, for which <span class="math inline">\(\beta\)</span>-reduction never terminates in a normal form. This interesting term, called <span class="math inline">\(\Omega\)</span>, is defined as follows:</p>
@@ -553,8 +586,8 @@ snd = λp. p (λl r. r)</code></pre>
   ...</code></pre>
 <p>Immediately after the first reduction step, we are back where we started! Well, we see we can loop forever (diverge), but how is this useful?</p>
 <p>In a programming language like OCaml, we are used to defining recursive functions which refer to themselves inside of their body:</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span id="cb45-1"><a href="#cb45-1"></a><span class="kw">let</span> <span class="kw">rec</span> fact = <span class="kw">fun</span> n -&gt; </span>
-<span id="cb45-2"><a href="#cb45-2"></a>  <span class="kw">if</span> n = <span class="dv">0</span> <span class="kw">then</span> <span class="dv">1</span> <span class="kw">else</span> n * fact (n - <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span id="cb48-1"><a href="#cb48-1"></a><span class="kw">let</span> <span class="kw">rec</span> fact = <span class="kw">fun</span> n -&gt; </span>
+<span id="cb48-2"><a href="#cb48-2"></a>  <span class="kw">if</span> n = <span class="dv">0</span> <span class="kw">then</span> <span class="dv">1</span> <span class="kw">else</span> n * fact (n - <span class="dv">1</span>)</span></code></pre></div>
 <p>How do we achieve this in lambda? While we have been freely using equations to define names for lambda expressions, these were just meta-definitions of names. That is, when we write</p>
 <pre><code>fact = λn. if-true (is-zero n) one (mult n (?fact? (pred n)))</code></pre>
 <p>we rely on our meta-language and our common understanding of it to replace any occurrence of <code>?fact?</code> with the right-hand side of the above equation, as many times as needed. But this is not beta-reduction, that is we are not defining a recursive function as an object in lambda calculus. To get there, we can think of a recursive definition as follows: “Assuming we have a function to call in the recursive case, we can complete the definition”. In Haskell or OCaml, we can simply assume that we already have the function that we are defining. But what is really going on here, is that we can abstract the recursive call as an argument – which corresponds to saying “assuming we already have a function to call in the recursive case”:</p>
@@ -621,13 +654,21 @@ fact = Y fact0</code></pre>
 <pre><code>λf. (λx. f (λy. x x y)) (λx. f (λy. x x y))</code></pre>
 <h4 id="let-bindings">Let bindings</h4>
 <p>The last useful notation to introduce are let-bindings. We have already implemented them as part of our arithmetic expressions language – both as a substitution-based and environment-based evaluator. Let bindings can be introduced to pure lambda-calculus as <em>syntactic sugar</em> – a construct that is defined by translation to a combination of other constructs in the language. Introducing a let-binging corresponds to creating a λ-abstraction and immediately applying it to the bound expression:</p>
-<pre><code>let x = e1 in e2 ≡ (λx. e2) e1</code></pre>
+<pre><code>let x = e1 in e2     ≡     (λx. e2) e1</code></pre>
 <p>We have to define <code>let</code> as syntactic sugar – we cannot write it as a function, the way we did for <code>if-then</code>, <code>add</code>, etc. Why is that the case?</p>
 <p>We can also define a recursive version of let – called <code class="sourceCode ocaml"><span class="kw">let</span> <span class="kw">rec</span></code> in OCaml, <code class="sourceCode scheme"><span class="kw">letrec</span></code> in Scheme:</p>
-<pre><code>let rec f = e1 in e2 ≡ let f = fix (λf. e1) in e2
-                     ≡ (λf. e2) (fix (λf. e1))
+<pre><code>let rec f = e1 in e2   ≡   let f = fix (λf. e1) in e2
+                       ≡   (λf. e2) (fix (λf. e1))
   </code></pre>
-<p>Where <code>fix</code> is an appropriate fixpoint combinator (e.g., <span class="math inline">\(Y\)</span> under CBN, <span class="math inline">\(Z\)</span> under CBV and CBN). ## Extensions</p>
+<p>Where <code>fix</code> is an appropriate fixpoint combinator (e.g., <span class="math inline">\(Y\)</span> under CBN, <span class="math inline">\(Z\)</span> under CBV and CBN).</p>
+<p>Most languages also allow specifying function arguments to the left-hand side of the equal sign:</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span id="cb64-1"><a href="#cb64-1"></a><span class="kw">let</span> f x y z = e1 <span class="kw">in</span> e2</span>
+<span id="cb64-2"><a href="#cb64-2"></a><span class="kw">let</span> <span class="kw">rec</span> f x y z = e1 <span class="kw">in</span> e2</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode scheme"><code class="sourceCode scheme"><span id="cb65-1"><a href="#cb65-1"></a>(<span class="ex">define</span><span class="fu"> </span>(f x y z) e1)</span></code></pre></div>
+<p>These can be translated as:</p>
+<pre><code>let f x y z ... = e1 in e2   ≡   let f = λx y z. e1 in e2
+                             ≡   (λf. e2) (λx y z. e1)</code></pre>
+<h2 id="extensions">Extensions</h2>
 <p>While it is useful to show how various important programming concepts and constructs can be expressed in pure lambda-calculus directly, in general, it is a rather inefficient approach.</p>
 <p>The approach usually taken in designing lambda-calculus-based languages, is to take the calculus as a <em>core</em> language and add extensions to support various kinds of data.</p>
 <h4 id="pairs-1">Pairs</h4>
@@ -659,18 +700,113 @@ snd (l, r) --&gt;δ r</code></pre>
 <li>an expression <span class="math inline">\(M\)</span> reduces in zero or more steps to the expression <span class="math inline">\(M&#39;\)</span>, if there is an intermediate expression <span class="math inline">\(N\)</span> and <span class="math inline">\(M\)</span> reduces to <span class="math inline">\(N\)</span> and <span class="math inline">\(N\)</span> reduces in one or more steps to <span class="math inline">\(M&#39;\)</span></li>
 </ul>
 <p>In Haskell, this is expressed as iteration. Assuming that the one-step reduction function implementing a particular strategy has the type <code class="sourceCode haskell"><span class="dt">Lambda</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Lambda</span></code>, we define an iteration function as:</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb64-1"><a href="#cb64-1"></a><span class="ot">iter ::</span> (a <span class="ot">-&gt;</span> <span class="dt">Maybe</span> a) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a</span>
-<span id="cb64-2"><a href="#cb64-2"></a>iter step e <span class="ot">=</span></span>
-<span id="cb64-3"><a href="#cb64-3"></a>  <span class="kw">case</span> step e <span class="kw">of</span></span>
-<span id="cb64-4"><a href="#cb64-4"></a>       <span class="dt">Just</span> e&#39; <span class="ot">-&gt;</span> iter step e&#39;</span>
-<span id="cb64-5"><a href="#cb64-5"></a>       <span class="dt">Nothing</span> <span class="ot">-&gt;</span> e</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb70-1"><a href="#cb70-1"></a><span class="ot">iter ::</span> (a <span class="ot">-&gt;</span> <span class="dt">Maybe</span> a) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a</span>
+<span id="cb70-2"><a href="#cb70-2"></a>iter step e <span class="ot">=</span></span>
+<span id="cb70-3"><a href="#cb70-3"></a>  <span class="kw">case</span> step e <span class="kw">of</span></span>
+<span id="cb70-4"><a href="#cb70-4"></a>       <span class="dt">Just</span> e&#39; <span class="ot">-&gt;</span> iter step e&#39;</span>
+<span id="cb70-5"><a href="#cb70-5"></a>       <span class="dt">Nothing</span> <span class="ot">-&gt;</span> e</span></code></pre></div>
 <p>That is, while we can perform reduction steps on an expression, we do so. If the input expression cannot be reduced (it contains no redex), just return it.</p>
 <p>If we have an implementation of a reduction strategy, say, <code class="sourceCode haskell"><span class="ot">stepNormal ::</span> <span class="dt">Lambda</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Lambda</span></code>, then we can build a “reducer” by passing it as an argument to <code>iter</code>:</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb65-1"><a href="#cb65-1"></a><span class="ot">iterNormal ::</span> <span class="dt">Lambda</span> <span class="ot">-&gt;</span> <span class="dt">Lambda</span></span>
-<span id="cb65-2"><a href="#cb65-2"></a>iterNormal <span class="ot">=</span> iter stepNormal</span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb71-1"><a href="#cb71-1"></a><span class="ot">iterNormal ::</span> <span class="dt">Lambda</span> <span class="ot">-&gt;</span> <span class="dt">Lambda</span></span>
+<span id="cb71-2"><a href="#cb71-2"></a>iterNormal <span class="ot">=</span> iter stepNormal</span></code></pre></div>
+<p>We will call such a reducer an iterative evaluator, or normalizer.</p>
+<h3 id="evaluation">Evaluation</h3>
+<p>Instead of performing evaluation through gradual reduction (normalization) of lambda terms, we can write a recursive evaluator in the same style as we have done for our languages with arithmetic, booleans and let-bindings. This kind of evaluator takes an <em>expression</em> (term, expressing a computation) and either succeeds, returning a <em>value</em>, or fails. On the other hand, the iterative reduction function returned the same type of result as its input – an expression. The criterion for deciding when a lambda expression is reduced fully (evaluated) was that there was no further reduction possible – the expression has reached its normal form. That means, for the iterative evaluator, we didn’t have to worry about distinguishing values from expressions syntactically – once the evaluator finished reducing, we took the normal form and decided if it makes sense or not.</p>
+<p>For a recursive evaluator of lambda terms, we need to decide what its return type should be. That is, we need to syntactically distinguish values from unevaluated expressions (computations). What are the values of pure lambda calculus?</p>
+<p>A value is (a representation) of an entity, that has no computation left to perform and can only be inspected or used in another computation. It also does not depend on the context in which it appears – dependence on context would imply possible computation. For lambda calculus, we only have 3 syntactic forms, meaning we only have 3 candidates for what constitutes a value.</p>
+<p>Application cannot be a value – it is a computation term, which can be, potentially, reduced. A single variable reference also cannot be a value – its meaning wholly depends on the context, in which it appears. The only option is lambda abstraction. In particular, an abstraction that is closed, i.e., does not contain any free variables. Having lambda-abstractions as values is consistent with Church encodings which we have explored above – each value is a closed abstraction containing only bound variables.</p>
+<pre><code>  &lt;LambdaValue&gt; ::= λ &lt;Variable&gt; . &lt;Lambda&gt;   -- constructor `VLam`</code></pre>
+<div class="sourceCode" id="cb73"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb73-1"><a href="#cb73-1"></a><span class="kw">data</span> <span class="dt">LambdaValue</span> <span class="ot">=</span> <span class="dt">VLam</span> <span class="dt">Variable</span> <span class="dt">Lambda</span></span></code></pre></div>
+<p>As previously, we add values to the <code>Lambda</code> datatype:</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb74-1"><a href="#cb74-1"></a><span class="kw">data</span> <span class="dt">Lambda</span> <span class="ot">=</span> <span class="dt">Var</span> <span class="dt">Variable</span>         <span class="co">-- &lt;Lambda&gt; ::= &lt;Variable&gt;</span></span>
+<span id="cb74-2"><a href="#cb74-2"></a>            <span class="op">|</span> <span class="dt">Lam</span> <span class="dt">Variable</span> <span class="dt">Lambda</span>  <span class="co">--            | ( λ &lt;Variable&gt; . &lt;Lambda&gt; )</span></span>
+<span id="cb74-3"><a href="#cb74-3"></a>            <span class="op">|</span> <span class="dt">App</span> <span class="dt">Lambda</span> <span class="dt">Lambda</span>    <span class="co">--            | ( &lt;Lambda&gt; &lt;Lambda&gt; )</span></span>
+<span id="cb74-4"><a href="#cb74-4"></a>            <span class="op">|</span> <span class="dt">Val</span> <span class="dt">LambdaValue</span>      <span class="co">--            | &lt;LambdaValue&gt;</span></span></code></pre></div>
+<p>Now we can implement a call-by-name evaluator for lambda terms, relying on substitution to deal with application.</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb75-1"><a href="#cb75-1"></a><span class="ot">evalCBN ::</span> <span class="dt">Lambda</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">LambdaValue</span></span>
+<span id="cb75-2"><a href="#cb75-2"></a>evalCBN (<span class="dt">Var</span> x) <span class="ot">=</span> <span class="dt">Nothing</span>   <span class="co">-- all variables should be substituted</span></span>
+<span id="cb75-3"><a href="#cb75-3"></a>evalCBN (<span class="dt">Val</span> v) <span class="ot">=</span> <span class="dt">Just</span> v</span>
+<span id="cb75-4"><a href="#cb75-4"></a>evalCBN (<span class="dt">Lam</span> x e) <span class="ot">=</span> <span class="dt">Just</span> (<span class="dt">VLam</span> x e)</span>
+<span id="cb75-5"><a href="#cb75-5"></a>evalCBN (<span class="dt">App</span> e1 e2) <span class="ot">=</span> </span>
+<span id="cb75-6"><a href="#cb75-6"></a>  <span class="kw">case</span> evalCBN e1 <span class="kw">of</span></span>
+<span id="cb75-7"><a href="#cb75-7"></a>       <span class="dt">Just</span> (<span class="dt">VLam</span> x e) <span class="ot">-&gt;</span> evalCBN (subst x e2 e) <span class="co">-- leave argument unevaluated</span></span>
+<span id="cb75-8"><a href="#cb75-8"></a>       <span class="dt">Nothing</span> <span class="ot">-&gt;</span> <span class="dt">Nothing</span></span></code></pre></div>
+<p>For call-by-value, we use</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb76-1"><a href="#cb76-1"></a><span class="ot">evalCBV ::</span> <span class="dt">Lambda</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">LambdaValue</span></span>
+<span id="cb76-2"><a href="#cb76-2"></a>evalCBV (<span class="dt">Var</span> x) <span class="ot">=</span> <span class="dt">Nothing</span></span>
+<span id="cb76-3"><a href="#cb76-3"></a>evalCBV (<span class="dt">Val</span> v) <span class="ot">=</span> <span class="dt">Just</span> v</span>
+<span id="cb76-4"><a href="#cb76-4"></a>evalCBV (<span class="dt">Lam</span> x e) <span class="ot">=</span> <span class="dt">Just</span> (<span class="dt">VLam</span> x e)</span>
+<span id="cb76-5"><a href="#cb76-5"></a>evalCBV (<span class="dt">App</span> e1 e2) <span class="ot">=</span> </span>
+<span id="cb76-6"><a href="#cb76-6"></a>  <span class="kw">case</span> evalCBV e1 <span class="kw">of</span></span>
+<span id="cb76-7"><a href="#cb76-7"></a>       <span class="dt">Just</span> (<span class="dt">VLam</span> x e) <span class="ot">-&gt;</span> </span>
+<span id="cb76-8"><a href="#cb76-8"></a>         <span class="kw">case</span> evalCBV e2 <span class="kw">of</span>    <span class="co">-- evaluate the argument before substituting</span></span>
+<span id="cb76-9"><a href="#cb76-9"></a>              <span class="dt">Just</span> v2 <span class="ot">-&gt;</span> evalCBV (subst x (<span class="dt">Val</span> v2) e)</span>
+<span id="cb76-10"><a href="#cb76-10"></a>              <span class="dt">Nothing</span> <span class="ot">-&gt;</span> <span class="dt">Nothing</span></span>
+<span id="cb76-11"><a href="#cb76-11"></a>       <span class="dt">Nothing</span> <span class="ot">-&gt;</span> <span class="dt">Nothing</span></span></code></pre></div>
+<p>What is the benefit of a recursive evaluator vs. reduction-based iterative evaluator?</p>
 <h3 id="environment-based-evaluation">Environment-based Evaluation</h3>
+<p>We can also use environments to implement a recursive evaluator for lambda calculus. Here is a basic implementation of a call-by-value one.</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb77-1"><a href="#cb77-1"></a><span class="ot">evalCBV ::</span> <span class="dt">Env</span> <span class="dt">LambdaValue</span> <span class="ot">-&gt;</span> <span class="dt">Lambda</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">LambdaValue</span></span>
+<span id="cb77-2"><a href="#cb77-2"></a>evalCBV env (<span class="dt">Val</span> v) <span class="ot">=</span> <span class="dt">Just</span> v</span>
+<span id="cb77-3"><a href="#cb77-3"></a>evalCBV env (<span class="dt">Var</span> x) <span class="ot">=</span> get x env</span>
+<span id="cb77-4"><a href="#cb77-4"></a>evalCBV env (<span class="dt">Lam</span> x e) <span class="ot">=</span> <span class="dt">Just</span> (<span class="dt">VLam</span> x e)</span>
+<span id="cb77-5"><a href="#cb77-5"></a>evalCBV env (<span class="dt">App</span> e1 e2) <span class="ot">=</span> </span>
+<span id="cb77-6"><a href="#cb77-6"></a>  <span class="kw">case</span> evalCBV env e1 <span class="kw">of</span></span>
+<span id="cb77-7"><a href="#cb77-7"></a>       <span class="dt">Just</span> (<span class="dt">VLam</span> x e) <span class="ot">-&gt;</span></span>
+<span id="cb77-8"><a href="#cb77-8"></a>         <span class="kw">case</span> evalCBV env e2 <span class="kw">of</span></span>
+<span id="cb77-9"><a href="#cb77-9"></a>              <span class="dt">Just</span> v2 <span class="ot">-&gt;</span> evalCBV (add x v2 env) e  <span class="co">-- bind the abstracted variable to the argument&#39;s value</span></span>
+<span id="cb77-10"><a href="#cb77-10"></a>              <span class="dt">Nothing</span> <span class="ot">-&gt;</span> <span class="dt">Nothing</span></span>
+<span id="cb77-11"><a href="#cb77-11"></a>       <span class="dt">Nothing</span> <span class="ot">-&gt;</span> <span class="dt">Nothing</span></span></code></pre></div>
 <h3 id="scoping">Scoping</h3>
+<p>Our evaluator might seem ok at first sight. However, there is a problem.</p>
+<p>Using our intuition from Haskell (and Racket), what shall we expect to be the value resulting from the expression below?</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode ocaml"><code class="sourceCode ocaml"><span id="cb78-1"><a href="#cb78-1"></a><span class="kw">let</span> x = <span class="dv">2</span> <span class="kw">in</span></span>
+<span id="cb78-2"><a href="#cb78-2"></a><span class="kw">let</span> f y = y + x <span class="kw">in</span></span>
+<span id="cb78-3"><a href="#cb78-3"></a><span class="kw">let</span> x = <span class="dv">3</span> <span class="kw">in</span></span>
+<span id="cb78-4"><a href="#cb78-4"></a>f <span class="dv">1</span></span></code></pre></div>
+<p>In Haskell, this expression evaluates to <code class="sourceCode haskell"><span class="dv">3</span></code>.</p>
+<p>Using our desugaring rule introduced earlier, this expands to the pure lambda calculus expression</p>
+<pre><code>(λx. (λf. (λx. f 1) 3) (λy. (+ y x))) 2</code></pre>
+<p>In Haskell, this is represented as (for a lambda extended with numbers and addition as primitives):</p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb80-1"><a href="#cb80-1"></a>e <span class="ot">=</span> <span class="dt">App</span> (<span class="dt">Lam</span> <span class="st">&quot;x&quot;</span>                                        <span class="co">-- let x = 2 in</span></span>
+<span id="cb80-2"><a href="#cb80-2"></a>          (<span class="dt">App</span> (<span class="dt">Lam</span> <span class="st">&quot;f&quot;</span>                                 <span class="co">-- let f = ... in</span></span>
+<span id="cb80-3"><a href="#cb80-3"></a>                  (<span class="dt">App</span> (<span class="dt">Lam</span> <span class="st">&quot;x&quot;</span>                         <span class="co">-- let x = 3 in</span></span>
+<span id="cb80-4"><a href="#cb80-4"></a>                         (<span class="dt">App</span> (<span class="dt">Var</span> <span class="st">&quot;f&quot;</span>) (<span class="dt">Val</span> (<span class="dt">Num</span> <span class="dv">1</span>)))) <span class="co">-- f 1</span></span>
+<span id="cb80-5"><a href="#cb80-5"></a>                       (<span class="dt">Val</span> (<span class="dt">Num</span> <span class="dv">3</span>))))</span>
+<span id="cb80-6"><a href="#cb80-6"></a>               (<span class="dt">Lam</span> <span class="st">&quot;y&quot;</span> ((<span class="dt">Add</span> (<span class="dt">Var</span> <span class="st">&quot;y&quot;</span>) (<span class="dt">Var</span> <span class="st">&quot;x&quot;</span>))))))</span>
+<span id="cb80-7"><a href="#cb80-7"></a>        (<span class="dt">Val</span> (<span class="dt">Num</span> <span class="dv">2</span>))</span></code></pre></div>
+<p>What happens if we ask our evaluator to evaluate the above expression?</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb81-1"><a href="#cb81-1"></a><span class="op">&gt;</span> evalCBV empty e</span>
+<span id="cb81-2"><a href="#cb81-2"></a><span class="dt">Just</span> (<span class="dt">Num</span> <span class="dv">4</span>) </span></code></pre></div>
+<p>What we implemented here is dynamic scoping. The value of a variable is determined by the most recently bound variable at runtime. In general, under dynamic scoping the value of a variable cannot be determined statically, that is, just by looking at the code. This is usually counterintuitive for us. We are used to <em>lexical</em> (or <em>static</em>) scoping, that is, the scope of a variable is given by its location in the source code of the program. Most programming language use lexical scoping, because this allows us to easily reason about the values of variables when we read source code. Examples of languages with dynamic scoping are: Lisp (Emacs), <span class="math inline">\(\LaTeX\)</span>, bash. Some languages allow choosing scope when defining a variables, such as Common Lisp or Perl. How do we ensure static scoping?</p>
 <h3 id="closures">Closures</h3>
+<ul>
+<li>The problem arises because we are passing around a lambda value and the original association between its free variables and values is lost</li>
+<li>We need a way to keep this association: <em>closures</em></li>
+</ul>
+<p>Closures package up a lambda abstraction with the environment that was valid at the time of evaluating the abstraction. They can be implemented simply as a pairing of a lambda abstraction with an environment:</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb82-1"><a href="#cb82-1"></a><span class="kw">data</span> <span class="dt">LambdaValue</span> <span class="ot">=</span> <span class="dt">Clo</span> <span class="dt">Variable</span> <span class="dt">Lambda</span> (<span class="dt">Env</span> <span class="dt">LambdaValue</span>)</span>
+<span id="cb82-2"><a href="#cb82-2"></a></span>
+<span id="cb82-3"><a href="#cb82-3"></a><span class="kw">data</span> <span class="dt">Lambda</span> <span class="ot">=</span> <span class="dt">Var</span> <span class="dt">Variable</span></span>
+<span id="cb82-4"><a href="#cb82-4"></a>            <span class="op">|</span> <span class="dt">Lam</span> <span class="dt">Variable</span> <span class="dt">Lambda</span></span>
+<span id="cb82-5"><a href="#cb82-5"></a>            <span class="op">|</span> <span class="dt">App</span> <span class="dt">Lambda</span> <span class="dt">Lambda</span></span>
+<span id="cb82-6"><a href="#cb82-6"></a>            <span class="op">|</span> <span class="dt">Val</span> <span class="dt">LambdaValue</span></span>
+<span id="cb82-7"><a href="#cb82-7"></a></span>
+<span id="cb82-8"><a href="#cb82-8"></a><span class="ot">evalCBV ::</span> <span class="dt">Env</span> <span class="dt">LambdaValue</span> <span class="ot">-&gt;</span> <span class="dt">Lambda</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">LambdaValue</span></span>
+<span id="cb82-9"><a href="#cb82-9"></a>evalCBV env (<span class="dt">Var</span> x) <span class="ot">=</span> get x env</span>
+<span id="cb82-10"><a href="#cb82-10"></a>evalCBV env (<span class="dt">Val</span> v) <span class="ot">=</span> <span class="dt">Just</span> v</span>
+<span id="cb82-11"><a href="#cb82-11"></a>evalCBV env (<span class="dt">Lam</span> x e) <span class="ot">=</span> <span class="dt">Just</span> (<span class="dt">Clo</span> x e env) <span class="co">-- save the current environment</span></span>
+<span id="cb82-12"><a href="#cb82-12"></a>evalCBV env (<span class="dt">App</span> e1 e2) <span class="ot">=</span> </span>
+<span id="cb82-13"><a href="#cb82-13"></a>  <span class="kw">case</span> evalCBV env e1 <span class="kw">of</span></span>
+<span id="cb82-14"><a href="#cb82-14"></a>       <span class="dt">Just</span> (<span class="dt">Clo</span> x e env&#39;) <span class="ot">-&gt;</span>              <span class="co">-- the closure remembers the corresponding environment</span></span>
+<span id="cb82-15"><a href="#cb82-15"></a>         <span class="kw">case</span> evalCBV env e2 <span class="kw">of</span></span>
+<span id="cb82-16"><a href="#cb82-16"></a>              <span class="dt">Just</span> v2 <span class="ot">-&gt;</span> evalCBV (add x v2 env&#39;) e  <span class="co">-- evaluate in the closure&#39;s environment updated with the argument binding </span></span>
+<span id="cb82-17"><a href="#cb82-17"></a>              <span class="dt">Nothing</span> <span class="ot">-&gt;</span> <span class="dt">Nothing</span></span>
+<span id="cb82-18"><a href="#cb82-18"></a>       <span class="dt">Nothing</span> <span class="ot">-&gt;</span> <span class="dt">Nothing</span></span></code></pre></div>
+<p>Now all abstraction bodies are evaluated with the environment that belongs to them <em>statically</em>. And, indeed, the example expression evaluates as expected:</p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb83-1"><a href="#cb83-1"></a><span class="op">&gt;</span> evalCBV empty e</span>
+<span id="cb83-2"><a href="#cb83-2"></a><span class="dt">Just</span> (<span class="dt">Num</span> <span class="dv">3</span>)</span></code></pre></div>
+<!-- How about call by name and environments? -->
 <h2 id="de-bruijn-indices">De Bruijn Indices</h2>
 <section class="footnotes" role="doc-endnotes">
 <hr />
