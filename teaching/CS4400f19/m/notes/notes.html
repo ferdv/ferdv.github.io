@@ -317,11 +317,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ol start="5" type="1">
 <li><code>(λx. M)[y := N] = (λx. M[y := N])</code> if <code>x</code> <span class="math inline">\(\neq\)</span> <code>y</code> and if <code>x</code> is not free in <code>N</code></li>
 </ol>
-<p>Now our substitution is “safe”. However, this turns it into a partial function – it is left undefined for cases where the bound variable <code>x</code> appears free in <code>N</code>. To go around this, we can make use of alpha-conversion: we consistently rename the bound variable <code>x</code> to one that doesn’t clash with free variables in <code>N</code> or <code>M</code>.</p>
+<p>Now our substitution is “safe”. However, this turns it into a partial function – it is left undefined for cases where the bound variable <code>x</code> appears free in <code>N</code>. To go around this, we can make use of alpha-conversion: we consistently rename the bound variable <code>x</code> to one that doesn’t clash with <code>y</code> or the free variables in <code>N</code> or <code>M</code>. Only then do we perform the actual substitution of <code>y</code>.</p>
 <ol start="5" type="1">
-<li><code>(λx. M)[y := N] = (λx. M[x := x'][y := N])</code> if <code>x</code> <span class="math inline">\(\neq\)</span> <code>y</code> and <code>x'</code> is fresh for <code>y</code>, <code>N</code> and <code>M</code></li>
+<li><code>(λx. M)[y := N] = (λx'. M[x := x'][y := N])</code> if <code>x</code> <span class="math inline">\(\neq\)</span> <code>y</code> and <code>x'</code> is fresh for <code>y</code>, <code>N</code> and <code>M</code></li>
 </ol>
-<p>Now substitution is a total function again. For an implementation, we just need to choose how to pick a fresh variable.</p>
+<p>Now substitution is a total function again. For an implementation, we just need to know how to pick a fresh variable. Notice how we replace the bound variable <code>x</code> with <code>x'</code> and also rename any ocurrence of <code>x</code> to <code>x'</code> in the body <code>M</code>. Since <code>x'</code> is chosen so that it does not appear free in <code>M</code> or <code>N</code>, we are avoiding any potential clashes.</p>
 <h3 id="reduction-strategies">Reduction Strategies</h3>
 <p>Beta reduction tells us how to reduce a redex. The missing piece of the puzzle is how to decide where to look for a redex and apply the beta-reduction rule. This is given by reduction strategies.</p>
 <p>(The following text is taken, with minor modifications, from <em>Types and Programming Languages</em>)</p>
@@ -642,7 +642,8 @@ fact = Y fact0</code></pre>
   =   mult three (fact0 (Y fact0) (pred three))
   --&gt; ...
   --&gt; mult three (fact0 (Y fact0) (if-true (is-zero (pred three)) one (mult (pred three) ((Y fact0) (pred (pred three)))))
-  ...</code></pre>
+  ...
+  --&gt;</code></pre>
 <p>However, the <span class="math inline">\(Y\)</span> combinator is not universally applicable under any reduction strategy. Consider what happens with the <span class="math inline">\(Y\)</span> combinator, if we apply the CBV strategy.</p>
 <pre><code>Y g =   (λf. (λx. f (x x)) (λx. f (x x))) g
     --&gt; (λx. g (x x)) (λx. g (x x))
@@ -808,6 +809,30 @@ snd (l, r) --&gt;δ r</code></pre>
 <span id="cb83-2"><a href="#cb83-2"></a><span class="dt">Just</span> (<span class="dt">Num</span> <span class="dv">3</span>)</span></code></pre></div>
 <!-- How about call by name and environments? -->
 <h2 id="de-bruijn-indices">De Bruijn Indices</h2>
+<p>As we have talked about before, the name of a bound variable is insignificant – as long as there is a consistency between the binder and the variable reference. This is called alpha-equivalence. Using strings as variables seems natural: it corresponds to the mathematical with variable names. However, as a computer representation this is inefficient: there are infinitely many ways to represent any lambda term: <code>λx. x</code>, <code>λy. y</code>, <code>λz. z</code>, <code>λzzzz. zzzz</code>, <code>λlongervariablename. longervariablename</code>, …</p>
+<p>Moreover representing variable names as strings forces us to complicate the definition of substitution and define functions for obtaining fresh variable names. In an implementation, we would ideally want to do away with these complications. Sure, we could simply use natural numbers to represent variables and this would simplify picking a fresh variable name – e.g., by taking the maximum of all free variables and adding 1. We sill complicate the substitution definition and we still have the problem of multiple representations of alpha-equivalent lambda terms. There is another alternative.</p>
+<p>When we look at a lambda abstraction:</p>
+<p><span class="math display">\[
+\lambda x.\ (\lambda y.\ x\ y\ (\lambda x.\ \lambda z.\ x\ z))
+\]</span></p>
+<p>we really use the occurrence of <span class="math inline">\(x\)</span> in the binder as a <em>marker</em> and a variable reference as a reference back to the marker</p>
+<p>(draw arrows from x to x, from y to y, from x to x, from z to z)</p>
+<p>Do we really need to use variable names to do that? No. The only important thing is, that a bound variable refers to the binder that bound it.</p>
+<p>(delete variable names, keep arrows)</p>
+<p>How can we refer to a binder? By a natural number referring referring to how many</p>
+<h1 id="imperative-features-programming-with-state">Imperative Features: Programming with State</h1>
+<ul>
+<li><p>We used environments to implement applicative variables</p></li>
+<li><p>We can use the same kind of mapping to represent</p></li>
+</ul>
+<h1 id="haskell-corner">Haskell Corner:</h1>
+<h1 id="haskell-corner-maybe-case-of-monads-and-do-notation">Haskell Corner: Maybe, case of, Monads and do-notation</h1>
+<p>Since we introduced <code>Maybe a</code>, we have used many nested <code class="sourceCode haskell"><span class="kw">case</span> <span class="op">...</span> <span class="kw">of</span></code> constructs. There is a repeating pattern:</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb84-1"><a href="#cb84-1"></a><span class="kw">case</span> eval env e1 <span class="kw">of</span></span>
+<span id="cb84-2"><a href="#cb84-2"></a>  <span class="dt">Just</span> v1 <span class="ot">-&gt;</span> <span class="kw">case</span> eval env e2 <span class="kw">of</span></span>
+<span id="cb84-3"><a href="#cb84-3"></a>              <span class="dt">Just</span> v2 <span class="ot">-&gt;</span> <span class="op">...</span>v1<span class="op">...</span>v2<span class="op">...</span></span>
+<span id="cb84-4"><a href="#cb84-4"></a>              <span class="dt">Nothing</span> <span class="ot">-&gt;</span> <span class="dt">Nothing</span></span>
+<span id="cb84-5"><a href="#cb84-5"></a>  <span class="dt">Nothing</span> <span class="ot">-&gt;</span> <span class="dt">Nothing</span></span></code></pre></div>
 <section class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
