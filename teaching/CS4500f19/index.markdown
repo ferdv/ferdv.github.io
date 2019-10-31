@@ -71,6 +71,7 @@ it assumes you have been out to one co-op.
   | 10/15 | 11. Integration Testing  | [Slides](./m/11/11-integration-testing.pdf) | |
   | 10/18 | [*No lecture. Group work opportunity*]{style="color: gray;"} | | |
   | 10/22 | 12. Design by Contract   | [Slides](./m/12/12-design-by-contract.pdf) | |
+  | 10/25 | 13. Code Reviews         | [Slides](./m/13/13-code-reviews.pdf) | |
 
 ## Assignments
   
@@ -97,7 +98,10 @@ it assumes you have been out to one co-op.
   * [Phase 3 - Referee & Players, Rule Checker, Game Board](m/3.pdf)  
     Set: Thursday 10/24  
     Due: Wednesday 10/30 11:59pm
-    
+  * [Phase 4 - Implementing the Referee and Players](m/4.pdf)  
+    Set: Thursday 10/31  
+    Due: Wednesday 11/6 11:59pm
+     
 
 ## Final Code Reviews
 
