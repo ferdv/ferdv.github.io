@@ -72,6 +72,7 @@ it assumes you have been out to one co-op.
   | 10/18 | [*No lecture. Group work opportunity*]{style="color: gray;"} | | |
   | 10/22 | 12. Design by Contract   | [Slides](./m/12/12-design-by-contract.pdf) | |
   | 10/25 | 13. Code Reviews         | [Slides](./m/13/13-code-reviews.pdf) | |
+  | 11/01 | 14. Group Presentations  | [Slides](./m/14/14-group-presentations.pdf) | |
 
 ## Assignments
   
