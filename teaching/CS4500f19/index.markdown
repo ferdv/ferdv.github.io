@@ -106,7 +106,7 @@ it assumes you have been out to one co-op.
 
 ## Group Presentations
 
-You can fins the group presentation schedule [here](schedule.html)
+You can find the in-class group presentation schedule [here](schedule.html).
 
 ## Final Code Reviews
 
