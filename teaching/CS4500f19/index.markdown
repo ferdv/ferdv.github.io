@@ -104,6 +104,10 @@ it assumes you have been out to one co-op.
     Due: Wednesday 11/6 11:59pm
      
 
+## Group Presentations
+
+You can fins the group presentation schedule [here](schedule.html)
+
 ## Final Code Reviews
 
 In lieu of a final, we will conduct an extensive code walk of your projects. If the course progresses on schedule, the final code walks will be held during the finals examination period. If the course progresses faster than anticipated, all final code walks will take place during the final week of classes. 
