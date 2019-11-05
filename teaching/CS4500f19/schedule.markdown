@@ -22,7 +22,7 @@ geometry:
 |    Date     |    Group 1     |   Group 2    |       Group 3       |
 |-------------|----------------|--------------|---------------------|
 | *Tue, Nov 5*  | Runtime Terror | Jellyphish   | so-called-engineers |
-| *Fri, Nov 8*  |       --       |      --      |          --         | 
+| *Fri, Nov 8*  | Greenhouse     |      --      |          --         | 
 | *Tue, Nov 12* | boba-bois      | fruity-loops | Not-A-Hyphen        |
 
 
