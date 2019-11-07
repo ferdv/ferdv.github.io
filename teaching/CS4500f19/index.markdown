@@ -73,6 +73,8 @@ it assumes you have been out to one co-op.
   | 10/22 | 12. Design by Contract   | [Slides](./m/12/12-design-by-contract.pdf) | |
   | 10/25 | 13. Code Reviews         | [Slides](./m/13/13-code-reviews.pdf) | |
   | 11/01 | 14. Group Presentations  | [Slides](./m/14/14-group-presentations.pdf) | |
+  | 11/05 | Presentations  | [Schedule](schedule.html) | |
+  | 11/08 | Presentations  | [Schedule](schedule.html) | |
 
 ## Assignments
   
@@ -102,7 +104,10 @@ it assumes you have been out to one co-op.
   * [Phase 4 - Implementing the Referee and Players](m/4.pdf)  
     Set: Thursday 10/31  
     Due: Wednesday 11/6 11:59pm
-     
+  * [Phase 5: Graphical Observers, Referee-Player Integration](m/5.pdf)  
+    Set: Thursday 11/07  
+    Due: Thursday 11/14 11:59pm
+      
 
 ## Group Presentations
 
