@@ -478,7 +478,7 @@ $$-->
 <pre><code>and =   λa b. if-else a b false
     =   λa b. (λb t f. b t f) a b false
     --&gt; λa b. (λt f. a t f) b false
-    --&gt; λa b. (λt. a b) false
+    --&gt; λa b. (λf. a b f) false
     --&gt; λa b. a b false</code></pre>
 <p>Can you come up with a representation of <span class="math inline">\(\textsf{or}\)</span>? <span class="math inline">\(\textsf{not}\)</span>?</p>
 <h4 id="pairs">Pairs</h4>
