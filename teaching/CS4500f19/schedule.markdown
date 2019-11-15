@@ -28,7 +28,7 @@ geometry:
 | *Tue, Nov 19* | Clowns-who-Code  | The Group      | FoxBlossom          |
 | *Fri, Nov 22* | JIVE             | Lady-Engineers | fruity-loops        |
 | *Tue, Nov 26* |        --        |       --       |          --         |
-| *Tue, Dec 3*  |        --        |       --       |          --         |
+| *Tue, Dec 3*  | husky-alpha      |       --       |          --         |
 
 
 ## Afternoon Section, 1:35-3:15pm

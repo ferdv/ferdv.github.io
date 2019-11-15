@@ -75,6 +75,10 @@ it assumes you have been out to one co-op.
   | 11/01 | 14. Group Presentations  | [Slides](./m/14/14-group-presentations.pdf) | |
   | 11/05 | Presentations  | [Schedule](schedule.html) | |
   | 11/08 | Presentations  | [Schedule](schedule.html) | |
+  | 11/12 | Presentations  | [Schedule](schedule.html) | |
+  | 11/15 | Presentations  | [Schedule](schedule.html) | |
+  | 11/19 | Presentations  | [Schedule](schedule.html) | |
+  | 11/22 | Presentations  | [Schedule](schedule.html) | |
 
 ## Assignments
   
@@ -107,6 +111,9 @@ it assumes you have been out to one co-op.
   * [Phase 5: Graphical Observers, Referee-Player Integration](m/5.pdf)  
     Set: Thursday 11/07  
     Due: Thursday 11/14 11:59pm
+  * [Phase 6: Client/Server](m/6.pdf)  
+    Set: Friday 11/15  
+    Due: Monday 11/25 11:59pm
       
 
 ## Group Presentations
