@@ -26,8 +26,8 @@ geometry:
 | *Tue, Nov 12* | boba-bois        | Not-A-Hyphen   |          --         |
 | *Fri, Nov 15* | SoftwareDev_Gang |       --       |          --         |
 | *Tue, Nov 19* | Clowns-who-Code  | The Group      | FoxBlossom          |
-| *Fri, Nov 22* | JIVE             | Lady-Engineers | fruity-loops        |
-| *Tue, Nov 26* |        --        |       --       |          --         |
+| *Fri, Nov 22* | JIVE             | Lady-Engineers |          --         |
+| *Tue, Nov 26* | fruity-loops     |       --       |          --         |
 | *Tue, Dec 3*  | husky-alpha      |       --       |          --         |
 
 
