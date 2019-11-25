@@ -66,6 +66,8 @@ This is a rough and tentative list of topics that we will aim to cover this seme
 | 10/08 | Programming in Pure Lambda Calculus | [Notes](m/notes/notes.html#programming-in-pure-lambda-calculus) |
 | 10/15 | Reduction vs. Evaluation, Closures, Loops and Assignment | [Notes](m/notes/notes.html#reduction-vs.-evaluation) |
 | 10/22 | Haskell Corner: Programming with Monads; QuickCheck | |
+|       | ... | |
+| 11/19 | Types and Systems | [Types.hs](m/lec10/Types.hs) [Maps.hs](m/lec10/Maps.hs)|
 
 ## Assignments
 
@@ -75,7 +77,7 @@ This is a rough and tentative list of topics that we will aim to cover this seme
 | [Assignment 2: ABL](cw/02/Assignment2.html)| Week of 09/30 | 10/17 | [PDF](m/cw/02/Assignment2.pdf)\ \ [Pack](m/cw/02/Assignment2.zip)
 | [Assignment 3: Pure Lambda Calculus](m/cw/03/Assignment3.pdf) | 10/20 | 11/01 | [Pack](m/cw/03/Assignment3.zip)
 | [Assignment 4: MiniImp](m/cw/04/Assignment4.pdf) | 11/10 | 11/22 | [Pack](m/cw/04/Assignment4.zip)
-| Assignment 5 | Week of 11/18 | 12/04 |
+| [Assignment 5: STLC](m/cw/05/Assignment5.pdf) | 11/25 | 12/04 | [Pack](m/cw/05/Assignment5.zip)
 
 ## Haskell
 
