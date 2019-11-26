@@ -1293,14 +1293,19 @@ TypeError: can only concatenate str (not &quot;int&quot;) to str</code></pre></l
  |- Add e1 e2 : TyInt</code></pre></li>
 <li><p>More typing rules (we add a few new expression shapes + a new type for booleans):</p>
 <div class="sourceCode" id="cb110"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb110-1"><a href="#cb110-1"></a><span class="kw">data</span> <span class="dt">Expr</span> <span class="ot">=</span> <span class="op">...</span></span>
-<span id="cb110-2"><a href="#cb110-2"></a>          <span class="op">|</span> <span class="dt">And</span> <span class="dt">Expr</span> <span class="dt">Expr</span></span>
-<span id="cb110-3"><a href="#cb110-3"></a>          <span class="op">|</span> <span class="dt">Not</span> <span class="dt">Expr</span></span>
-<span id="cb110-4"><a href="#cb110-4"></a>          <span class="op">|</span> <span class="dt">Leq</span> <span class="dt">Expr</span></span>
-<span id="cb110-5"><a href="#cb110-5"></a>          <span class="op">|</span> <span class="dt">If</span> <span class="dt">Expr</span> <span class="dt">Expr</span> <span class="dt">Expr</span></span>
-<span id="cb110-6"><a href="#cb110-6"></a></span>
-<span id="cb110-7"><a href="#cb110-7"></a><span class="kw">data</span> <span class="dt">Type</span> <span class="ot">=</span> <span class="op">...</span></span>
-<span id="cb110-8"><a href="#cb110-8"></a>          <span class="op">|</span> <span class="dt">TyBool</span></span></code></pre></div>
+<span id="cb110-2"><a href="#cb110-2"></a>          <span class="op">|</span> <span class="dt">Bool</span> <span class="dt">Bool</span></span>
+<span id="cb110-3"><a href="#cb110-3"></a>          <span class="op">|</span> <span class="dt">And</span> <span class="dt">Expr</span> <span class="dt">Expr</span></span>
+<span id="cb110-4"><a href="#cb110-4"></a>          <span class="op">|</span> <span class="dt">Not</span> <span class="dt">Expr</span></span>
+<span id="cb110-5"><a href="#cb110-5"></a>          <span class="op">|</span> <span class="dt">Leq</span> <span class="dt">Expr</span></span>
+<span id="cb110-6"><a href="#cb110-6"></a>          <span class="op">|</span> <span class="dt">If</span> <span class="dt">Expr</span> <span class="dt">Expr</span> <span class="dt">Expr</span></span>
+<span id="cb110-7"><a href="#cb110-7"></a></span>
+<span id="cb110-8"><a href="#cb110-8"></a><span class="kw">data</span> <span class="dt">Type</span> <span class="ot">=</span> <span class="op">...</span></span>
+<span id="cb110-9"><a href="#cb110-9"></a>          <span class="op">|</span> <span class="dt">TyBool</span></span></code></pre></div>
 <pre><code>
+--------------------
+ |- Bool b : TyBool
+
+
  |- e1 : TyBool   |- e2 : TyBool
 ---------------------------------
  |- And e1 e2 : TyBool
@@ -1320,6 +1325,140 @@ TypeError: can only concatenate str (not &quot;int&quot;) to str</code></pre></l
 ----------------------------------------
  |- If e1 e2 e3 : t</code></pre></li>
 </ul>
+<p>How do we apply these rules?</p>
+<ul>
+<li><p>We build derivations!</p></li>
+<li><p>But what are derivations?</p></li>
+<li><p>A derivation is a (proof) tree built by <em>consistently</em> replacing variables in inference rules by concrete terms</p></li>
+<li><p>At the bottom of the tree is the typing judgment we are trying to show</p></li>
+</ul>
+<p>Examples:</p>
+<ol type="1">
+<li><p>A numeric literal</p>
+<pre><code>------------------
+ |- Num 3 : TyInt</code></pre>
+<p>Nothing else needed here, since the rule is an axiom and doesn’t have any conditions (premises)</p></li>
+<li><p>Addition of two numbers</p>
+<pre><code> |- Num 3 : TyInt   |- Num 3 : TyInt
+-------------------------------------
+ |- Add (Num 3) (Num 4) : TyInt
+</code></pre></li>
+<li><p>Boolean expression:</p>
+<pre><code> |- Bool True : TyBool           |- Bool False : TyBool  |- Bool True : TyBool
+-----------------------------   -----------------------------------------------
+ |- Not (Bool True) : TyBool     |- And (Bool False) (Bool True) : TyBool
+-------------------------------------------------------------------------------
+ |- And (Not (Bool True)) (And (Bool False) (Bool True)) : TyBool
+</code></pre>
+<p>Prettier:</p>
+<p><span class="math display">\[
+\cfrac{\cfrac{\vdash \text{Bool True} : \text{TyBool}}
+             {\vdash \text{Not (Bool True)} : \text{TyBool}}
+       \quad
+       \cfrac{\vdash \text{Bool False} : \text{TyBool}
+              \quad \vdash \text{Bool True} : \text{TyBool}}
+             {\vdash \text{And (Bool False) (Bool True)} : \text{TyBool}}
+      }
+      {\vdash \text{And (Not (Bool True )) (And (Bool False) (Bool True))} : \text{TyBool}}
+\]</span></p></li>
+<li><p>Conditional involving booleans and integers</p>
+<pre><code> |- Num 3 : TyInt   Num 4 : TyInt
+----------------------------------
+ |- Leq (Num 3) (Num 4) : TyBool
+--------------------------------------
+ |- Not (Leq (Num 3) (Num4)) : TyBool    |- Num 3 : TyInt   |- Num 5 : TyInt
+-----------------------------------------------------------------------------
+ |- If (Not (Leq (Num 3) (Num 4))) (Num 3) (Num 5)
+</code></pre></li>
+<li><p>A failing one:</p>
+<pre><code> |- Bool True : TyBool  |- Num 3 : TyInt
+-----------------------------------------
+ |- Add (Bool True) (Num 3) : ?</code></pre>
+<p>We have no rule to apply here. We would need <code>Num 3</code> to have type <code>TyBool</code> and there is no rule that allows us to derive this. Hence, the above expression cannot be type-checked.</p></li>
+</ol>
+<h3 id="type-checking-involving-variables">Type-checking Involving Variables</h3>
+<p>Syntax extensions:</p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb117-1"><a href="#cb117-1"></a><span class="kw">data</span> <span class="dt">Expr</span> <span class="ot">=</span> <span class="op">...</span></span>
+<span id="cb117-2"><a href="#cb117-2"></a>          <span class="op">|</span> <span class="dt">Var</span> <span class="dt">Variable</span></span>
+<span id="cb117-3"><a href="#cb117-3"></a>          <span class="op">|</span> <span class="dt">Let</span> <span class="dt">Variable</span> <span class="dt">Expr</span> <span class="dt">Expr</span></span></code></pre></div>
+<p>How do we deal with variables?</p>
+<ul>
+<li><p>We need to keep track of types assigned to variables</p></li>
+<li><p>Idea: Like for an (environment-based) evaluator for expressions, use an environment</p></li>
+<li><p>The environment maps variables <em>to types</em></p></li>
+</ul>
+<pre><code>type TyEnv = Map Variable Type</code></pre>
+<p>Example rules:</p>
+<pre><code>  t &lt;- get x tenv        
+------------------- 
+ tenv |- Var x : t  
+
+
+
+ tenv |- e1 : t1    add x t1 env |- e2 : t2
+--------------------------------------------
+         tenv |- Let x e1 e2 : t2
+</code></pre>
+<p>In Haskell:</p>
+<div class="sourceCode" id="cb120"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb120-1"><a href="#cb120-1"></a><span class="ot">typeOf ::</span> <span class="dt">TyEnv</span> <span class="ot">-&gt;</span> <span class="dt">Expr</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Type</span></span>
+<span id="cb120-2"><a href="#cb120-2"></a><span class="op">...</span></span>
+<span id="cb120-3"><a href="#cb120-3"></a>typeOf tenv (<span class="dt">Add</span> e1 e2) <span class="ot">=</span>     <span class="co">-- previous cases need to be refactored to use tenv</span></span>
+<span id="cb120-4"><a href="#cb120-4"></a>  <span class="kw">do</span> <span class="dt">TyInt</span> <span class="ot">&lt;-</span> typeOf tenv e1</span>
+<span id="cb120-5"><a href="#cb120-5"></a>     <span class="dt">TyInt</span> <span class="ot">&lt;-</span> typeOf tenv e2</span>
+<span id="cb120-6"><a href="#cb120-6"></a>     <span class="fu">return</span> <span class="dt">TyInt</span></span>
+<span id="cb120-7"><a href="#cb120-7"></a><span class="op">...</span></span>
+<span id="cb120-8"><a href="#cb120-8"></a>typeOf tenv (<span class="dt">Var</span> x) <span class="ot">=</span> get tenv x      <span class="co">-- NEW: variable lookup</span></span>
+<span id="cb120-9"><a href="#cb120-9"></a>typeOf tenv (<span class="dt">Let</span> x e1 e2) <span class="ot">=</span>           <span class="co">-- NEW: let-binding</span></span>
+<span id="cb120-10"><a href="#cb120-10"></a>  <span class="kw">do</span> t1 <span class="ot">&lt;-</span> typeOf tenv e1             <span class="co">-- get type of e1</span></span>
+<span id="cb120-11"><a href="#cb120-11"></a>     t2 <span class="ot">&lt;-</span> typeOf (add x t1 tenv) e2  <span class="co">-- get the type of e2, assuming x : t1</span></span>
+<span id="cb120-12"><a href="#cb120-12"></a>     <span class="fu">return</span> t2</span></code></pre></div>
+<h3 id="simply-typed-lambda-calculus-stlc">Simply-Typed Lambda Calculus (STLC)</h3>
+<p>Syntax extensions:</p>
+<ul>
+<li>Note that abstractions need to specify the type of the bound variable – there is no way for the type-checker to guess it (at this stage)</li>
+</ul>
+<div class="sourceCode" id="cb121"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb121-1"><a href="#cb121-1"></a><span class="kw">data</span> <span class="dt">Expr</span> <span class="ot">=</span> <span class="op">...</span></span>
+<span id="cb121-2"><a href="#cb121-2"></a>          <span class="op">|</span> <span class="dt">Lam</span> <span class="dt">Variable</span> <span class="dt">Type</span> <span class="dt">Expr</span></span>
+<span id="cb121-3"><a href="#cb121-3"></a>          <span class="op">|</span> <span class="dt">App</span> <span class="dt">Expr</span> <span class="dt">Expr</span></span>
+<span id="cb121-4"><a href="#cb121-4"></a></span>
+<span id="cb121-5"><a href="#cb121-5"></a><span class="kw">data</span> <span class="dt">Type</span> <span class="ot">=</span> <span class="op">...</span></span>
+<span id="cb121-6"><a href="#cb121-6"></a>          <span class="op">|</span> <span class="dt">TyArrow</span> <span class="dt">Type</span> <span class="dt">Type</span></span></code></pre></div>
+<p><code class="sourceCode haskell"><span class="dt">TyArrow</span></code>:</p>
+<ul>
+<li><p>The new <em>type constructor</em>, <code class="sourceCode haskell"><span class="dt">TyArrow</span></code>, represents a function type:</p>
+<p><code class="sourceCode haskell"><span class="dt">TyArrow</span> <span class="dt">TyInt</span> <span class="dt">TyBool</span></code> is the type a function that takes an integer (<code class="sourceCode haskell"><span class="dt">TyInt</span></code>) and returns a boolean (<code class="sourceCode haskell"><span class="dt">TyBool</span></code>). In Haskell (also in some other languages and in type theory), this is written <code class="sourceCode haskell"><span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></code></p>
+<p><code class="sourceCode haskell"><span class="dt">TyArrow</span> (<span class="dt">TyArrow</span> <span class="dt">TyInt</span> <span class="dt">TyBool</span>) (<span class="dt">TyArrow</span> <span class="dt">TyInt</span> <span class="dt">TyBool</span>)</code> corresponds to <code class="sourceCode haskell">(<span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>) <span class="ot">-&gt;</span> (<span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>)</code>, that is, the type of a function that takes a function from integers to booleans and returns a function from integers to booleans.</p>
+<blockquote>
+<p>Due to currying, we normally understand this as a function that takes a function from integers to booleans, then an integer and returns a boolean. Note that this also means that the arrow <code>-&gt;</code> is <em>right-associative</em> and the above Haskell type can be equivalently written as <code class="sourceCode haskell">(<span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>) <span class="ot">-&gt;</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></code>. Also note, that this is opposite of how application associates, which is to the left.</p>
+</blockquote></li>
+</ul>
+<p><strong>Note on associativity:</strong></p>
+<blockquote>
+<p>Function <em>type</em> – RIGHT: <code class="sourceCode haskell">t1 <span class="ot">-&gt;</span> t2 <span class="ot">-&gt;</span> t3 <span class="ot">-&gt;</span> t4</code> is the same as <code class="sourceCode haskell">t1 <span class="ot">-&gt;</span> (t2 <span class="ot">-&gt;</span> t3 <span class="ot">-&gt;</span> t3)</code> is the same as <code class="sourceCode haskell">t1 <span class="ot">-&gt;</span> (t2 <span class="ot">-&gt;</span> (t3 <span class="ot">-&gt;</span> t4))</code></p>
+</blockquote>
+<blockquote>
+<p>Function <em>application</em> – LEFT: <code class="sourceCode haskell">f a b c</code> is the same as <code class="sourceCode haskell">(f a) b c</code> is the same as <code class="sourceCode haskell">((f a) b) c</code></p>
+</blockquote>
+<p>Rules</p>
+<pre><code> add x t1 tenv |- e : t2        
+------------------------------------
+ tenv |- Lam x t1 e : TyArrow t1 t2
+
+
+ tenv |- e1 : TyArrow t2 t1    e2 : t2&#39;   t2 == t2&#39; 
+----------------------------------------------------
+             tenv |- App e1 e2 : t1
+</code></pre>
+<p>The fixpoint operator:</p>
+<ul>
+<li>No fixpoint combinator (e.g., Y or Z) can be type-checked in STLC, so it has to be added as a primitive operation</li>
+</ul>
+<div class="sourceCode" id="cb123"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb123-1"><a href="#cb123-1"></a><span class="kw">data</span> <span class="dt">Expr</span> <span class="ot">=</span> <span class="op">...</span></span>
+<span id="cb123-2"><a href="#cb123-2"></a>          <span class="op">|</span> <span class="dt">Fix</span> <span class="dt">Expr</span></span></code></pre></div>
+<pre><code> tenv |- e : TyArrow t t&#39;   t == t&#39;
+------------------------------------
+          tenv |- Fix e : t
+</code></pre>
 <!--
 # Haskell Corner:
 
