@@ -779,7 +779,7 @@ snd (l, r) --&gt;δ r</code></pre>
 <p>What happens if we ask our evaluator to evaluate the above expression?</p>
 <div class="sourceCode" id="cb81"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb81-1"><a href="#cb81-1"></a><span class="op">&gt;</span> evalCBV empty e</span>
 <span id="cb81-2"><a href="#cb81-2"></a><span class="dt">Just</span> (<span class="dt">Num</span> <span class="dv">4</span>) </span></code></pre></div>
-<p>What we implemented here is dynamic scoping. The value of a variable is determined by the most recently bound variable at runtime. In general, under dynamic scoping the value of a variable cannot be determined statically, that is, just by looking at the code. This is usually counterintuitive for us. We are used to <em>lexical</em> (or <em>static</em>) scoping, that is, the scope of a variable is given by its location in the source code of the program. Most programming language use lexical scoping, because this allows us to easily reason about the values of variables when we read source code. Examples of languages with dynamic scoping are: Lisp (Emacs), <span class="math inline">\(\LaTeX\)</span>, bash. Some languages allow choosing scope when defining a variables, such as Common Lisp or Perl. How do we ensure static scoping?</p>
+<p>What we implemented here is dynamic scoping. The value of a variable is determined by the most recently bound variable at runtime. In general, under dynamic scoping the value of a variable cannot be determined statically, that is, just by looking at the code. This is usually counterintuitive for us. We are used to <em>lexical</em> (or <em>static</em>) scoping, that is, the scope of a variable is given by its location in the source code of the program. Most programming language use lexical scoping, because this allows us to easily reason about the values of variables when we read source code. Examples of languages with dynamic scoping are: Lisp (Emacs), LaTeX, bash. Some languages allow choosing scope when defining a variables, such as Common Lisp or Perl. How do we ensure static scoping?</p>
 <h3 id="closures">Closures</h3>
 <ul>
 <li>The problem arises because we are passing around a lambda value and the original association between its free variables and values is lost</li>
@@ -990,12 +990,119 @@ snd (l, r) --&gt;δ r</code></pre>
 <span id="cb93-36"><a href="#cb93-36"></a>                     _ <span class="ot">-&gt;</span> <span class="dt">Nothing</span></span>
 <span id="cb93-37"><a href="#cb93-37"></a>              _ <span class="ot">-&gt;</span> <span class="dt">Nothing</span></span>
 <span id="cb93-38"><a href="#cb93-38"></a>       _ <span class="ot">-&gt;</span> <span class="dt">Nothing</span></span></code></pre></div>
-<!--
-## Imperative Variables II
-
-- Our first representation of memory was a direct mapping from names to storage cells
-
--->
+<h2 id="imperative-variables-ii-block-scope">Imperative Variables II: Block Scope</h2>
+<ul>
+<li><p>Our first representation of memory was a direct mapping from names to stored values</p></li>
+<li><p>Consequence:</p>
+<ul>
+<li>A variable defined inside, e.g., a while loop or a branch of an if statement, is visible and accessible outside of that loop, or branch</li>
+</ul></li>
+<li><p>This is does not correspond to what happens in most common imperative languages</p></li>
+<li><p>Languages like Python, C, Java, … enforce <em>block scope</em>, that is a variable is only visible in the block in which it was defined (or declared)</p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb94-1"><a href="#cb94-1"></a><span class="dt">int</span> x = <span class="dv">20</span>;</span>
+<span id="cb94-2"><a href="#cb94-2"></a></span>
+<span id="cb94-3"><a href="#cb94-3"></a><span class="kw">do</span> {</span>
+<span id="cb94-4"><a href="#cb94-4"></a>  <span class="dt">int</span> x = <span class="dv">10</span>; <span class="co">// different variable - different storage cell</span></span>
+<span id="cb94-5"><a href="#cb94-5"></a>              <span class="co">// inside this block, shadows the outer x</span></span>
+<span id="cb94-6"><a href="#cb94-6"></a>  <span class="dt">int</span> y = <span class="dv">1</span>;</span>
+<span id="cb94-7"><a href="#cb94-7"></a>} <span class="kw">while</span> (<span class="kw">false</span>);</span>
+<span id="cb94-8"><a href="#cb94-8"></a></span>
+<span id="cb94-9"><a href="#cb94-9"></a><span class="co">// here, x is still 20</span></span>
+<span id="cb94-10"><a href="#cb94-10"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(y); <span class="co">// error: y doesn&#39;t exist here</span></span></code></pre></div></li>
+<li><p>Block scope is similar to let expressions</p></li>
+<li><p>Another issue: in languages like Python, or Java (for object types), the semantics of assignment is to set a reference – instead of copying the object stored in the memory location</p></li>
+<li><p>E.g., the Python program</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb95-1"><a href="#cb95-1"></a>x <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
+<span id="cb95-2"><a href="#cb95-2"></a>y <span class="op">=</span> x</span>
+<span id="cb95-3"><a href="#cb95-3"></a><span class="bu">print</span>(y)</span>
+<span id="cb95-4"><a href="#cb95-4"></a>y.append(<span class="dv">4</span>)</span>
+<span id="cb95-5"><a href="#cb95-5"></a><span class="bu">print</span>(x)</span></code></pre></div>
+<p>prints</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1"></a>[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
+<span id="cb96-2"><a href="#cb96-2"></a>[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>]</span></code></pre></div>
+<p>because <code>x</code> and <code>y</code> refer to the same object</p></li>
+</ul>
+<!-- - How do we represent references/pointers? -->
+<p>How do we combine block scope with imperative variables?</p>
+<ul>
+<li><p>Block is captured well by (read-only) environments</p></li>
+<li><p>A store captures variables which can be modified</p></li>
+<li><p>Idea:</p>
+<ul>
+<li><p>Environment for mapping variables to “addresses”</p></li>
+<li><p>Store for mapping addresses to (maybe) values</p></li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb97"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb97-1"><a href="#cb97-1"></a><span class="kw">type</span> <span class="dt">Address</span> <span class="ot">=</span> <span class="dt">Integer</span></span>
+<span id="cb97-2"><a href="#cb97-2"></a></span>
+<span id="cb97-3"><a href="#cb97-3"></a><span class="kw">type</span> <span class="dt">Store</span> <span class="ot">=</span> <span class="dt">Map</span> <span class="dt">Integer</span> <span class="dt">Value</span></span>
+<span id="cb97-4"><a href="#cb97-4"></a><span class="kw">type</span> <span class="dt">Env</span> <span class="ot">=</span> <span class="dt">Map</span> <span class="dt">String</span> <span class="dt">Integer</span></span></code></pre></div>
+<p>Implementation: we add a new construct <code class="sourceCode haskell"><span class="dt">Block</span></code> which bundles variable <em>declarations</em> with statements that can use these variables. We keep our <code>Assign</code> construct, however, we’ll redefine its meaning (implementation). We will also change the semantics of variable references (<code class="sourceCode haskell"><span class="dt">Var</span></code>)</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb98-1"><a href="#cb98-1"></a><span class="kw">data</span> <span class="dt">Stmt</span> <span class="ot">=</span> <span class="dt">Assign</span> <span class="dt">String</span> <span class="dt">Expr</span> <span class="co">-- we&#39;re keeping our assignment statement</span></span>
+<span id="cb98-2"><a href="#cb98-2"></a>          <span class="op">...</span></span>
+<span id="cb98-3"><a href="#cb98-3"></a>          <span class="op">|</span> <span class="dt">Block</span> <span class="dt">Decl</span> <span class="dt">Stmt</span>    <span class="co">-- a block is a bunch of variable declarations followed by statements</span></span>
+<span id="cb98-4"><a href="#cb98-4"></a>          <span class="kw">deriving</span> <span class="dt">Show</span></span>
+<span id="cb98-5"><a href="#cb98-5"></a></span>
+<span id="cb98-6"><a href="#cb98-6"></a><span class="kw">data</span> <span class="dt">Decl</span> <span class="ot">=</span> <span class="dt">NewVar</span> <span class="dt">String</span> <span class="dt">Decl</span> <span class="co">-- a declaration list can be</span></span>
+<span id="cb98-7"><a href="#cb98-7"></a>          <span class="op">|</span> <span class="dt">Empty</span>              <span class="co">-- empty</span></span>
+<span id="cb98-8"><a href="#cb98-8"></a>          <span class="kw">deriving</span> <span class="dt">Show</span></span>
+<span id="cb98-9"><a href="#cb98-9"></a></span>
+<span id="cb98-10"><a href="#cb98-10"></a><span class="kw">data</span> <span class="dt">Expr</span> <span class="ot">=</span> <span class="op">...</span>                <span class="co">-- expressions remain the same...</span></span>
+<span id="cb98-11"><a href="#cb98-11"></a>          <span class="op">|</span> <span class="dt">Var</span> x              <span class="co">-- except we will change the meaning of variable lookup</span></span>
+<span id="cb98-12"><a href="#cb98-12"></a>          <span class="op">|</span> <span class="op">...</span>               </span>
+<span id="cb98-13"><a href="#cb98-13"></a></span>
+<span id="cb98-14"><a href="#cb98-14"></a><span class="kw">data</span> <span class="dt">Value</span> <span class="ot">=</span> <span class="dt">Num</span> <span class="dt">Integer</span>       <span class="co">-- value are the same</span></span>
+<span id="cb98-15"><a href="#cb98-15"></a>           <span class="kw">deriving</span> <span class="dt">Show</span></span>
+<span id="cb98-16"><a href="#cb98-16"></a></span>
+<span id="cb98-17"><a href="#cb98-17"></a><span class="kw">type</span> <span class="dt">Out</span> <span class="ot">=</span> [<span class="dt">Value</span>]</span>
+<span id="cb98-18"><a href="#cb98-18"></a></span>
+<span id="cb98-19"><a href="#cb98-19"></a></span>
+<span id="cb98-20"><a href="#cb98-20"></a><span class="co">-- There are multiple ways we can represent allocation</span></span>
+<span id="cb98-21"><a href="#cb98-21"></a><span class="co">-- The questions to answer are:</span></span>
+<span id="cb98-22"><a href="#cb98-22"></a><span class="co">--   a) how do we select the next address?</span></span>
+<span id="cb98-23"><a href="#cb98-23"></a><span class="co">--   b) what do we store at the freshly allocated address?</span></span>
+<span id="cb98-24"><a href="#cb98-24"></a><span class="co">-- Here we use the following:</span></span>
+<span id="cb98-25"><a href="#cb98-25"></a><span class="co">--   a) We take the highest address plus one</span></span>
+<span id="cb98-26"><a href="#cb98-26"></a><span class="co">--   b) We store the number 0. Note that this choice can have various consequences: Do we need to distinguish between initialized and unitialized storage cells?</span></span>
+<span id="cb98-27"><a href="#cb98-27"></a></span>
+<span id="cb98-28"><a href="#cb98-28"></a><span class="ot">alloc ::</span> <span class="dt">Store</span> <span class="ot">-&gt;</span> (<span class="dt">Address</span>, <span class="dt">Store</span>)</span>
+<span id="cb98-29"><a href="#cb98-29"></a>alloc [] <span class="ot">=</span> (first, add first (<span class="dt">Num</span> <span class="dv">0</span>) empty)</span>
+<span id="cb98-30"><a href="#cb98-30"></a>  <span class="kw">where</span> first <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb98-31"><a href="#cb98-31"></a>alloc m <span class="ot">=</span> (new, add new (<span class="dt">Num</span> <span class="dv">0</span>) m)</span>
+<span id="cb98-32"><a href="#cb98-32"></a>  <span class="kw">where</span> new <span class="ot">=</span> (<span class="fu">maximum</span> (keys m)) <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb98-33"><a href="#cb98-33"></a>        keys [] <span class="ot">=</span> [] <span class="co">-- get all the keys from a map</span></span>
+<span id="cb98-34"><a href="#cb98-34"></a>        keys ((k, _) <span class="op">:</span> m) <span class="ot">=</span> k <span class="op">:</span> keys m</span>
+<span id="cb98-35"><a href="#cb98-35"></a></span>
+<span id="cb98-36"><a href="#cb98-36"></a><span class="co">-- process declarations</span></span>
+<span id="cb98-37"><a href="#cb98-37"></a><span class="ot">procDecl ::</span> <span class="dt">Store</span> <span class="ot">-&gt;</span> <span class="dt">Env</span> <span class="ot">-&gt;</span> <span class="dt">Decl</span> <span class="ot">-&gt;</span> (<span class="dt">Store</span>, <span class="dt">Env</span>)</span>
+<span id="cb98-38"><a href="#cb98-38"></a>procDecl sto env (<span class="dt">NewVar</span> x d) <span class="ot">=</span> </span>
+<span id="cb98-39"><a href="#cb98-39"></a>  procDecl sto&#39; env&#39; d </span>
+<span id="cb98-40"><a href="#cb98-40"></a>  <span class="kw">where</span> (addr, sto&#39;) <span class="ot">=</span> alloc sto  <span class="co">-- allocate a new address in the store</span></span>
+<span id="cb98-41"><a href="#cb98-41"></a>        env&#39; <span class="ot">=</span> add x addr env     <span class="co">-- bind the requested name to the new address</span></span>
+<span id="cb98-42"><a href="#cb98-42"></a>procDecl sto env <span class="dt">Empty</span> <span class="ot">=</span> (sto, env)</span>
+<span id="cb98-43"><a href="#cb98-43"></a></span>
+<span id="cb98-44"><a href="#cb98-44"></a><span class="ot">evalExpr ::</span> <span class="dt">Env</span> <span class="ot">-&gt;</span> <span class="dt">Store</span> <span class="ot">-&gt;</span> <span class="dt">Expr</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Value</span></span>
+<span id="cb98-45"><a href="#cb98-45"></a><span class="op">...</span></span>
+<span id="cb98-46"><a href="#cb98-46"></a>evalExpr env sto (<span class="dt">Var</span> x) <span class="ot">=</span> <span class="co">-- NEW </span></span>
+<span id="cb98-47"><a href="#cb98-47"></a>  <span class="kw">do</span> addr <span class="ot">&lt;-</span> get x env     <span class="co">-- first we find the address of the variable</span></span>
+<span id="cb98-48"><a href="#cb98-48"></a>     get addr sto          <span class="co">-- then we find the value in the store</span></span>
+<span id="cb98-49"><a href="#cb98-49"></a><span class="op">...</span></span>
+<span id="cb98-50"><a href="#cb98-50"></a></span>
+<span id="cb98-51"><a href="#cb98-51"></a><span class="ot">execStmt ::</span> <span class="dt">Env</span> <span class="ot">-&gt;</span> (<span class="dt">Store</span>, <span class="dt">Stmt</span>) <span class="ot">-&gt;</span> <span class="dt">Maybe</span> (<span class="dt">Store</span>, <span class="dt">Out</span>)</span>
+<span id="cb98-52"><a href="#cb98-52"></a>execStmt env (sto, <span class="dt">Assign</span> x e) <span class="ot">=</span>  <span class="co">-- NEW</span></span>
+<span id="cb98-53"><a href="#cb98-53"></a>  <span class="kw">case</span> evalExpr env sto e <span class="kw">of</span>      <span class="co">-- first evaluate the expression to assign</span></span>
+<span id="cb98-54"><a href="#cb98-54"></a>       <span class="dt">Just</span> v <span class="ot">-&gt;</span> </span>
+<span id="cb98-55"><a href="#cb98-55"></a>         <span class="kw">case</span> get x env <span class="kw">of</span>        <span class="co">-- find the address of the variable</span></span>
+<span id="cb98-56"><a href="#cb98-56"></a>              <span class="dt">Just</span> addr <span class="ot">-&gt;</span> <span class="dt">Just</span> (add addr v sto, []) <span class="co">-- &quot;overwrite&quot; the address in the store</span></span>
+<span id="cb98-57"><a href="#cb98-57"></a>              _ <span class="ot">-&gt;</span> <span class="dt">Nothing</span></span>
+<span id="cb98-58"><a href="#cb98-58"></a>       <span class="dt">Nothing</span> <span class="ot">-&gt;</span> <span class="dt">Nothing</span></span>
+<span id="cb98-59"><a href="#cb98-59"></a>execStmt env (sto, <span class="dt">Seq</span> c1 c2) <span class="ot">=</span> <span class="op">...</span> <span class="co">-- same as before</span></span>
+<span id="cb98-60"><a href="#cb98-60"></a>execStmt env (sto, <span class="dt">Print</span> e) <span class="ot">=</span> <span class="op">...</span> <span class="co">-- same as before</span></span>
+<span id="cb98-61"><a href="#cb98-61"></a>execStmt env (sto, <span class="dt">Block</span> d s) <span class="ot">=</span> <span class="co">-- NEW: the structure of a block is similar to let</span></span>
+<span id="cb98-62"><a href="#cb98-62"></a>  <span class="kw">let</span> (sto&#39;, env&#39;) <span class="ot">=</span> procDecl sto env d <span class="co">-- process declarations (allocating variables in the store)</span></span>
+<span id="cb98-63"><a href="#cb98-63"></a>  <span class="kw">in</span> execStmt env&#39; (sto&#39;, s)            <span class="co">-- execute statements in the store</span></span></code></pre></div>
+<h1 id="formal-operational-semantics">Formal Operational Semantics</h1>
+<h1 id="types-and-type-systems">Types and Type Systems</h1>
 <!--
 # Haskell Corner:
 

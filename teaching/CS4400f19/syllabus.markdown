@@ -64,10 +64,12 @@ This is a rough and tentative list of topics that we will aim to cover this seme
 | 09/24 | Evaluating with Environments; More than One Value Type | [Slides](m/lec03/03-slides.pdf)\ \ [Lec03.hs](m/lec03/Lec03.hs)\ \ [Lec03a.hs](m/lec03/Lec03a.hs) |
 | 10/01 | Intro to Lambda Calculus, Reduction, Reduction Strategies | [Notes](m/notes/notes.html#lambda-calculus)\ \ [Lec04.hs](m/lec04/Lec04.hs) |
 | 10/08 | Programming in Pure Lambda Calculus | [Notes](m/notes/notes.html#programming-in-pure-lambda-calculus) |
-| 10/15 | Reduction vs. Evaluation, Closures, Loops and Assignment | [Notes](m/notes/notes.html#reduction-vs.-evaluation) |
-| 10/22 | Haskell Corner: Programming with Monads; QuickCheck | |
-|       | ... | |
-| 11/19 | Types and Systems | [Types.hs](m/lec10/Types.hs) [Maps.hs](m/lec10/Maps.hs)|
+| 10/15 | Reduction vs. Evaluation, Closures, Loops and Assignment | [Notes](m/notes/notes.html#reduction-vs.-evaluation) \ \ [Maps.hs](m/lec08/Maps.hs) \ \ [Store.hs](m/lec08/Store.hs) \ \ [StorePrint.hs](m/lec08/StorePrint.hs) \ \ [StorePrintWhile.hs](m/lec08/StorePrintWhile.hs)  |
+| 10/22 | Haskell Corner: Programming with Monads; QuickCheck | [A Fistful of Monads](http://learnyouahaskell.com/a-fistful-of-monads)\ \ [Understanding Monads](https://en.wikibooks.org/wiki/Haskell/Understanding_monads) |
+| 10/29 | Midterm revision | |
+| 11/05 | Midterm | |
+| 11/12 | Assignment with Block Scope. Formal semantics -- inference rules | [Notes: Block Scope](m/notes/notes.html#imperative-variables-ii-block-scope) |
+| 11/19 | Types and Type Systems | [Types.hs](m/lec10/Types.hs)\ \ [Maps.hs](m/lec10/Maps.hs)|
 
 ## Assignments
 
