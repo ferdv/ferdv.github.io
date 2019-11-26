@@ -1103,6 +1103,223 @@ snd (l, r) --&gt;δ r</code></pre>
 <span id="cb98-63"><a href="#cb98-63"></a>  <span class="kw">in</span> execStmt env&#39; (sto&#39;, s)            <span class="co">-- execute statements in the store</span></span></code></pre></div>
 <h1 id="formal-operational-semantics">Formal Operational Semantics</h1>
 <h1 id="types-and-type-systems">Types and Type Systems</h1>
+<blockquote>
+<p><em>This part is partially based on notes by Norman Ramsey and on the book Types and Programming Languages by Benjamin Pierce</em></p>
+</blockquote>
+<p>What is a type?</p>
+<ul>
+<li><p>In a Haskell-like language (simplified by ignoring type classes)</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb99-1"><a href="#cb99-1"></a><span class="dv">1</span> <span class="op">+</span> <span class="dv">5</span><span class="ot"> ::</span> <span class="dt">Integer</span></span>
+<span id="cb99-2"><a href="#cb99-2"></a></span>
+<span id="cb99-3"><a href="#cb99-3"></a><span class="st">&quot;hello &quot;</span> <span class="op">++</span> <span class="st">&quot;world&quot;</span><span class="ot"> ::</span> <span class="dt">String</span></span>
+<span id="cb99-4"><a href="#cb99-4"></a></span>
+<span id="cb99-5"><a href="#cb99-5"></a>n <span class="op">&gt;</span> <span class="dv">10</span><span class="ot"> ::</span> <span class="dt">Bool</span> <span class="co">-- if n :: Integer</span></span>
+<span id="cb99-6"><a href="#cb99-6"></a></span>
+<span id="cb99-7"><a href="#cb99-7"></a><span class="kw">if</span> n <span class="op">&gt;</span> <span class="dv">10</span> <span class="kw">then</span> <span class="st">&quot;Yes&quot;</span> <span class="kw">else</span> <span class="st">&quot;No&quot;</span><span class="ot"> ::</span> <span class="dt">String</span>  <span class="co">-- if n :: Integer</span></span>
+<span id="cb99-8"><a href="#cb99-8"></a></span>
+<span id="cb99-9"><a href="#cb99-9"></a>\x <span class="ot">-&gt;</span> x <span class="op">+</span> <span class="dv">10</span><span class="ot"> ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Integer</span></span></code></pre></div></li>
+<li><p>Types classify program phrases according to the kinds of values they compute</p></li>
+<li><p>They are predictions about values</p></li>
+<li><p>Static <em>approximation</em> of runtime behavior – conservative</p></li>
+</ul>
+<p>Why types?</p>
+<ul>
+<li><p>Static analysis: detect (potential) runtime errors before code is run:</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb100-1"><a href="#cb100-1"></a><span class="dv">1</span> <span class="op">+</span> <span class="dt">True</span></span>
+<span id="cb100-2"><a href="#cb100-2"></a></span>
+<span id="cb100-3"><a href="#cb100-3"></a><span class="dv">10</span> <span class="st">&quot;hello&quot;</span> <span class="co">-- application of the number 10 to a string?</span></span></code></pre></div>
+<ul>
+<li><p>E.g., Python is happy to accept the following function definition:</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb101-1"><a href="#cb101-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb101-2"><a href="#cb101-2"></a>  <span class="cf">if</span> x <span class="op">&lt;</span> <span class="dv">10</span>:</span>
+<span id="cb101-3"><a href="#cb101-3"></a>    x(x, <span class="dv">10</span>)</span>
+<span id="cb101-4"><a href="#cb101-4"></a>  <span class="cf">else</span>: </span>
+<span id="cb101-5"><a href="#cb101-5"></a>    <span class="co">&quot;Hello &quot;</span> <span class="op">+</span> x</span></code></pre></div>
+<p>What happens at runtime, when the function is called as <code class="sourceCode python">f(<span class="dv">4</span>)</code>?</p></li>
+</ul></li>
+<li><p>Enforcing access policy (private/protected/public methods)</p></li>
+<li><p>Guiding implementation (type-based programming)</p></li>
+<li><p>Documentation: types tell us a lot about functions and provide a documentation that is repeatedly checked by the compiler (unlike comments)</p></li>
+<li><p>Help compilers choose (more/most) efficient runtime value representations and operations</p></li>
+<li><p>Maintenance: if we change a function’s type, the type checker will direct us to all use sites that need adjusting</p></li>
+</ul>
+<p>What is a type system?</p>
+<blockquote>
+<p>A tractable syntactic method for proving the absence of <em>certain</em> program behavior.</p>
+</blockquote>
+<ul>
+<li><p>They are studied on their own as a branch of mathematics/logic: type theory</p></li>
+<li><p>Original motivation: avoiding <a href="https://plato.stanford.edu/entries/russell-paradox/">Russell’s paradox</a></p></li>
+<li><p>Type systems are generally <em>conservative</em>:</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb102-1"><a href="#cb102-1"></a><span class="dv">1</span> <span class="op">+</span> (<span class="kw">if</span> <span class="dt">True</span> <span class="kw">then</span> <span class="dv">10</span> <span class="kw">else</span> <span class="st">&quot;hello&quot;</span>)</span></code></pre></div>
+<p>would behave OK at runtime, but is, nevertheless, typically rejected by a static type checker (e.g., Haskell’s)</p></li>
+</ul>
+<p>What kind of errors are typically not detected by type systems?</p>
+<ul>
+<li><p>Division by zero</p></li>
+<li><p>Selecting the head of an empty list</p></li>
+<li><p>Out-of-bounds array access</p></li>
+<li><p>Non-termination</p></li>
+</ul>
+<p>Consideration: a program which mostly runs numeric computations will benefit from a strong static type system less than a program which transforms various data structures</p>
+<p>Terminology: type systems</p>
+<dl>
+<dt>Dynamic</dt>
+<dd><p>types are checked at runtime, typically when operations are performed on values</p>
+</dd>
+<dt>Static</dt>
+<dd><p>types are checked before program is (compiled and) run</p>
+</dd>
+</dl>
+<p>What is a type safe language?</p>
+<ul>
+<li><p>Can a dynamically typed language be safe?</p></li>
+<li><p>Is a statically typed language automatically type safe?</p></li>
+</ul>
+<p>Dynamic:</p>
+<ul>
+<li><p>Consider Python</p>
+<pre><code>&gt;&gt;&gt; 1 + &quot;hello&quot;
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+TypeError: unsupported operand type(s) for +: &#39;int&#39; and &#39;str&#39;
+
+&gt;&gt;&gt; &quot;hello&quot; + 1
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+TypeError: can only concatenate str (not &quot;int&quot;) to str</code></pre></li>
+<li><p>Rejects applying <code>+</code> to incompatible arguments – protects from behavior that is incompatible with the abstractions of integers and strings</p></li>
+</ul>
+<p>Static:</p>
+<ul>
+<li><p>Consider C:</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode numberSource c numberLines"><code class="sourceCode c"><span id="cb104-1"><a href="#cb104-1"></a><span class="dt">int</span> array[] = {<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>};</span>
+<span id="cb104-2"><a href="#cb104-2"></a><span class="dt">char</span> string[] = <span class="st">&quot;Hello, world!&quot;</span>;</span>
+<span id="cb104-3"><a href="#cb104-3"></a></span>
+<span id="cb104-4"><a href="#cb104-4"></a>printf(<span class="st">&quot;%d %d %d %d</span><span class="sc">\n</span><span class="st">&quot;</span>, array[<span class="dv">0</span>], array[<span class="dv">1</span>], array[<span class="dv">2</span>], array[<span class="dv">3</span>]);</span>
+<span id="cb104-5"><a href="#cb104-5"></a></span>
+<span id="cb104-6"><a href="#cb104-6"></a>array + <span class="dv">2</span>;</span>
+<span id="cb104-7"><a href="#cb104-7"></a>string + <span class="dv">3</span>;</span></code></pre></div>
+<p>Here the compiler will merely complain about unused values on lines 6 and 7. But what does the expression <code class="sourceCode c">array + <span class="dv">2</span></code> mean? Of course, a C programmer knows, that arrays are just pointers, and so adding two to a pointer merely shifts where the pointer points to. But is it complatible with the abstraction of array?</p></li>
+</ul>
+<p>So, again: what is a type safe-language?</p>
+<blockquote>
+<p>A (type-)safe language is one that protects its own abstractions.</p>
+</blockquote>
+<p>This means that a safe language won’t allow a programmer to apply operations which are not “sensible” for the given arguments, potentially leading to unexpected/undefined behavior at runtime.</p>
+<h2 id="specifying-type-systems">Specifying Type Systems</h2>
+<blockquote>
+<p>Abstract syntax + Types + Typing rules (+ auxiliary operations)</p>
+</blockquote>
+<ul>
+<li><p>A type system is typically specified as a set of rules which allow assigning types to abstract syntax trees – similarly to how evaluators assign values to abstract syntax trees</p></li>
+<li><p>The goal: determine what type an expression (program phrase) has – if it has one</p></li>
+<li><p>A type judgement – mathematically:</p></li>
+</ul>
+<p><span class="math display">\[
+\vdash e : t
+\]</span></p>
+<blockquote>
+<p>Read: “<span class="math inline">\(e\)</span> has type <span class="math inline">\(t\)</span>”</p>
+</blockquote>
+<ul>
+<li><p>A “type judgement” – in Haskell</p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb105-1"><a href="#cb105-1"></a>typeOf e <span class="ot">=</span> t</span></code></pre></div></li>
+<li><p>Typing rules tell us how to arrive at the above conclusion for a particular expression</p></li>
+<li><p>This is based on syntax – in other words type checking (and typing rules) are, typically, <strong>syntax-directed</strong></p></li>
+<li><p>On paper, typing rules are usually expressed as inference rules:</p></li>
+</ul>
+<p><span class="math display">\[
+\frac{\text{1st premise} \quad \text{2nd premise} \quad \text{3rd premise ...}}{\text{conclusion}}
+\]</span></p>
+<ul>
+<li><p>Such a rule can be read as “If 1st premise AND 2nd premise AND 3rd premise … are all true, then the conclusion is also true”</p></li>
+<li><p>If we can show that the premises hold, the rule allows us to conclude that is below the line</p></li>
+<li><p>If a rule has no premises, it is an axiom</p></li>
+<li><p>Here are some examples, written mathematically</p></li>
+</ul>
+<p><span class="math display">\[
+\frac{}{\vdash 3 : \text{Integer}}
+\]</span></p>
+<blockquote>
+<p>“The type of the value 3 is Integer”</p>
+</blockquote>
+<p><span class="math display">\[
+\frac{n \text{ is an integer value}}{\vdash n : \text{Integer}}
+\]</span></p>
+<blockquote>
+<p>“If <span class="math inline">\(n\)</span> is an integer value, then the type of <span class="math inline">\(n\)</span> is Integer”</p>
+</blockquote>
+<p><span class="math display">\[
+\frac{\vdash e_1 : \text{Integer} \quad \vdash e_2 : \text{Integer}}{\vdash e_1 + e_2 : \text{Integer}}
+\]</span></p>
+<blockquote>
+<p>“If the type of <span class="math inline">\(e_1\)</span> is Integer and the type of <span class="math inline">\(e_2\)</span> is Integer, then the type of expression <span class="math inline">\(e_1 + e_2\)</span> is also Integer”</p>
+</blockquote>
+<ul>
+<li><p>We can (and will) view these inference rules as a fancy way of writing Haskell functions</p></li>
+<li><p>Let us first define datatypes for expressions (for now only integer numbers and addition) and types (only integers)</p>
+<div class="sourceCode" id="cb106"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb106-1"><a href="#cb106-1"></a><span class="kw">data</span> <span class="dt">Expr</span> <span class="ot">=</span> <span class="dt">Num</span> <span class="dt">Integer</span></span>
+<span id="cb106-2"><a href="#cb106-2"></a>          <span class="op">|</span> <span class="dt">Add</span> <span class="dt">Expr</span> <span class="dt">Expr</span></span>
+<span id="cb106-3"><a href="#cb106-3"></a></span>
+<span id="cb106-4"><a href="#cb106-4"></a><span class="kw">data</span> <span class="dt">Type</span> <span class="ot">=</span> <span class="dt">TyInt</span></span></code></pre></div></li>
+<li><p>The above two rules as a Haskell type checker:</p>
+<div class="sourceCode" id="cb107"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb107-1"><a href="#cb107-1"></a><span class="ot">typeOf ::</span> <span class="dt">Expr</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Type</span>   <span class="co">-- an expression might not have a type</span></span>
+<span id="cb107-2"><a href="#cb107-2"></a>typeOf (<span class="dt">Num</span> n) <span class="ot">=</span> <span class="fu">return</span> <span class="dt">TyInt</span></span>
+<span id="cb107-3"><a href="#cb107-3"></a>typeOf (<span class="dt">Add</span> e1 e2) <span class="ot">=</span></span>
+<span id="cb107-4"><a href="#cb107-4"></a>  <span class="kw">do</span> <span class="dt">TyInt</span> <span class="ot">&lt;-</span> typeOf e1</span>
+<span id="cb107-5"><a href="#cb107-5"></a>     <span class="dt">TyInt</span> <span class="ot">&lt;-</span> typeOf e2</span>
+<span id="cb107-6"><a href="#cb107-6"></a>     <span class="fu">return</span> <span class="dt">TyInt</span></span></code></pre></div></li>
+<li><p>Note that the return type of <code class="sourceCode haskell">typeOf</code> is <code class="sourceCode haskell"><span class="dt">Maybe</span> <span class="dt">Type</span></code></p>
+<ul>
+<li>This is to allow for the possibility that an expression might not have a type (although in this trivial language, all expressions do)</li>
+</ul></li>
+<li><p>We use the <code class="sourceCode haskell"><span class="kw">do</span></code> notation (together with <code class="sourceCode haskell"><span class="fu">return</span></code>) to simplify the definition. The above is equivalent to:</p>
+<div class="sourceCode" id="cb108"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb108-1"><a href="#cb108-1"></a><span class="ot">typeOf ::</span> <span class="dt">Expr</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Type</span>   <span class="co">-- an expression might not have a type</span></span>
+<span id="cb108-2"><a href="#cb108-2"></a>typeOf (<span class="dt">Num</span> n) <span class="ot">=</span> <span class="dt">Just</span> <span class="dt">TyInt</span></span>
+<span id="cb108-3"><a href="#cb108-3"></a>typeOf (<span class="dt">Add</span> e1 e2) <span class="ot">=</span></span>
+<span id="cb108-4"><a href="#cb108-4"></a>  <span class="kw">case</span> typeOf e1 <span class="kw">of</span></span>
+<span id="cb108-5"><a href="#cb108-5"></a>       <span class="dt">Just</span> <span class="dt">TyInt</span> <span class="ot">-&gt;</span> <span class="kw">case</span> typeOf e2 <span class="kw">of</span></span>
+<span id="cb108-6"><a href="#cb108-6"></a>                          <span class="dt">Just</span> <span class="dt">TyInt</span> <span class="ot">-&gt;</span> <span class="dt">Just</span> <span class="dt">TyInt</span></span>
+<span id="cb108-7"><a href="#cb108-7"></a>                          _ <span class="ot">-&gt;</span> <span class="dt">Nothing</span></span>
+<span id="cb108-8"><a href="#cb108-8"></a>       _ <span class="ot">-&gt;</span> <span class="dt">Nothing</span></span></code></pre></div></li>
+<li><p>To make the connection a little more explicit, we will write inference rules as a mix of Haskell and math:</p>
+<pre><code>------------------
+ |- Num n : TyInt
+
+
+ |- e1 : TyInt    |- e2 : TyInt
+--------------------------------
+ |- Add e1 e2 : TyInt</code></pre></li>
+<li><p>More typing rules (we add a few new expression shapes + a new type for booleans):</p>
+<div class="sourceCode" id="cb110"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb110-1"><a href="#cb110-1"></a><span class="kw">data</span> <span class="dt">Expr</span> <span class="ot">=</span> <span class="op">...</span></span>
+<span id="cb110-2"><a href="#cb110-2"></a>          <span class="op">|</span> <span class="dt">And</span> <span class="dt">Expr</span> <span class="dt">Expr</span></span>
+<span id="cb110-3"><a href="#cb110-3"></a>          <span class="op">|</span> <span class="dt">Not</span> <span class="dt">Expr</span></span>
+<span id="cb110-4"><a href="#cb110-4"></a>          <span class="op">|</span> <span class="dt">Leq</span> <span class="dt">Expr</span></span>
+<span id="cb110-5"><a href="#cb110-5"></a>          <span class="op">|</span> <span class="dt">If</span> <span class="dt">Expr</span> <span class="dt">Expr</span> <span class="dt">Expr</span></span>
+<span id="cb110-6"><a href="#cb110-6"></a></span>
+<span id="cb110-7"><a href="#cb110-7"></a><span class="kw">data</span> <span class="dt">Type</span> <span class="ot">=</span> <span class="op">...</span></span>
+<span id="cb110-8"><a href="#cb110-8"></a>          <span class="op">|</span> <span class="dt">TyBool</span></span></code></pre></div>
+<pre><code>
+ |- e1 : TyBool   |- e2 : TyBool
+---------------------------------
+ |- And e1 e2 : TyBool
+
+
+ |- e : TyBool
+-------------------
+ |- Not e : TyBool
+
+
+ |- e1 : TyInt   |- e2 : TyInt
+-------------------------------
+ |- Leq e1 e2 : TyBool
+
+
+ |- e1 : TyBool   |- e2 : t   |- e3 : t
+----------------------------------------
+ |- If e1 e2 e3 : t</code></pre></li>
+</ul>
 <!--
 # Haskell Corner:
 
