@@ -42,5 +42,6 @@ geometry:
 | *Tue, Nov 19* | SDWFerd          | sudo-wudo      | r                   |
 | *Fri, Nov 22* | SHAW             | L2C2           | Solidly-Average     |
 | *Tue, Nov 26* | Bebop            |       --       |          --         |
-| *Tue, Dec 3*  | ClojureCowboys   | Just Java      | Fighting-Mongooses  |
+| *Tue, Dec 3*  | Just Java        | ClojureCowboys | Fighting-Mongooses  |
+
 
