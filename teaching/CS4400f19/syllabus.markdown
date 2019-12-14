@@ -188,7 +188,16 @@ the first and second halves of the class, respectively (i.e., they are not cumul
 
 ## Grades
 
-Your final grade will be based on assignments, exams, and participation, with a rough split of 60%/35%/5%. The exact details are TBD.
+The final grade is determined as follows:
+
+* 60% assignments (12% per assignment)
+* 15% midterm
+* 20% final
+* 5% participation
+
+The mapping of percentages to letter grades is as follows:
+
+<table class="centered" cellspacing="0" cellpadding="0"><tbody><tr><td><p><span style="font-weight: bold">Cutoff</span></p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>93%</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>90%</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>86%</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>83%</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>80%</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>76%</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>73%</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>70%</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>66%</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>63%</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>60%</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>else</p></td></tr><tr><td><p><span style="font-weight: bold">Letter grade</span></p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>A</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>A-</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>B+</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>B</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>B-</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>C+</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>C</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>C-</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>D+</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>D</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>D-</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>F</p></td></tr></tbody></table>
 
 
 ## Late Policy
