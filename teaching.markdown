@@ -2,15 +2,20 @@
 title: Teaching
 ---
 
-### Current (Fall 2019)
+### Current (Spring 2020)
 
-* [CS 4400 - Programming Languages](./teaching/CS4400f19/syllabus.html)
-* [CS 5400 - Principles of Programming Languages](./teaching/CS4400f19/syllabus.html)
-* [CS 4500 - Software Development (sections 1 &amp; 3)](./teaching/CS4500f19/)
+* [CS 2510 &emsp;Fundamentals II](https://course.ccs.neu.edu/cs2510/)
+* [CS 4500 &emsp;Software Development](http://janvitek.org/events/NEU/4500/s20/)
 
 ### Past
 
 :::: courselist
+
+- Fall 2019 (Northeastern)
+  * [CS 4400 - Programming Languages](./teaching/CS4400f19/syllabus.html)
+  * [CS 5400 - Principles of Programming Languages](./teaching/CS4400f19/syllabus.html)
+  * [CS 4500 - Software Development (sections 1 &amp; 3)](./teaching/CS4500f19/)
+
 - 2018/19, Semester 2 (Swansea)
   * CS-115 Programming 2
   * CS-175 Modelling Computing Systems 2
