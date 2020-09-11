@@ -1,0 +1,242 @@
+---
+title: CS4400 Programming Languages
+subtitle: Fall 2020
+author: Ferdinand Vesely
+css: css/foghorn.css
+---
+
+## Disclaimer
+
+Parts of this syllabus are subject to change as the semester progresses.
+
+## Time and Place
+
+We meet on Tuesdays and Fridays, 9:50-11:30am in Cargill Hall 097 and on Zoom. Zoom links for each lecture are avaibale on Canvas. The first class is on Friday, 9/11.
+
+## People
+
+| Role           | Name                    | Email                     | Office hours      | Location   |
+|----------------|-------------------------|---------------------------|-------------------|------------|
+| **Instructor** | Ferdinand Vesely        | f.vesely@northeastern.edu | *TBA*             | Zoom/Teams |
+| **TAs**        | Shaoyong Feng           |                           | *TBA*             |            |
+|                | Jack Gelinas            |                           | *TBA*             |            |
+|                | Divya Payyadi Venkatesh |                           | *TBA*             |            |
+
+## Course Description
+
+The overarching idea of (this version of) this course is to study constructs and fundamental concepts of programming languages, while getting familiar and exploring topics in functional programming using the language Haskell. We will be discussing concepts both formally and informally, as well as implement interpreters and other language-related tools in Haskell. These implementations will motivate exploring various approaches, idioms and concepts in functional programming.
+
+
+**Registrar's description for 4400:**
+Introduces a systematic approach to understanding the behavior of programming languages. Covers interpreters; static and dynamic scope; environments; binding and assignment; functions and recursion; parameter-passing and method dispatch; objects, classes, inheritance, and polymorphism; type rules and type checking; and concurrency.
+
+
+
+## Prerequisities
+
+The formal prerequisites of CS4400 are CS3000 (or CS4800) and CS3500. Knowing at least basics of functional programming will make your life easier, but is not required as we will cover the necessary essentials. You might also find it helpful to brush up on material from CS2500. Some basics of logic or discrete math might come in handy too.
+
+## Topics
+
+This is a rough and tentative list of topics that we will aim to cover this semester. It will be adapted into a schedule once the course gets started and as it progresses. I strongly recommend to check the online version of this syllabus frequently to get a better idea what are the next steps in this course. This list currently concentrates on aspects of programming languages, but topics covered will include useful functional programming concepts supported by Haskell.
+
+1. Intro to Programming Languages. Haskell basics
+1. Abstract syntax. BNF. Parsing
+1. Basic interpreters. Arithmetic
+1. Names and bindings. Substitution
+1. Environments. Basic procedures and functions
+1. Functions as values. Lambda calculus. Reduction
+1. Recursion. Fixpoint combinators. The Y combinator
+1. Strict vs. lazy evaluation. Call by name, call by value, call by need
+1. Imperative programming. Assignment. Stores. Loops
+<!-- 1. Wear formal today: "Pen and paper semantics". Operational. Denotational. Inductive definitions -->
+1. Types & type systems. Simply-Typed Lambda Calculus
+1. Polymorphism. Type inference
+<!-- 1. Data Types. Product. Sum. Pattern Matching -->
+<!-- 1. Monads. Monadic programming. Type classes -->
+1. Classes and objects. Dynamic dispatch
+1. Continuations. Exceptions. Coroutines
+1. Non-determinism. Logic programming
+1. Reasoning about programs
+1. Concurrency. Process algebras. Bisimulation
+1. Advanced type systems. Dependent types. Curry-Howard correspondence
+
+## Schedule
+
+| Date  | Topic                              |
+|-------|------------------------------------|
+| 09/11 | Overview & Quick Intro to Haskell  |
+
+## Assignments
+
+You can expect homework assignments to be handed out roughly every week and there will be around 10 assignments in total this semester. Some of them will be individual work, for others you will be expected to work in pairs. They will be mostly programming assignments. Tentatively, assignments will be handed out on Fridays and be due on the following Thursday. Submission will be via 
+
+| Assignment            | Date Set | Date Due |                                  |
+|-----------------------|----------|----------|----------------------------------|
+|                       |          |          |                                  |
+
+## Haskell
+
+We use [Haskell](https://www.haskell.org/) both as a topic of study and for implementing our examples. Haskell is a programming language that is *statically typed*, *purely functional*, and *lazy*.[^haskellwords] I expect that a majority of you *does not* have previous experience with it. Thus, this course will contain an introduction to programming in Haskell and you can expect to pick up some techniques specific to functional programming along the way. Apart from being an implementation language for our interpreters, Haskell is an interesting language to study, so we will use it to exemplify some languages features.
+
+The main implementation of Haskell is GHC: the Glasgow Haskell Compiler. It comes with a compiler, `ghc`, as well as an interactive REPL,  `ghci`. 
+
+<!-- - Why functional languages? Brief history of Haskell. -->
+
+
+**Installation.** There are several ways to install Haskell. Generally, the easiest way across major operating systems is to install the [Haskell Platform](https://www.haskell.org/platform/). Its website contains installation instructions for Windows, macOS, and various Linux distributions. 
+
+**IDEs.** My personal preference is to use a combination of Vim (currently mostly NeoVim) and running the compiler, REPL, or other tools in a terminal. However, there are plugin-based alternatives, e.g.,
+
+
+* [Visual Studio Code](https://code.visualstudio.com/) -- based on my limited experience with it, VSCode has decent Haskell support and it seems fun to use,
+- [IntelliJ IDEA](https://www.jetbrains.com/idea/) with the [IntelliJ-Haskell plugin](https://plugins.jetbrains.com/plugin/8258-intellij-haskell), or
+- [Atom](https://atom.io/) with the [ide-haskell plugin](https://atom.io/packages/ide-haskell) and other plugins (such as ide-haskell-repl).
+
+Last time I checked, the Atom option had issues due to a deprecated dependency (ghc-mod) -- it complained, but seemed usable.
+
+If you are an Emacs user, you're out of luck... Just kidding, there is, of course a [Haskell mode](https://github.com/haskell/haskell-mode/) and a whole lot of other goodies.
+
+There's also [spacemacs](https://www.spacemacs.org/).
+
+See also [https://wiki.haskell.org/IDEs].
+
+**Examples.** To give you a quick taste of what programming in Haskell looks like, here are a few basic versions of factorial:
+
+```haskell
+-- This is a one-line comment
+
+{- This is
+   a comment
+   spread across
+   multiple lines -}
+
+-- Variant 1: pattern matching
+-- type signatures are (mostly) optional in Haskell, but not in this course :)
+fact :: Int -> Int
+fact 0 = 1
+fact n = n * fact (n - 1)
+
+-- Variant 2: conditional
+fact' :: Int -> Int
+fact' n = if n <= 1 then 1 else n * fact' (n - 1)
+
+-- Variant 3: guards
+fact'' :: Int -> Int
+fact'' n | n <= 1    = 1
+         | otherwise = n * fact'' (n - 1)
+```
+
+Here is a simple "Hello World":
+
+```haskell
+main :: IO () -- think of IO () as a type of computations with side-effects
+main = do
+  putStrLn "Hello World!"
+```
+
+
+And here is an interactive "Hello World":
+```haskell
+main :: IO ()
+main = do -- do-blocks allow us to perform sequential computations
+  putStrLn "What is your name?"
+  name <- getLine
+  let message = "Hello, "
+  putStrLn (message ++ name)
+```
+
+<!-- Haskell vs. Java? -->
+
+
+
+[^haskellwords]: Do not despair if these words currently mean nothing to you in this context. We will make sense of them during the course.
+
+## Resources
+
+In general, there is no required reading for this course and I may provide lecture notes or annotated slides where applicable. However, there are other sources that we might use to replace or supplement those. I will draw your attention to them where appropriate.
+
+### Books
+Check Northeastern's library. A good portion of these books is available to us online.
+
+- Haskell:
+   - *Programming in Haskell* by Graham Hutton
+   - *Get Programming with Haskell* by Will Kurt seems pretty good
+   - [*Haskell Programming from first principles*](https://haskellbook.com/) by Christopher Allen and Julie Moronuki is new and seems interesting
+   - *Learn You a Haskell for Great Good!* by Miran Lipovaca (available [online](http://learnyouahaskell.com/chapters)) -- I liked this one when I read it, but it is somewhat problematic, so watch out.
+
+- Programming lanugages:
+   - *Essentials of Programming Languages* by Daniel P. Friedman and Mitchell Wand (some editions with Christopher T. Haynes) -- closest to what we will be doing, but with examples written in Scheme
+   - *Types and Programming Languages* by Benjamin C. Pierce -- THE textbook on types and type systems. It has a good chapter on Lambda Calculus and other chapters will be relevant when we look at type systems.
+   - *Programming Languages: Application and Interpretation* by Shriram Krishnamurthi (available [online](http://cs.brown.edu/courses/cs173/2012/book/book.pdf))
+
+### Other
+
+I will keep extending this list.
+
+- [What I Wish I Knew When Learning Haskell](http://dev.stephendiehl.com/hask/) -- excellent comprehensive resource about various topics pertaining to Haskell and functional programming 
+- [Hackage: The Haskell Package Repository](https://hackage.haskell.org/)
+- [Eli's version of this course](https://pl.barzilay.org/) -- Eli Barzilay's excellent version of CS4400 and a source of inspiration for the topics in this version
+
+## Forum
+
+The primary forum for this class is on Piazza, which you can use to ask questions and exchange wisdom while completing assignments. I will also use Piazza to broadcast announcements to the class, so you will be expected to check it at least every few days.
+Participate actively and use it as a first place to post questions related to assignments, programming, debugging, exams, etc. Please use the forum to post questions and answers that may be useful to
+others. Bottom line: unless you have a private problem, post to Piazza before writing me/the TA an email.
+
+Please register on Piazza by going to [https://piazza.com/northeastern/fall2020/cs4400](https://piazza.com/northeastern/fall2020/cs4400). You will need an access code which will be provided in class or via email.
+
+Note: The Piazza forum is meant for discussion related to the topics of this course and to exchange knowledge. While I welcome debates about the course structure, the whys and why nots, or other general topics, I reserve the right to change the visibility of posts if I think they do not contribute to the learning aims of this course. You are most welcome to talk to me about any topic directly -- after class, in office hours, or in an ad-hoc/scheduled meeting.
+
+
+
+<!-- The class forum is on Piazza. Why Piazza? Because they have a nice web interface, as well as iPhone and Android apps. Piazza is the best place to ask questions about projects, programming, debugging issues, exams, etc. To keep things organized, please tag all posts with the appropriate hashtags, e.g. #lecture1, #project3, etc. I will also use Piazza to broadcast announcements to the class. Bottom line: unless you have a private problem, post to Piazza before writing me/the TA an email. -->
+
+<!-- ## Exams
+There will be one midterm and one final. All exams will be closed book and closed notes, and
+computers are not allowed nor is any access to the Internet via any device. The exams will cover
+material from lectures, readings, and the projects. 
+-->
+
+<!-- They will cover the material discussed during
+the first and second halves of the class, respectively (i.e., they are not cumulative). -->
+
+## Grades
+
+This is a tentative breakdown of how the final grade will be determined:
+
+* 55% assignments 
+* 40% other (quizzes and/or exams)
+* 5% karma
+
+The mapping of percentages to letter grades is as follows:
+
+<table class="centered" cellspacing="0" cellpadding="0"><tbody><tr><td><p><span style="font-weight: bold">Cutoff</span></p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>93%</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>90%</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>86%</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>83%</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>80%</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>76%</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>73%</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>70%</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>66%</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>63%</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>60%</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>else</p></td></tr><tr><td><p><span style="font-weight: bold">Letter grade</span></p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>A</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>A-</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>B+</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>B</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>B-</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>C+</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>C</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>C-</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>D+</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>D</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>D-</p></td><td><p><span class="hspace">&nbsp;&nbsp;</span></p></td><td><p>F</p></td></tr></tbody></table>
+
+
+## Late Policy
+
+*TBD*
+
+<!--For the homework assignments, we will use flexible slip dates. Each student is given an automatic extension of 4 calendar days for the semester. You can use the extension on any assignment
+during the semester in increments of a day[^lateday]. For instance, you can hand in one assignment 4 days late,
+or one assignment 2 days late and two assignments 1 day late. This should let you schedule due dates around the due
+dates for other courses. After you have used up your slip time, any assignment handed in late will be
+marked off 20% per day. Assignments more than 2 days late (beyond the use of slip days) will not be
+accepted. Extensions will not be granted.
+
+[^lateday]: A “day” refers to 24 hours. Thus, a project turned in 28 hours late will count as two days late.
+-->
+
+## Cheating Policy
+It's ok to ask your peers about the concepts, algorithms, or approaches needed to do the assignments. We encourage you to do so; both giving and taking advice will help you to learn. However, what you turn in must be your own, or for projects, your group's own work. Looking at or copying code or homework solutions from other people or the Web is strictly prohibited. In particular, looking at other solutions (e.g., from other groups or students who previously took the course) is a direct violation. Projects must be entirely the work of the students turning them in, i.e. you and your group members. If you have any questions about using a particular resource, ask the course staff or post a question to the class forum.
+
+All students are subject to the Northeastern University's [Academic Integrity Policy](http://www.northeastern.edu/osccr/academic-integrity-policy/). Per Khoury College policy, all cases of suspected plagiarism or other academic dishonesty must be referred to the Office of Student Conduct and Conflict Resolution (OSCCR). This may result is deferred suspension, suspension, or expulsion from the university.
+
+## Accommodations for Students with Disabilities
+If you have a disability-related need for reasonable academic accommodations in this course and have not yet met with a Disability Specialist, please visit www.northeastern.edu/drc and follow the outlined procedure to request services. If the Disability Resource Center has formally approved you for an academic accommodation in this class, please present the instructor with your "Professor Notification Letter" at your earliest convenience, so that we can address your specific needs as early as possible.
+
+<!-- ## Title IX
+Title IX makes it clear that violence and harassment based on sex and gender are Civil Rights offenses subject to the same kinds of accountability and the same kinds of support applied to offenses against other protected categories such as race, national origin, etc. If you or someone you know has been harassed or assaulted, you can find the appropriate resources [here]().
+-->
+
