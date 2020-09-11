@@ -115,19 +115,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 <h1 id="partial-functions-in-haskel">Partial Functions in Haskel</h1>
 <p>This assignment is mainly made up of partial functions. A partial function (that is, a function which is not defined for all possible inputs) can be represented using the option type <code class="sourceCode haskell"><span class="dt">Maybe</span></code>. The type is predefined by Haskell as follows:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">data</span> <span class="dt">Maybe</span> a <span class="ot">=</span> <span class="dt">Nothing</span> </span>
-<span id="cb1-2"><a href="#cb1-2"></a>             <span class="op">|</span> <span class="dt">Just</span> a</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Maybe</span> a <span class="ot">=</span> <span class="dt">Nothing</span> </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>             <span class="op">|</span> <span class="dt">Just</span> a</span></code></pre></div>
 <p>For example, the integer division operation in Haskell, <code class="sourceCode haskell"><span class="fu">div</span></code> throws an exception if the second argument is <code>0</code>. We can convert it into a partial function as follows:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1"></a><span class="ot">maybeDiv ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Integer</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>maybeDiv _ <span class="dv">0</span> <span class="ot">=</span> <span class="dt">Nothing</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a>maybeDiv n d <span class="ot">=</span> <span class="dt">Just</span> (n <span class="ot">`div`</span> d)  <span class="co">-- n `div` d is a fancy way of writing div n d </span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="ot">maybeDiv ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Integer</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>maybeDiv _ <span class="dv">0</span> <span class="ot">=</span> <span class="dt">Nothing</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>maybeDiv n d <span class="ot">=</span> <span class="dt">Just</span> (n <span class="ot">`div`</span> d)  <span class="co">-- n `div` d is a fancy way of writing div n d </span></span></code></pre></div>
 <p>Now <code class="sourceCode haskell">maybeDiv <span class="dv">5</span> <span class="dv">0</span></code> will return <code class="sourceCode haskell"><span class="dt">Nothing</span></code>, whereas <code class="sourceCode haskell">maybeDiv <span class="dv">5</span> <span class="dv">2</span></code> will return <code class="sourceCode haskell"><span class="dt">Just</span> <span class="dv">2</span></code>.</p>
 <p>To use (and compose) partial operations, we can use the case construct:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1"></a><span class="ot">divideThenAdd2 ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Integer</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>divideThenAdd2 x y <span class="ot">=</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a>  <span class="kw">case</span> maybeDiv x y <span class="kw">of</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a>       <span class="dt">Just</span> z <span class="ot">-&gt;</span> <span class="dt">Just</span> (r <span class="op">+</span> <span class="dv">2</span>)</span>
-<span id="cb3-5"><a href="#cb3-5"></a>       <span class="dt">Nothing</span> <span class="ot">-&gt;</span> <span class="dt">Nothing</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="ot">divideThenAdd2 ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Integer</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>divideThenAdd2 x y <span class="ot">=</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>  <span class="kw">case</span> maybeDiv x y <span class="kw">of</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>       <span class="dt">Just</span> z <span class="ot">-&gt;</span> <span class="dt">Just</span> (r <span class="op">+</span> <span class="dv">2</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>       <span class="dt">Nothing</span> <span class="ot">-&gt;</span> <span class="dt">Nothing</span></span></code></pre></div>
 <h1 id="environments-as-association-lists">Environments as Association Lists</h1>
 <h4 id="exercise-1">Exercise 1</h4>
 <p>Complete <code>Env.hs</code> by implementing environments as <em>association lists</em>. An association list is a list of pairs – the first member is a variable, the second is the value. For example, <code class="sourceCode haskell">[(<span class="st">&quot;x&quot;</span>, <span class="dv">1</span>), (<span class="st">&quot;y&quot;</span>, <span class="dv">2</span>)]</code> binds <code>"x"</code> to <code>1</code> and <code>"y"</code> to <code>2</code>. The most recent binding overrides any previous ones, that is, the environment <code class="sourceCode haskell">[(<span class="st">&quot;x&quot;</span>, <span class="dv">100</span>), (<span class="st">&quot;x&quot;</span>, <span class="dv">1</span>)]</code> binds <code>"x"</code> to the value <code>100</code>, NOT <code>1</code>. Provide implementation for:</p>
@@ -137,9 +137,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>get</code> – find the binding for the given variable. This is a partial function: <code class="sourceCode haskell">get <span class="st">&quot;x&quot;</span> [(<span class="st">&quot;x&quot;</span>, <span class="dv">10</span>)]</code> should return <code class="sourceCode haskell"><span class="dt">Just</span> <span class="dv">10</span></code>, while <code class="sourceCode haskell">get <span class="st">&quot;y&quot;</span> [(<span class="st">&quot;x&quot;</span>, <span class="dv">10</span>)]</code> should return <code>Nothing</code></li>
 </ul>
 <p>The following laws, expressed in Haskell, should hold for the above functions. In other words, these Haskell expressions should always return <code>True</code> for any <code>x</code>, <code>y</code>, <code>v</code>, and <code>env</code>. Assume <code class="sourceCode haskell">x <span class="op">/=</span> y</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1"></a>get x empty <span class="op">==</span> <span class="dt">Nothing</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>get x (add x v env) <span class="op">==</span> <span class="dt">Just</span> v</span>
-<span id="cb4-3"><a href="#cb4-3"></a>get x (add y v env) <span class="op">==</span> get x env</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>get x empty <span class="op">==</span> <span class="dt">Nothing</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>get x (add x v env) <span class="op">==</span> <span class="dt">Just</span> v</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>get x (add y v env) <span class="op">==</span> get x env</span></code></pre></div>
 <h1 id="the-abl-language">The ABL language</h1>
 <h2 id="syntax">Syntax</h2>
 <p>The ABL language has the following syntax:</p>
@@ -213,10 +213,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>...
     | (let* ((&lt;Variable&gt; &lt;ABLExpr&gt;) ...) &lt;ABLExpr&gt;)  // tag: LetStar</code></pre>
 <p>where <code>(&lt;Variable&gt; &lt;ABLExpr&gt;) ...</code> is a, possibly empty, list of bindings. The corresponding Haskell constructor has the following shape:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1"></a>  <span class="op">|</span> <span class="dt">LetStar</span> [(<span class="dt">Variable</span>, <span class="dt">ABLExpr</span>)] <span class="dt">ABLExpr</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a>  <span class="op">|</span> <span class="dt">LetStar</span> [(<span class="dt">Variable</span>, <span class="dt">ABLExpr</span>)] <span class="dt">ABLExpr</span></span></code></pre></div>
 <p>The evaluation of <code>(let* ((x1 e1) (x2 e2) ... (xn en)) e)</code> is equivalent to <code>(let1 (x1 e1) (let1 (x2 e2) ... (let1 (xn en) e)))</code>. If the list of bindings is empty, as in <code>(let1 () e)</code>, then the evaluation is equivalent to <code>e</code>. For evaluating <code>let*</code> implement the auxiliary function <code>unfoldLetStar</code> which, given a list of bindings, outputs the corresponding expression formed of nested <code>let1</code> expressions. For example:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1"></a>unfoldLetStar [] e <span class="op">==</span> e</span>
-<span id="cb16-2"><a href="#cb16-2"></a>unfoldLetStar [(x1, e1), (x2, e2)] e <span class="op">==</span> <span class="dt">Let1</span> x1 e1 (<span class="dt">Let1</span> x2 e2 e)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true"></a>unfoldLetStar [] e <span class="op">==</span> e</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true"></a>unfoldLetStar [(x1, e1), (x2, e2)] e <span class="op">==</span> <span class="dt">Let1</span> x1 e1 (<span class="dt">Let1</span> x2 e2 e)</span></code></pre></div>
 <p>Implement the evaluation of <code>let*</code> with the help of <code>unfoldLetStar</code>.</p>
 <p>Extend <code>scopeCheck</code> to handle this construct.</p>
         </main>

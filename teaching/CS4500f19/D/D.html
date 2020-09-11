@@ -150,7 +150,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 id="protocol-for-a-labyrinth-server-client-interaction">Protocol for a Labyrinth Server-Client Interaction</h2>
 <p>The first three sections explain the interaction arrangements between the user, the client program (<code>D</code>), and the <code>server</code> component. The remaining sections specify the format of the messages.</p>
 <h3 id="start-up-steps">Start Up Steps</h3>
-
 <pre><code>---------------------------------------------------------------------------------------------
    labyrinth server                                      +------- user launches `./D'
                             ||                           |              | 
@@ -162,7 +161,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
            |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&gt;| receive session id          | 
            |                ||            |                             |
            |                ||            |&lt;----------------------------| create labyrinth</code></pre>
-
 <p>The client program should be prepared to consume up to three arguments:</p>
 <ul>
 <li>the TCP address of the server, default: <code>127.0.0.1</code></li>
@@ -170,7 +168,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>the name of the user; default: <code>John Doe</code></li>
 </ul>
 <h3 id="processing-phase">Processing Phase</h3>
-
 <pre><code>---------------------------------------------------------------------------------------------
    labyrinth server         ||       lab client                     user enters requests
                             ||                                          | 
@@ -193,16 +190,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
            |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&gt;| receive at response         | 
            |                ||            |----------------------------&gt;|
           ...              ....          ...                           ...</code></pre>
-
 <h3 id="shut-down-steps">Shut Down Steps</h3>
-
 <pre><code>---------------------------------------------------------------------------------------------
    labyrinth server         ||       lab client                     user closes STDIN
            |                ||            |                             |
            |                ||            |&lt;--------------------------- | ^D to client
            |&lt;-----------------------------| tcp disconnect             ---
            |                ||           ---                            </code></pre>
-
 <h3 id="user-requests">User Requests</h3>
 <p>The user employs the exact same JSON commands as specified in <a href="https://vesely.io/teaching/CS4500f19/C/C.html">Assignment C</a></p>
 <h3 id="tcp-messages">TCP Messages</h3>

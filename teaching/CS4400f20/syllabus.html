@@ -5,7 +5,7 @@
     <head>
         <meta charset="utf-8">
         <!--<meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> -->
-        <title>CS 4400/5400 Programming Languages</title>
+        <title>CS4400 Programming Languages</title>
         <!-- <meta http-equiv="x-ua-compatible" content="ie=edge"> -->
         <!-- <link rel="stylesheet" href="/css/default.css" /> -->
 <style>
@@ -88,21 +88,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <body>
         <header id="title-block-header">
-          <h1 class="title">CS 4400/5400 Programming Languages</h1>
-          <p class="subtitle">Fall 2019</p>
+          <h1 class="title">CS4400 Programming Languages</h1>
+          <p class="subtitle">Fall 2020</p>
         </header>
         <main id="main">
-            <h2 id="time-and-place">Time and Place</h2>
-<p>We meet on <strong>Tuesdays, 6-9:15pm</strong> in <strong><a href="https://www.northeastern.edu/campusmap/map/qad5.html">Hurtig Hall</a> 129</strong>. The first class is on Tue 9/10.</p>
+            <h2 id="disclaimer">Disclaimer</h2>
+<p>Parts of this syllabus are subject to change as the semester progresses.</p>
+<h2 id="time-and-place">Time and Place</h2>
+<p>We meet on Tuesdays and Fridays, 9:50-11:30am in Cargill Hall 097 and on Zoom. Zoom links for each lecture are avaibale on Canvas. The first class is on Friday, 9/11.</p>
 <h2 id="people">People</h2>
 <table>
-<colgroup>
-<col style="width: 17%" />
-<col style="width: 19%" />
-<col style="width: 29%" />
-<col style="width: 20%" />
-<col style="width: 12%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th>Role</th>
@@ -117,126 +112,75 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td><strong>Instructor</strong></td>
 <td>Ferdinand Vesely</td>
 <td>f.vesely@northeastern.edu</td>
-<td>Wednesday 2-6pm</td>
-<td><a href="https://www.northeastern.edu/campusmap/map/qad5.html">Nightingale</a> 132A</td>
+<td><em>TBA</em></td>
+<td>Zoom/Teams</td>
 </tr>
 <tr class="even">
 <td><strong>TAs</strong></td>
-<td>Joshua Hailman</td>
-<td>jhailman@ccs</td>
-<td>Monday 5-7pm</td>
-<td><a href="https://www.northeastern.edu/campusmap/map/qad5.html">WVH</a> 102</td>
+<td>Shaoyong Feng</td>
+<td></td>
+<td><em>TBA</em></td>
+<td></td>
 </tr>
 <tr class="odd">
 <td></td>
-<td>Vanja Srivastava</td>
-<td>srivastava.v@husky</td>
-<td><em>TBD</em></td>
-<td><em>TBD</em></td>
+<td>Jack Gelinas</td>
+<td></td>
+<td><em>TBA</em></td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Divya Payyadi Venkatesh</td>
+<td></td>
+<td><em>TBA</em></td>
+<td></td>
 </tr>
 </tbody>
 </table>
 <h2 id="course-description">Course Description</h2>
-<p>In CS 4400/5400, we will study concepts underlying programming language constructs, their design and their meaning. We will do this by specifying and implementing small example languages in the functional programming language Haskell, as well as looking at examples from real programming languages.</p>
+<p>The overarching idea of (this version of) this course is to study constructs and fundamental concepts of programming languages, while getting familiar and exploring topics in functional programming using the language Haskell. We will be discussing concepts both formally and informally, as well as implement interpreters and other language-related tools in Haskell. These implementations will motivate exploring various approaches, idioms and concepts in functional programming.</p>
 <p><strong>Registrar’s description for 4400:</strong> Introduces a systematic approach to understanding the behavior of programming languages. Covers interpreters; static and dynamic scope; environments; binding and assignment; functions and recursion; parameter-passing and method dispatch; objects, classes, inheritance, and polymorphism; type rules and type checking; and concurrency.</p>
-<p><strong>Registrar’s description for 5400:</strong> Studies the basic components of programming languages, specification of syntax and semantics, and description and implementation of programming language features. Discusses examples from a variety of languages.</p>
 <h2 id="prerequisities">Prerequisities</h2>
-<p>The formal prerequisites of CS4400 are CS3000 (or CS4800) and CS3500. For CS5400 it is CS5010. Knowing at least basics of functional programming will make your life easier, but is not required as we will cover the necessary essentials. You might also find it helpful to brush up on material from CS2500.</p>
+<p>The formal prerequisites of CS4400 are CS3000 (or CS4800) and CS3500. Knowing at least basics of functional programming will make your life easier, but is not required as we will cover the necessary essentials. You might also find it helpful to brush up on material from CS2500. Some basics of logic or discrete math might come in handy too.</p>
 <h2 id="topics">Topics</h2>
-<p>This is a rough and tentative list of topics that we will aim to cover this semester. It will be adapted into a schedule once the course gets started and as it progresses. I strongly recommend to check the online version of this syllabus frequently to get a better idea what are the next steps in this course.</p>
+<p>This is a rough and tentative list of topics that we will aim to cover this semester. It will be adapted into a schedule once the course gets started and as it progresses. I strongly recommend to check the online version of this syllabus frequently to get a better idea what are the next steps in this course. This list currently concentrates on aspects of programming languages, but topics covered will include useful functional programming concepts supported by Haskell.</p>
 <ol type="1">
-<li>Introduction to Programming Languages. Introducing Haskell</li>
-<li>Abstract syntax. BNF. Basic interpreters. Big- vs. small-step</li>
-<li>Names. Binding. Scope.</li>
-<li>Lambda calculus. Substitution. Reduction</li>
-<li>Functions. Environments. Closures. De Bruijn indices</li>
-<li>Recursion. Fixpoint combinators. The Y combinator</li>
-<li>Functions as values. Higher-order functions</li>
-<li>Strict vs. lazy evaluation. Call by name, call by value, call by need</li>
-<li>Assignment. Stores. Loops</li>
-<li>Wear formal today: “Pen and paper semantics”. Operational. Denotational. Inductive definitions</li>
-<li>Types &amp; type systems. Type safety. Type inference</li>
-<li>Data Types. Product. Sum. Pattern Matching</li>
-<li>Monads. Monadic programming. Type classes</li>
-<li>Classes and objects. Dynamic dispatch</li>
-<li>Continuations. Exceptions. Coroutines</li>
-<li>Concurrency. Process algebras. Bisimulation</li>
-<li>Logic programming</li>
-<li>Advanced type systems. Dependent types. Curry-Howard correspondence</li>
+<li><p>Intro to Programming Languages. Haskell basics</p></li>
+<li><p>Abstract syntax. BNF. Parsing</p></li>
+<li><p>Basic interpreters. Arithmetic</p></li>
+<li><p>Names and bindings. Substitution</p></li>
+<li><p>Environments. Basic procedures and functions</p></li>
+<li><p>Functions as values. Lambda calculus. Reduction</p></li>
+<li><p>Recursion. Fixpoint combinators. The Y combinator</p></li>
+<li><p>Strict vs. lazy evaluation. Call by name, call by value, call by need</p></li>
+<li><p>Imperative programming. Assignment. Stores. Loops</p></li>
+<li><p>Types &amp; type systems. Simply-Typed Lambda Calculus</p></li>
+<li><p>Polymorphism. Type inference</p></li>
+<li><p>Classes and objects. Dynamic dispatch</p></li>
+<li><p>Continuations. Exceptions. Coroutines</p></li>
+<li><p>Non-determinism. Logic programming</p></li>
+<li><p>Reasoning about programs</p></li>
+<li><p>Concurrency. Process algebras. Bisimulation</p></li>
+<li><p>Advanced type systems. Dependent types. Curry-Howard correspondence</p></li>
 </ol>
 <h2 id="schedule">Schedule</h2>
 <table>
-<colgroup>
-<col style="width: 9%" />
-<col style="width: 50%" />
-<col style="width: 39%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th>Date</th>
 <th>Topic</th>
-<th>Materials</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>09/10</td>
+<td>09/11</td>
 <td>Overview &amp; Quick Intro to Haskell</td>
-<td><a href="m/lec01/slides.pdf">Slides</a>   <a href="m/lec01/Lec01.hs">Lec01.hs</a></td>
-</tr>
-<tr class="even">
-<td>09/17</td>
-<td>Overview of Interpreters; Abstract Syntax; Arithmetic Expressions</td>
-<td><a href="m/lec02/Lec02.hs">Lec02.hs</a></td>
-</tr>
-<tr class="odd">
-<td>09/24</td>
-<td>Evaluating with Environments; More than One Value Type</td>
-<td><a href="m/lec03/03-slides.pdf">Slides</a>  <a href="m/lec03/Lec03.hs">Lec03.hs</a>  <a href="m/lec03/Lec03a.hs">Lec03a.hs</a></td>
-</tr>
-<tr class="even">
-<td>10/01</td>
-<td>Intro to Lambda Calculus, Reduction, Reduction Strategies</td>
-<td><a href="m/notes/notes.html#lambda-calculus">Notes</a>  <a href="m/lec04/Lec04.hs">Lec04.hs</a></td>
-</tr>
-<tr class="odd">
-<td>10/08</td>
-<td>Programming in Pure Lambda Calculus</td>
-<td><a href="m/notes/notes.html#programming-in-pure-lambda-calculus">Notes</a></td>
-</tr>
-<tr class="even">
-<td>10/15</td>
-<td>Reduction vs. Evaluation, Closures, Loops and Assignment</td>
-<td><a href="m/notes/notes.html#reduction-vs.-evaluation">Notes</a> <a href="m/lec08/Maps.hs">Maps.hs</a> <a href="m/lec08/Store.hs">Store.hs</a> <a href="m/lec08/StorePrint.hs">StorePrint.hs</a> <a href="m/lec08/StorePrintWhile.hs">StorePrintWhile.hs</a></td>
-</tr>
-<tr class="odd">
-<td>10/22</td>
-<td>Haskell Corner: Programming with Monads; QuickCheck</td>
-<td><a href="http://learnyouahaskell.com/a-fistful-of-monads">A Fistful of Monads</a> <a href="https://en.wikibooks.org/wiki/Haskell/Understanding_monads">Understanding Monads</a></td>
-</tr>
-<tr class="even">
-<td>10/29</td>
-<td>Midterm revision</td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>11/05</td>
-<td>Midterm</td>
-<td></td>
-</tr>
-<tr class="even">
-<td>11/12</td>
-<td>Assignment with Block Scope. Formal semantics – inference rules</td>
-<td><a href="m/notes/notes.html#imperative-variables-ii-block-scope">Notes: Block Scope</a></td>
-</tr>
-<tr class="odd">
-<td>11/19</td>
-<td>Types and Type Systems</td>
-<td><a href="m/notes/notes.html#types-and-type-systems">Notes: Types and Type Systems</a> <a href="m/lec10/Types.hs">Types.hs</a>  <a href="m/lec10/Maps.hs">Maps.hs</a> <a href="https://onesearch.library.northeastern.edu/permalink/f/365rt0/NEU_ALMA51267923170001401">TAPL</a> Chapters 8, 9 &amp; 11</td>
 </tr>
 </tbody>
 </table>
 <h2 id="assignments">Assignments</h2>
+<p>You can expect homework assignments to be handed out roughly every week and there will be around 10 assignments in total this semester. Some of them will be individual work, for others you will be expected to work in pairs. They will be mostly programming assignments. Tentatively, assignments will be handed out on Fridays and be due on the following Thursday. Submission will be via</p>
 <table>
 <thead>
 <tr class="header">
@@ -248,47 +192,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="cw/01/assignment01.html">Assignment 1: Haskell practice</a></td>
-<td>09/23</td>
-<td>09/27</td>
-<td><a href="m/cw/01/assignment01.pdf">PDF</a></td>
-</tr>
-<tr class="even">
-<td><a href="cw/02/Assignment2.html">Assignment 2: ABL</a></td>
-<td>Week of 09/30</td>
-<td>10/17</td>
-<td><a href="m/cw/02/Assignment2.pdf">PDF</a>  <a href="m/cw/02/Assignment2.zip">Pack</a></td>
-</tr>
-<tr class="odd">
-<td><a href="m/cw/03/Assignment3.pdf">Assignment 3: Pure Lambda Calculus</a></td>
-<td>10/20</td>
-<td>11/01</td>
-<td><a href="m/cw/03/Assignment3.zip">Pack</a></td>
-</tr>
-<tr class="even">
-<td><a href="m/cw/04/Assignment4.pdf">Assignment 4: MiniImp</a></td>
-<td>11/10</td>
-<td>11/22</td>
-<td><a href="m/cw/04/Assignment4.zip">Pack</a></td>
-</tr>
-<tr class="odd">
-<td><a href="m/cw/05/Assignment5.pdf">Assignment 5: STLC</a></td>
-<td>11/25</td>
-<td>12/04</td>
-<td><a href="m/cw/05/Assignment5.zip">Pack</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
 <h2 id="haskell">Haskell</h2>
-<p>We use <a href="https://www.haskell.org/">Haskell</a> as a language for implementing our example interpreters. Haskell is a programming language that is <em>statically typed</em>, <em>purely functional</em>, and <em>lazy</em>.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> I will assume that a majority of you does not have a previous experience with it. Thus, this course will contain an introduction to programming in Haskell and you can expect to pick up some techniques specific to functional programming along the way. Apart from being an implementation language for our interpreters, Haskell is an interesting language to study, so we will use it to exemplify some languages features.</p>
+<p>We use <a href="https://www.haskell.org/">Haskell</a> both as a topic of study and for implementing our examples. Haskell is a programming language that is <em>statically typed</em>, <em>purely functional</em>, and <em>lazy</em>.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> I expect that a majority of you <em>does not</em> have previous experience with it. Thus, this course will contain an introduction to programming in Haskell and you can expect to pick up some techniques specific to functional programming along the way. Apart from being an implementation language for our interpreters, Haskell is an interesting language to study, so we will use it to exemplify some languages features.</p>
 <p>The main implementation of Haskell is GHC: the Glasgow Haskell Compiler. It comes with a compiler, <code>ghc</code>, as well as an interactive REPL, <code>ghci</code>.</p>
 <p><strong>Installation.</strong> There are several ways to install Haskell. Generally, the easiest way across major operating systems is to install the <a href="https://www.haskell.org/platform/">Haskell Platform</a>. Its website contains installation instructions for Windows, macOS, and various Linux distributions.</p>
-<p><strong>IDEs.</strong> My personal preference is to use a combination of Vim (or another text editor) and running the compiler or REPL in a terminal. However, there are plugin-based alternatives, e.g.,</p>
+<p><strong>IDEs.</strong> My personal preference is to use a combination of Vim (currently mostly NeoVim) and running the compiler, REPL, or other tools in a terminal. However, there are plugin-based alternatives, e.g.,</p>
 <ul>
+<li><a href="https://code.visualstudio.com/">Visual Studio Code</a> – based on my limited experience with it, VSCode has decent Haskell support and it seems fun to use,</li>
 <li><a href="https://www.jetbrains.com/idea/">IntelliJ IDEA</a> with the <a href="https://plugins.jetbrains.com/plugin/8258-intellij-haskell">IntelliJ-Haskell plugin</a>, or</li>
 <li><a href="https://atom.io/">Atom</a> with the <a href="https://atom.io/packages/ide-haskell">ide-haskell plugin</a> and other plugins (such as ide-haskell-repl).</li>
 </ul>
-<p>The Atom option has currently some issues due to a deprecated dependency (ghc-mod) – it will complain, but seems usable. Of course, there is also a Haskell mode for Emacs users.</p>
+<p>Last time I checked, the Atom option had issues due to a deprecated dependency (ghc-mod) – it complained, but seemed usable.</p>
+<p>If you are an Emacs user, you’re out of luck… Just kidding, there is, of course a <a href="https://github.com/haskell/haskell-mode/">Haskell mode</a> and a whole lot of other goodies.</p>
+<p>There’s also <a href="https://www.spacemacs.org/">spacemacs</a>.</p>
+<p>See also [https://wiki.haskell.org/IDEs].</p>
 <p><strong>Examples.</strong> To give you a quick taste of what programming in Haskell looks like, here are a few basic versions of factorial:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co">-- This is a one-line comment</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a></span>
@@ -323,33 +247,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>  <span class="kw">let</span> message <span class="ot">=</span> <span class="st">&quot;Hello, &quot;</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a>  <span class="fu">putStrLn</span> (message <span class="op">++</span> name)</span></code></pre></div>
 <h2 id="resources">Resources</h2>
-<ul>
-<li>no required reading</li>
-<li>will provide lecture notes / annotated slides</li>
-<li>(potentially) useful books:
+<p>In general, there is no required reading for this course and I may provide lecture notes or annotated slides where applicable. However, there are other sources that we might use to replace or supplement those. I will draw your attention to them where appropriate.</p>
+<h3 id="books">Books</h3>
+<p>Check Northeastern’s library. A good portion of these books is available to us online.</p>
 <ul>
 <li>Haskell:
 <ul>
-<li><em>Learn You a Haskell for Great Good!</em> by Miran Lipovaca (available <a href="http://learnyouahaskell.com/chapters">online</a>)</li>
 <li><em>Programming in Haskell</em> by Graham Hutton</li>
+<li><em>Get Programming with Haskell</em> by Will Kurt seems pretty good</li>
+<li><a href="https://haskellbook.com/"><em>Haskell Programming from first principles</em></a> by Christopher Allen and Julie Moronuki is new and seems interesting</li>
+<li><em>Learn You a Haskell for Great Good!</em> by Miran Lipovaca (available <a href="http://learnyouahaskell.com/chapters">online</a>) – I liked this one when I read it, but it is somewhat problematic, so watch out.</li>
 </ul></li>
-<li><em>Essentials of Programming Languages</em> by Daniel P. Friedman and Mitchell Wand – closest to what we will be doing, but with examples in Scheme</li>
-<li><em>Types and Programming Languages</em> by Benjamin C. Pierce – oriented towards type systems</li>
+<li>Programming lanugages:
+<ul>
+<li><em>Essentials of Programming Languages</em> by Daniel P. Friedman and Mitchell Wand (some editions with Christopher T. Haynes) – closest to what we will be doing, but with examples written in Scheme</li>
+<li><em>Types and Programming Languages</em> by Benjamin C. Pierce – THE textbook on types and type systems. It has a good chapter on Lambda Calculus and other chapters will be relevant when we look at type systems.</li>
 <li><em>Programming Languages: Application and Interpretation</em> by Shriram Krishnamurthi (available <a href="http://cs.brown.edu/courses/cs173/2012/book/book.pdf">online</a>)</li>
 </ul></li>
 </ul>
+<h3 id="other">Other</h3>
+<p>I will keep extending this list.</p>
+<ul>
+<li><a href="http://dev.stephendiehl.com/hask/">What I Wish I Knew When Learning Haskell</a> – excellent comprehensive resource about various topics pertaining to Haskell and functional programming</li>
+<li><a href="https://hackage.haskell.org/">Hackage: The Haskell Package Repository</a></li>
+<li><a href="https://pl.barzilay.org/">Eli’s version of this course</a> – Eli Barzilay’s excellent version of CS4400 and a source of inspiration for the topics in this version</li>
+</ul>
 <h2 id="forum">Forum</h2>
 <p>The primary forum for this class is on Piazza, which you can use to ask questions and exchange wisdom while completing assignments. I will also use Piazza to broadcast announcements to the class, so you will be expected to check it at least every few days. Participate actively and use it as a first place to post questions related to assignments, programming, debugging, exams, etc. Please use the forum to post questions and answers that may be useful to others. Bottom line: unless you have a private problem, post to Piazza before writing me/the TA an email.</p>
-<p>Please register for Piazza by going to <a href="http://piazza.com/northeastern/fall2019/cs44005400">http://piazza.com/northeastern/fall2019/cs44005400</a> and registering as a student.</p>
-<h2 id="exams">Exams</h2>
-<p>There will be one midterm and one final. All exams will be closed book and closed notes, and computers are not allowed nor is any access to the Internet via any device. The exams will cover material from lectures, readings, and the projects.</p>
+<p>Please register on Piazza by going to <a href="https://piazza.com/northeastern/fall2020/cs4400">https://piazza.com/northeastern/fall2020/cs4400</a>. You will need an access code which will be provided in class or via email.</p>
+<p>Note: The Piazza forum is meant for discussion related to the topics of this course and to exchange knowledge. While I welcome debates about the course structure, the whys and why nots, or other general topics, I reserve the right to change the visibility of posts if I think they do not contribute to the learning aims of this course. You are most welcome to talk to me about any topic directly – after class, in office hours, or in an ad-hoc/scheduled meeting.</p>
 <h2 id="grades">Grades</h2>
-<p>The final grade is determined as follows:</p>
+<p>This is a tentative breakdown of how the final grade will be determined:</p>
 <ul>
-<li>60% assignments (12% per assignment)</li>
-<li>15% midterm</li>
-<li>20% final</li>
-<li>5% participation</li>
+<li>55% assignments</li>
+<li>40% other (quizzes and/or exams)</li>
+<li>5% karma</li>
 </ul>
 <p>The mapping of percentages to letter grades is as follows:</p>
 <table class="centered" cellspacing="0" cellpadding="0">
@@ -611,7 +543,7 @@ F
 </tbody>
 </table>
 <h2 id="late-policy">Late Policy</h2>
-<p>For the homework assignments, we will use flexible slip dates. Each student is given an automatic extension of 4 calendar days for the semester. You can use the extension on any assignment during the semester in increments of a day<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. For instance, you can hand in one assignment 4 days late, or one assignment 2 days late and two assignments 1 day late. This should let you schedule due dates around the due dates for other courses. After you have used up your slip time, any assignment handed in late will be marked off 20% per day. Assignments more than 2 days late (beyond the use of slip days) will not be accepted. Extensions will not be granted.</p>
+<p><em>TBD</em></p>
 <h2 id="cheating-policy">Cheating Policy</h2>
 <p>It’s ok to ask your peers about the concepts, algorithms, or approaches needed to do the assignments. We encourage you to do so; both giving and taking advice will help you to learn. However, what you turn in must be your own, or for projects, your group’s own work. Looking at or copying code or homework solutions from other people or the Web is strictly prohibited. In particular, looking at other solutions (e.g., from other groups or students who previously took the course) is a direct violation. Projects must be entirely the work of the students turning them in, i.e. you and your group members. If you have any questions about using a particular resource, ask the course staff or post a question to the class forum.</p>
 <p>All students are subject to the Northeastern University’s <a href="http://www.northeastern.edu/osccr/academic-integrity-policy/">Academic Integrity Policy</a>. Per Khoury College policy, all cases of suspected plagiarism or other academic dishonesty must be referred to the Office of Student Conduct and Conflict Resolution (OSCCR). This may result is deferred suspension, suspension, or expulsion from the university.</p>
@@ -621,7 +553,6 @@ F
 <hr />
 <ol>
 <li id="fn1" role="doc-endnote"><p>Do not despair if these words currently mean nothing to you in this context. We will make sense of them during the course.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p>A “day” refers to 24 hours. Thus, a project turned in 28 hours late will count as two days late.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
         </main>
