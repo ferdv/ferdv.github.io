@@ -59,7 +59,7 @@ main = hakyll $ do
             >>= loadAndApplyTemplate "templates/foghorn.html" defaultContext
             >>= relativizeUrls
 
-    match "teaching/*/m/**" $ do
+    match "teaching/*/**" $ do
         route   idRoute
         compile copyFileCompiler
 

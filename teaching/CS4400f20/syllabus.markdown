@@ -11,16 +11,17 @@ Parts of this syllabus are subject to change as the semester progresses.
 
 ## Time and Place
 
-We meet on Tuesdays and Fridays, 9:50-11:30am in Cargill Hall 097 and on Zoom. Zoom links for each lecture are avaibale on Canvas. The first class is on Friday, 9/11.
+We meet on Tuesdays and Fridays, 9:50-11:30am in Cargill Hall 097 and on Zoom. Zoom links for each lecture are available on Canvas. The first class is on Friday, 9/11.
 
 ## People
 
-| Role           | Name                    | Email                     | Office hours      | Location   |
-|----------------|-------------------------|---------------------------|-------------------|------------|
-| **Instructor** | Ferdinand Vesely        | f.vesely@northeastern.edu | *TBA*             | Zoom/Teams |
-| **TAs**        | Shaoyong Feng           |                           | *TBA*             |            |
-|                | Jack Gelinas            |                           | *TBA*             |            |
-|                | Divya Payyadi Venkatesh |                           | *TBA*             |            |
+| Role           | Name               | Email                           | Office hours      | Location   |
+|----------------|--------------------|---------------------------------|-------------------|------------|
+| **Instructor** | Ferdinand Vesely   | f.vesely@northeastern           | *TBA*             | Zoom/Teams |
+| **TAs**        | Jack Gelinas       | gelinas.j@northeastern          | Wed, 2-5pm        | [Zoom](https://northeastern.zoom.us/j/97516065212) |
+|                | Divya Venkatesh    | payyadivenkatesh.d@northeastern | Mon/Thu 12:30-2pm | [Zoom](https://northeastern.zoom.us/j/91801070558?pwd=NzRiVkVhVEI4MERXQmZsM1RXNlN4UT09) |
+
+Note: We use waiting rooms in Zoom to deal with queues.
 
 ## Course Description
 
@@ -63,17 +64,18 @@ This is a rough and tentative list of topics that we will aim to cover this seme
 
 ## Schedule
 
-| Date  | Topic                              |
-|-------|------------------------------------|
-| 09/11 | Overview & Quick Intro to Haskell  |
+| Date  | Topic                                   | Materials |
+|-------|-----------------------------------------|-----------|
+| 09/11 | Overview & Quick Intro to Haskell       | [Slides](l/01/slides.pdf) \ \ [Wat (video)](https://archive.org/details/wat_destroyallsoftware) |
+| 09/15 | Abstract Syntax & (Algebraic) Datatypes | [Notes](l/02/02.pdf) |
 
 ## Assignments
 
 You can expect homework assignments to be handed out roughly every week and there will be around 10 assignments in total this semester. Some of them will be individual work, for others you will be expected to work in pairs. They will be mostly programming assignments. Tentatively, assignments will be handed out on Fridays and be due on the following Thursday. Submission will be via 
 
-| Assignment            | Date Set | Date Due |                                  |
-|-----------------------|----------|----------|----------------------------------|
-|                       |          |          |                                  |
+| Assignment                             | Date Set | Date Due |                                  |
+|----------------------------------------|----------|----------|----------------------------------|
+| [Assignment 1](a/01/Assignment01.html) | 9/15     | 9/19     | [PDF](a/01/Assignment01.pdf)   |
 
 ## Haskell
 
@@ -83,13 +85,13 @@ The main implementation of Haskell is GHC: the Glasgow Haskell Compiler. It come
 
 <!-- - Why functional languages? Brief history of Haskell. -->
 
+**Haskell in a browser.** The quickest way to start using Haskell is to simply run it in your browser. There is a handful of online IDEs, for example <https://repl.it/languages/haskell>. Note, that when you click *Run*, it will throw an error at you about a variable `main` not being in scope. You can ignore that error for now -- it still loads your definitions. If you want to avoid that error, instead of clicking *Run*, type `:l main.hs` in the interactive area and press enter. Then you can reload the same file after you edit it by typing `:r`.
 
 **Installation.** There are several ways to install Haskell. Generally, the easiest way across major operating systems is to install the [Haskell Platform](https://www.haskell.org/platform/). Its website contains installation instructions for Windows, macOS, and various Linux distributions. 
 
 **IDEs.** My personal preference is to use a combination of Vim (currently mostly NeoVim) and running the compiler, REPL, or other tools in a terminal. However, there are plugin-based alternatives, e.g.,
 
-
-* [Visual Studio Code](https://code.visualstudio.com/) -- based on my limited experience with it, VSCode has decent Haskell support and it seems fun to use,
+* [Visual Studio Code](https://code.visualstudio.com/) -- based on my limited experience with it, VSCode has/had decent Haskell support and it seems fun to use, 
 - [IntelliJ IDEA](https://www.jetbrains.com/idea/) with the [IntelliJ-Haskell plugin](https://plugins.jetbrains.com/plugin/8258-intellij-haskell), or
 - [Atom](https://atom.io/) with the [ide-haskell plugin](https://atom.io/packages/ide-haskell) and other plugins (such as ide-haskell-repl).
 
@@ -99,7 +101,7 @@ If you are an Emacs user, you're out of luck... Just kidding, there is, of cours
 
 There's also [spacemacs](https://www.spacemacs.org/).
 
-See also [https://wiki.haskell.org/IDEs].
+See also <https://wiki.haskell.org/IDEs>.
 
 **Examples.** To give you a quick taste of what programming in Haskell looks like, here are a few basic versions of factorial:
 
@@ -157,7 +159,7 @@ main = do -- do-blocks allow us to perform sequential computations
 In general, there is no required reading for this course and I may provide lecture notes or annotated slides where applicable. However, there are other sources that we might use to replace or supplement those. I will draw your attention to them where appropriate.
 
 ### Books
-Check Northeastern's library. A good portion of these books is available to us online.
+Check Northeastern's library. A good portion of these books is available to us online. Some of these items have abbreviations -- I will use these when referring to supplementary reading.
 
 - Haskell:
    - *Programming in Haskell* by Graham Hutton
@@ -166,14 +168,15 @@ Check Northeastern's library. A good portion of these books is available to us o
    - *Learn You a Haskell for Great Good!* by Miran Lipovaca (available [online](http://learnyouahaskell.com/chapters)) -- I liked this one when I read it, but it is somewhat problematic, so watch out.
 
 - Programming lanugages:
-   - *Essentials of Programming Languages* by Daniel P. Friedman and Mitchell Wand (some editions with Christopher T. Haynes) -- closest to what we will be doing, but with examples written in Scheme
-   - *Types and Programming Languages* by Benjamin C. Pierce -- THE textbook on types and type systems. It has a good chapter on Lambda Calculus and other chapters will be relevant when we look at type systems.
+   - **[EOPL]** *Essentials of Programming Languages* by Daniel P. Friedman and Mitchell Wand (some editions with Christopher T. Haynes) -- closest to what we will be doing, but with examples written in Scheme
+   - **[TAPL]** *Types and Programming Languages* by Benjamin C. Pierce -- THE textbook on types and type systems. It has a good chapter on Lambda Calculus and other chapters will be relevant when we look at type systems.
    - *Programming Languages: Application and Interpretation* by Shriram Krishnamurthi (available [online](http://cs.brown.edu/courses/cs173/2012/book/book.pdf))
 
 ### Other
 
 I will keep extending this list.
 
+- [Try Haskell!](https://tryhaskell.org) -- a nice online tutorial to get you started with Haskell
 - [What I Wish I Knew When Learning Haskell](http://dev.stephendiehl.com/hask/) -- excellent comprehensive resource about various topics pertaining to Haskell and functional programming 
 - [Hackage: The Haskell Package Repository](https://hackage.haskell.org/)
 - [Eli's version of this course](https://pl.barzilay.org/) -- Eli Barzilay's excellent version of CS4400 and a source of inspiration for the topics in this version
@@ -205,8 +208,8 @@ the first and second halves of the class, respectively (i.e., they are not cumul
 
 This is a tentative breakdown of how the final grade will be determined:
 
-* 55% assignments 
-* 40% other (quizzes and/or exams)
+* 60% assignments 
+* 35% other (quizzes and/or exams)
 * 5% karma
 
 The mapping of percentages to letter grades is as follows:
@@ -216,7 +219,11 @@ The mapping of percentages to letter grades is as follows:
 
 ## Late Policy
 
-*TBD*
+You are allowed to turn your work in after the deadline, with a penalty of 4% of your grade per hour. For example, submitting 10 minutes late reduces your grade by 4%, submitting 5 hours and 1 minute late reduces your grade by 24%. Submitting more than 25 hours late will result in a zero. This will be automatically determined by the Handins server. You can submit as many times as you wish. We thus recommend submitting even a partial solution well before the deadline. That way if something goes wrong, you'll get at least partial credit (and feedback).
+
+<!--
+We will allow  to turn in your work after the deadline, at a 4% per hour penalty starting immediately at the deadline (i.e., submitting 60-minutes-and-one-second late will be graded as two hours late). The handin server will use its own clock to determine what time it is, so it is a bad idea to try to sneak in a submission in those last few seconds. Submitting more than 25 hours late will result in a zero; however, we will accept homeworks up to two days late so that you can still receive feedback on your work.
+-->
 
 <!--For the homework assignments, we will use flexible slip dates. Each student is given an automatic extension of 4 calendar days for the semester. You can use the extension on any assignment
 during the semester in increments of a day[^lateday]. For instance, you can hand in one assignment 4 days late,
