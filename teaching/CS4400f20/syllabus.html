@@ -95,7 +95,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <h2 id="disclaimer">Disclaimer</h2>
 <p>Parts of this syllabus are subject to change as the semester progresses.</p>
 <h2 id="time-and-place">Time and Place</h2>
-<p>We meet on Tuesdays and Fridays, 9:50-11:30am in Cargill Hall 097 and on Zoom. Zoom links for each lecture are avaibale on Canvas. The first class is on Friday, 9/11.</p>
+<p>We meet on Tuesdays and Fridays, 9:50-11:30am in Cargill Hall 097 and on Zoom. Zoom links for each lecture are available on Canvas. The first class is on Friday, 9/11.</p>
 <h2 id="people">People</h2>
 <table>
 <thead>
@@ -111,33 +111,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td><strong>Instructor</strong></td>
 <td>Ferdinand Vesely</td>
-<td>f.vesely@northeastern.edu</td>
+<td>f.vesely@northeastern</td>
 <td><em>TBA</em></td>
 <td>Zoom/Teams</td>
 </tr>
 <tr class="even">
 <td><strong>TAs</strong></td>
-<td>Shaoyong Feng</td>
-<td></td>
-<td><em>TBA</em></td>
-<td></td>
+<td>Jack Gelinas</td>
+<td>gelinas.j@northeastern</td>
+<td>Wed, 2-5pm</td>
+<td><a href="https://northeastern.zoom.us/j/97516065212">Zoom</a></td>
 </tr>
 <tr class="odd">
 <td></td>
-<td>Jack Gelinas</td>
-<td></td>
-<td><em>TBA</em></td>
-<td></td>
-</tr>
-<tr class="even">
-<td></td>
-<td>Divya Payyadi Venkatesh</td>
-<td></td>
-<td><em>TBA</em></td>
-<td></td>
+<td>Divya Venkatesh</td>
+<td>payyadivenkatesh.d@northeastern</td>
+<td>Mon/Thu 12:30-2pm</td>
+<td><a href="https://northeastern.zoom.us/j/91801070558?pwd=NzRiVkVhVEI4MERXQmZsM1RXNlN4UT09">Zoom</a></td>
 </tr>
 </tbody>
 </table>
+<p>Note: We use waiting rooms in Zoom to deal with queues.</p>
 <h2 id="course-description">Course Description</h2>
 <p>The overarching idea of (this version of) this course is to study constructs and fundamental concepts of programming languages, while getting familiar and exploring topics in functional programming using the language Haskell. We will be discussing concepts both formally and informally, as well as implement interpreters and other language-related tools in Haskell. These implementations will motivate exploring various approaches, idioms and concepts in functional programming.</p>
 <p><strong>Registrar’s description for 4400:</strong> Introduces a systematic approach to understanding the behavior of programming languages. Covers interpreters; static and dynamic scope; environments; binding and assignment; functions and recursion; parameter-passing and method dispatch; objects, classes, inheritance, and polymorphism; type rules and type checking; and concurrency.</p>
@@ -170,12 +164,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tr class="header">
 <th>Date</th>
 <th>Topic</th>
+<th>Materials</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>09/11</td>
 <td>Overview &amp; Quick Intro to Haskell</td>
+<td><a href="l/01/slides.pdf">Slides</a>   <a href="https://archive.org/details/wat_destroyallsoftware">Wat (video)</a></td>
+</tr>
+<tr class="even">
+<td>09/15</td>
+<td>Abstract Syntax &amp; (Algebraic) Datatypes</td>
+<td><a href="l/02/02.pdf">Notes</a></td>
 </tr>
 </tbody>
 </table>
@@ -192,27 +193,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </thead>
 <tbody>
 <tr class="odd">
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td><a href="a/01/Assignment01.html">Assignment 1</a></td>
+<td>9/15</td>
+<td>9/19</td>
+<td><a href="a/01/Assignment01.pdf">PDF</a></td>
 </tr>
 </tbody>
 </table>
 <h2 id="haskell">Haskell</h2>
 <p>We use <a href="https://www.haskell.org/">Haskell</a> both as a topic of study and for implementing our examples. Haskell is a programming language that is <em>statically typed</em>, <em>purely functional</em>, and <em>lazy</em>.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> I expect that a majority of you <em>does not</em> have previous experience with it. Thus, this course will contain an introduction to programming in Haskell and you can expect to pick up some techniques specific to functional programming along the way. Apart from being an implementation language for our interpreters, Haskell is an interesting language to study, so we will use it to exemplify some languages features.</p>
 <p>The main implementation of Haskell is GHC: the Glasgow Haskell Compiler. It comes with a compiler, <code>ghc</code>, as well as an interactive REPL, <code>ghci</code>.</p>
+<p><strong>Haskell in a browser.</strong> The quickest way to start using Haskell is to simply run it in your browser. There is a handful of online IDEs, for example <a href="https://repl.it/languages/haskell" class="uri">https://repl.it/languages/haskell</a>. Note, that when you click <em>Run</em>, it will throw an error at you about a variable <code>main</code> not being in scope. You can ignore that error for now – it still loads your definitions. If you want to avoid that error, instead of clicking <em>Run</em>, type <code>:l main.hs</code> in the interactive area and press enter. Then you can reload the same file after you edit it by typing <code>:r</code>.</p>
 <p><strong>Installation.</strong> There are several ways to install Haskell. Generally, the easiest way across major operating systems is to install the <a href="https://www.haskell.org/platform/">Haskell Platform</a>. Its website contains installation instructions for Windows, macOS, and various Linux distributions.</p>
 <p><strong>IDEs.</strong> My personal preference is to use a combination of Vim (currently mostly NeoVim) and running the compiler, REPL, or other tools in a terminal. However, there are plugin-based alternatives, e.g.,</p>
 <ul>
-<li><a href="https://code.visualstudio.com/">Visual Studio Code</a> – based on my limited experience with it, VSCode has decent Haskell support and it seems fun to use,</li>
+<li><a href="https://code.visualstudio.com/">Visual Studio Code</a> – based on my limited experience with it, VSCode has/had decent Haskell support and it seems fun to use,</li>
 <li><a href="https://www.jetbrains.com/idea/">IntelliJ IDEA</a> with the <a href="https://plugins.jetbrains.com/plugin/8258-intellij-haskell">IntelliJ-Haskell plugin</a>, or</li>
 <li><a href="https://atom.io/">Atom</a> with the <a href="https://atom.io/packages/ide-haskell">ide-haskell plugin</a> and other plugins (such as ide-haskell-repl).</li>
 </ul>
 <p>Last time I checked, the Atom option had issues due to a deprecated dependency (ghc-mod) – it complained, but seemed usable.</p>
 <p>If you are an Emacs user, you’re out of luck… Just kidding, there is, of course a <a href="https://github.com/haskell/haskell-mode/">Haskell mode</a> and a whole lot of other goodies.</p>
 <p>There’s also <a href="https://www.spacemacs.org/">spacemacs</a>.</p>
-<p>See also [https://wiki.haskell.org/IDEs].</p>
+<p>See also <a href="https://wiki.haskell.org/IDEs" class="uri">https://wiki.haskell.org/IDEs</a>.</p>
 <p><strong>Examples.</strong> To give you a quick taste of what programming in Haskell looks like, here are a few basic versions of factorial:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co">-- This is a one-line comment</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a></span>
@@ -249,7 +251,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 id="resources">Resources</h2>
 <p>In general, there is no required reading for this course and I may provide lecture notes or annotated slides where applicable. However, there are other sources that we might use to replace or supplement those. I will draw your attention to them where appropriate.</p>
 <h3 id="books">Books</h3>
-<p>Check Northeastern’s library. A good portion of these books is available to us online.</p>
+<p>Check Northeastern’s library. A good portion of these books is available to us online. Some of these items have abbreviations – I will use these when referring to supplementary reading.</p>
 <ul>
 <li>Haskell:
 <ul>
@@ -260,14 +262,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li>Programming lanugages:
 <ul>
-<li><em>Essentials of Programming Languages</em> by Daniel P. Friedman and Mitchell Wand (some editions with Christopher T. Haynes) – closest to what we will be doing, but with examples written in Scheme</li>
-<li><em>Types and Programming Languages</em> by Benjamin C. Pierce – THE textbook on types and type systems. It has a good chapter on Lambda Calculus and other chapters will be relevant when we look at type systems.</li>
+<li><strong>[EOPL]</strong> <em>Essentials of Programming Languages</em> by Daniel P. Friedman and Mitchell Wand (some editions with Christopher T. Haynes) – closest to what we will be doing, but with examples written in Scheme</li>
+<li><strong>[TAPL]</strong> <em>Types and Programming Languages</em> by Benjamin C. Pierce – THE textbook on types and type systems. It has a good chapter on Lambda Calculus and other chapters will be relevant when we look at type systems.</li>
 <li><em>Programming Languages: Application and Interpretation</em> by Shriram Krishnamurthi (available <a href="http://cs.brown.edu/courses/cs173/2012/book/book.pdf">online</a>)</li>
 </ul></li>
 </ul>
 <h3 id="other">Other</h3>
 <p>I will keep extending this list.</p>
 <ul>
+<li><a href="https://tryhaskell.org">Try Haskell!</a> – a nice online tutorial to get you started with Haskell</li>
 <li><a href="http://dev.stephendiehl.com/hask/">What I Wish I Knew When Learning Haskell</a> – excellent comprehensive resource about various topics pertaining to Haskell and functional programming</li>
 <li><a href="https://hackage.haskell.org/">Hackage: The Haskell Package Repository</a></li>
 <li><a href="https://pl.barzilay.org/">Eli’s version of this course</a> – Eli Barzilay’s excellent version of CS4400 and a source of inspiration for the topics in this version</li>
@@ -279,8 +282,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 id="grades">Grades</h2>
 <p>This is a tentative breakdown of how the final grade will be determined:</p>
 <ul>
-<li>55% assignments</li>
-<li>40% other (quizzes and/or exams)</li>
+<li>60% assignments</li>
+<li>35% other (quizzes and/or exams)</li>
 <li>5% karma</li>
 </ul>
 <p>The mapping of percentages to letter grades is as follows:</p>
@@ -543,7 +546,7 @@ F
 </tbody>
 </table>
 <h2 id="late-policy">Late Policy</h2>
-<p><em>TBD</em></p>
+<p>You are allowed to turn your work in after the deadline, with a penalty of 4% of your grade per hour. For example, submitting 10 minutes late reduces your grade by 4%, submitting 5 hours and 1 minute late reduces your grade by 24%. Submitting more than 25 hours late will result in a zero. This will be automatically determined by the Handins server. You can submit as many times as you wish. We thus recommend submitting even a partial solution well before the deadline. That way if something goes wrong, you’ll get at least partial credit (and feedback).</p>
 <h2 id="cheating-policy">Cheating Policy</h2>
 <p>It’s ok to ask your peers about the concepts, algorithms, or approaches needed to do the assignments. We encourage you to do so; both giving and taking advice will help you to learn. However, what you turn in must be your own, or for projects, your group’s own work. Looking at or copying code or homework solutions from other people or the Web is strictly prohibited. In particular, looking at other solutions (e.g., from other groups or students who previously took the course) is a direct violation. Projects must be entirely the work of the students turning them in, i.e. you and your group members. If you have any questions about using a particular resource, ask the course staff or post a question to the class forum.</p>
 <p>All students are subject to the Northeastern University’s <a href="http://www.northeastern.edu/osccr/academic-integrity-policy/">Academic Integrity Policy</a>. Per Khoury College policy, all cases of suspected plagiarism or other academic dishonesty must be referred to the Office of Student Conduct and Conflict Resolution (OSCCR). This may result is deferred suspension, suspension, or expulsion from the university.</p>
