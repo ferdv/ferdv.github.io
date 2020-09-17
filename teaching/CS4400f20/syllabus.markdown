@@ -5,20 +5,18 @@ author: Ferdinand Vesely
 css: css/foghorn.css
 ---
 
-## Disclaimer
-
 Parts of this syllabus are subject to change as the semester progresses.
 
 ## Time and Place
 
-We meet on Tuesdays and Fridays, 9:50-11:30am in Cargill Hall 097 and on Zoom. Zoom links for each lecture are available on Canvas. The first class is on Friday, 9/11.
+We meet on Tuesdays and Fridays, 9:50-11:30am in Mugar 201 and on Zoom. Zoom links for each lecture are available on Canvas. The first class is on Friday, 9/11.
 
 ## People
 
 | Role           | Name               | Email                           | Office hours      | Location   |
 |----------------|--------------------|---------------------------------|-------------------|------------|
 | **Instructor** | Ferdinand Vesely   | f.vesely@northeastern           | *TBA*             | Zoom/Teams |
-| **TAs**        | Jack Gelinas       | gelinas.j@northeastern          | Wed, 2-5pm        | [Zoom](https://northeastern.zoom.us/j/97516065212) |
+| **TAs**        | Jack Gelinas       | gelinas.j@northeastern          | Wed, 1:45-4:30pm  | [Zoom](https://northeastern.zoom.us/j/97516065212) |
 |                | Divya Venkatesh    | payyadivenkatesh.d@northeastern | Mon/Thu 12:30-2pm | [Zoom](https://northeastern.zoom.us/j/91801070558?pwd=NzRiVkVhVEI4MERXQmZsM1RXNlN4UT09) |
 
 Note: We use waiting rooms in Zoom to deal with queues.
