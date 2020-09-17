@@ -1,0 +1,346 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <!--<meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> -->
+        <title>Lecture 2: Abstract Syntax, BNF, Algebraic Datatypes</title>
+        <!-- <meta http-equiv="x-ua-compatible" content="ie=edge"> -->
+        <!-- <link rel="stylesheet" href="/css/default.css" /> -->
+<style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+        <link rel="stylesheet" href="../../../../css/foghorn.css" />
+        <link rel="icon" type="image/png" href="images/favicon-196x196.png" sizes="196x196" />
+        <link rel="icon" type="image/png" href="images/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+        <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
+        <link rel="icon" type="image/png" href="images/favicon-128.png" sizes="128x128" />    
+    </head>
+
+<body>
+        <header id="title-block-header">
+          <h1 class="title">Lecture 2: Abstract Syntax, BNF, Algebraic Datatypes</h1>
+          <p class="subtitle">CS4400 Programming Languages</p>
+        </header>
+        <main id="main">
+            <blockquote>
+<p>Language; Syntax; Concrete syntax; Abstract syntax; Inductive definitions; Grammars; BNF; Haskell types; Algebraic datatypes; Representing abstract syntax in Haskell</p>
+</blockquote>
+<blockquote>
+<p>Readings: <strong>EPL</strong>, Ch. 1; <strong>TAPL</strong>, 3.1-3.2</p>
+</blockquote>
+<h1 id="overview">Overview</h1>
+<p>In this lecture we talk about concrete vs abstract syntax and BNF, a widely used notation for specifying syntax. On the Haskell side of things, we’ll look at types, type signatures, algebraic datatypes and, in particular, their use for representing abstract syntax trees.</p>
+<p>Warning: Contains some math.</p>
+<h1 id="syntax">Syntax</h1>
+<p>If you took a course on formal languages, you might recall that a language is a set words (sometimes more appropriately: <em>expressions</em>, <em>terms</em>, <em>phrases</em>) over an alphabet (which is a set of symbols). Every programming language is a formal language (but not every formal language is a programming language).</p>
+<p>However, symbols can be arbitrarily combined in many ways, but we often recognize only some combinations as part of a language.</p>
+<p>How can we tell what belongs to a language and what doesn’t?</p>
+<p>Rules <span class="math inline"> − &gt;</span> <em>Syntax</em></p>
+<p>Syntax is a collection of rules that determine which strings are valid, i.e., which strings belong to a given language. In turn, syntax defines the set of valid strings, thus, defines the language.</p>
+<h2 id="concrete-vs-abstract-syntax">Concrete vs Abstract Syntax</h2>
+<p>When dealing with programming language, we often talk about the concrete syntax and abstract syntax of a language.</p>
+<p><strong>Concrete syntax</strong></p>
+<ul>
+<li>Simply put: what we seen when we look at a program</li>
+<li>All the details, such as, semicolons, parentheses, braces, brackets, precedence of operators, etc.</li>
+<li>E.g., the same integer can be written down in multiple ways</li>
+<li>Gives us the necessary information to <em>validate</em> and <em>parse</em> strings of characters as programs / phrases of a programming language</li>
+</ul>
+<p>What does it consist of? How is it specified?</p>
+<ol type="1">
+<li><em>Lexical</em> details</li>
+</ol>
+<ul>
+<li>What are the keywords</li>
+<li>What are the operators, separators, grouping characters</li>
+<li>Valid variable names</li>
+<li>Literals:
+<ul>
+<li>numbers (integers, reals, …) – think of examples of number representations</li>
+<li>strings</li>
+<li>etc.</li>
+</ul></li>
+<li>Defines words of the language, also called <em>tokens</em></li>
+<li><em>Regular languages</em> are usually sufficient, most often specified using <em>regular expressions</em>
+<ul>
+<li><p>Examples:</p>
+<pre><code>DIGIT := [0123456789]
+INTEGER := DIGIT+
+REAL := INTEGER '.' INTEGER</code></pre></li>
+</ul></li>
+</ul>
+<ol start="2" type="1">
+<li>Structure</li>
+</ol>
+<ul>
+<li>How are tokens combined to form phrases of a language</li>
+<li>E.g., how are expressions built up from numbers, operators, parentheses, variable names, …</li>
+<li>Specified using <em>context-free grammars</em>, sometimes context-sensitive grammars</li>
+<li>We’ll see an example later</li>
+</ul>
+<p><strong>Abstract syntax</strong></p>
+<ul>
+<li>Abstracts from the concrete representation</li>
+<li>Hides “distractions”, such as, grouping of expressions and statements – you usually won’t see any parentheses in an abstract syntax spec</li>
+<li>Captures the (abstract) <em>structure</em> of a language phrase</li>
+</ul>
+<p>When discussing semantics of programming languages, we want to start from abstract syntax and forget about all the details of what the string representation looks like.</p>
+<h2 id="specifying-syntax">Specifying Syntax</h2>
+<p>There are multiple ways of specifying abstract syntax. Remember, that we are basically defining a set of (abstract) phrases. We have different ways of defining syntactic sets.</p>
+<p>One is enumeration: for a language with just a few simple phrases, we could just list them all. But for more interesting examples, we use <em>inductive definitions</em>.</p>
+<p>As an example, we will use a language of simple arithmetic expressions with integers, addition, subtraction, multiplication, and division. Let’s call it SAE. E.g., - <code>1</code> is in SAE - <code>2 + 3</code> <span class="math inline"> ∈ SAE</span> - <code>4 * 5 + 31</code> <span class="math inline"> ∈ SAE</span></p>
+<p>Here are a few equivalent ways of writing an inductive definition of a syntax:</p>
+<p><strong>Variant 1:</strong></p>
+<ol type="1">
+<li>If <span class="math inline"><em>n</em></span> is an integer, then <span class="math inline"><em>n</em></span> is in SAE (If <span class="math inline"><em>n</em> ∈ ℤ</span> then <span class="math inline"><em>n</em>∈</span> SAE}</li>
+<li>If <span class="math inline"><em>e</em><sub>1</sub></span> and <span class="math inline"><em>e</em><sub>2</sub></span> are in SAE then so are:
+<ol type="a">
+<li><span class="math inline"><em>e</em><sub>1</sub><code> + </code><em>e</em><sub>2</sub></span></li>
+<li><span class="math inline"><em>e</em><sub>1</sub><code> * </code><em>e</em><sub>2</sub></span></li>
+<li><span class="math inline"><em>e</em><sub>1</sub><code> - </code><em>e</em><sub>2</sub></span></li>
+<li><span class="math inline"><em>e</em><sub>1</sub><code> / </code><em>e</em><sub>2</sub></span></li>
+</ol></li>
+</ol>
+<p>If we want to be pedantic, we add a clause saying “nothing is in SAE, unless it follows from the above two rules”.</p>
+<p>If we really wanted to be pedantic, we would define what is an integer in SAE</p>
+<p>Why is <code>1 + 3 / 4</code> a SAE expression?</p>
+<p>Because <code>1</code>, <code>3</code> and <code>4</code> are integers and so are SAE expressions using 1. Since both <code>1</code> and <code>3</code> are SAE expressions, then so is <code>1 + 3</code> using 2. Since <code>1 + 3</code> is a SAE expression and <code>4</code> is also, then so is <code>1 + 3 / 4</code> using 2.</p>
+<p><strong>Variant 2 (inference rules):</strong></p>
+<ol type="1">
+<li><br /><span class="math display">$$\frac{n \in \mathbb{Z}}{n \in \text{SAE}}$$</span><br /></li>
+<li><br /><span class="math display">$$\frac{e_1 \in \text{SAE} \quad e_2 \in \text{SAE}}{e_1 \texttt{ + } e_2 \in \text{SAE}}
+  \quad
+  \frac{e_1 \in \text{SAE} \quad e_2 \in \text{SAE}}{e_1 \texttt{ * } e_2 \in \text{SAE}}
+  \quad
+  ...
+$$</span><br /></li>
+</ol>
+<p>These are <em>inference rules</em>. They can be read as “If <formula above line> (aka premise) holds, then so does <formula below line> (aka conclusion)”. This style is used heavily in some styles of semantics. We will be mainly using inference rules when we talk about types. But they might come in handy at other times to quickly write some ideas down.</p>
+<p><strong>Metavariables</strong> Note, that <span class="math inline"><em>n</em></span>, <span class="math inline"><em>e</em><sub>1</sub></span> and <span class="math inline"><em>e</em><sub>2</sub></span> are what we call <em>meta-variables</em>. They usually stand for a (restricted or arbitrary) piece of syntax. For example <span class="math inline"><em>e</em><sub>1</sub></span> <code>+</code> <span class="math inline"><em>e</em><sub>2</sub></span> matches any</p>
+<p>Why is <code>1 + 3 / 4</code> a SAE expression?</p>
+<p><br /><span class="math display">$$
+  \frac{\dfrac{\dfrac{\texttt{1} \in \mathbb{Z}}{\texttt{1} \in \text{SAE}}
+               \quad 
+               \dfrac{\texttt{3} \in \mathbb{Z}}{\texttt{3} \in \text{SAE}}}
+              {\texttt{1 + 3} \in \text{SAE}}
+        \quad
+        \dfrac{\texttt{4} \in \mathbb{Z}}{\texttt{4} \in \text{SAE}}}
+       {\texttt{1 + 3 / 4} \in \text{SAE}}
+  $$</span><br /></p>
+<p>This is a <em>derivation</em> (tree). We obtain it by taking a rule, substituting its meta-variables so that the conclusion contains what we are trying to show (in this case <span class="math inline"><code>1 + 3 / 4</code> ∈ SAE</span> with <span class="math inline"><em>e</em><sub>1</sub></span> replaced by <code>1 + 3</code> and <span class="math inline"><em>e</em><sub>2</sub></span> by <code>4</code>), then applying further rules to the first rule’s premises, keeping the substitutions consistent. We repeat this, until we reach rules that do not have premises to which rules need to be applied.</p>
+<p>Variant 3 (Grammar in Backus-Naur Form aka BNF):</p>
+<pre><code>  &lt;SAE&gt; ::= &lt;INTEGER&gt;
+          | &lt;SAE&gt; + &lt;SAE&gt;
+          | &lt;SAE&gt; * &lt;SAE&gt;
+          | &lt;SAE&gt; - &lt;SAE&gt;
+          | &lt;SAE&gt; / &lt;SAE&gt;</code></pre>
+<p>When talking about syntax we will be mostly using grammars in BNF notation like this. Here, meta-variables are things enclosed in angle-brackets: <code>&lt;SAE&gt;</code> and <code>&lt;INTEGER&gt;</code>. The other symbols (<code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, the integers) are what we call <em>terminals</em> or <em>terminal symbols</em>. They are called that, because they cannot be replaced by any other symbol: meta-variables can be replaced by an appropriate combination of meta-variables and terminals (following the grammar), but terminals are final.</p>
+<p>Each line of the grammar is called a <em>production</em>. The <code>&lt;SAE&gt;</code> before <code>::=</code> is called the <em>head</em> of the production(s).</p>
+<p>Now, why is <code>1 + 3 / 4</code> a SAE expression?</p>
+<pre><code>  &lt;SAE&gt; =&gt; &lt;SAE&gt; / &lt;SAE&gt;
+        =&gt; &lt;SAE&gt; + &lt;SAE&gt; / &lt;SAE&gt;
+        =&gt; &lt;INTEGER&gt; + &lt;SAE&gt; / &lt;SAE&gt;
+        =&gt; 1 + &lt;SAE&gt; / &lt;SAE&gt;
+        =&gt; 1 + &lt;INTEGER&gt; / &lt;SAE&gt;
+        =&gt; 1 + 3 / &lt;SAE&gt;
+        =&gt; 1 + 3 / &lt;INTEGER&gt;
+        =&gt; 1 + 3 / 4</code></pre>
+<p>This is also called a derivation.</p>
+<p>BNF nicely corresponds to algebraic data types in Haskell and we will visit this at the end of the lecture.</p>
+<p>For comparison, here is what a concrete syntax BNF for SAE might look like in its full glory:</p>
+<pre><code>&lt;Expression&gt; ::= &lt;Expression&gt; + &lt;Term&gt;
+               | &lt;Expression&gt; - &lt;Term&gt;
+               | &lt;Term&gt;
+
+&lt;Term&gt; ::= &lt;Term&gt; * &lt;Factor&gt;
+         | &lt;Term&gt; / &lt;Factor&gt;
+         | &lt;Factor&gt;
+
+&lt;Factor&gt; ::= ( &lt;Expression&gt; )
+           | &lt;Integer&gt;
+
+&lt;Integer&gt; ::= &lt;Integer&gt; &lt;Digit&gt;
+            | &lt;Digit&gt;
+
+&lt;Digit&gt; ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9</code></pre>
+<h1 id="haskell-corner">Haskell Corner</h1>
+<p>We have seen some basic examples of Haskell: how to write expressions, how to define basic function using basic pattern matching, quards and conditional expressions.</p>
+<p>Today we will talk about basic types, type signatures and defining our own types. We will also look more at pattern matching and working with lists.</p>
+<h2 id="types">Types</h2>
+<p>I mentioned some basic types in Haskell: <code class="sourceCode haskell"><span class="dt">Integer</span></code>, <code class="sourceCode haskell"><span class="dt">Bool</span></code>. Another basic type is <code class="sourceCode haskell"><span class="dt">Char</span></code>. There is also a second integer type called <code class="sourceCode haskell"><span class="dt">Int</span></code>. The difference is that, whereas <code class="sourceCode haskell"><span class="dt">Integer</span></code> is a type of integers of arbitrary length (try it out!), <code class="sourceCode haskell"><span class="dt">Int</span></code> is the type of bounded machine integers. Unfortunately, we cannot just pick one and stick with it, since both are being used by Haskell’s libraries. We might have to convert one to the other from time to time. Also, in Haskell, strings (<code class="sourceCode haskell"><span class="dt">String</span></code>)are not a basic (primitive) type.</p>
+<p>We talked about lists. A list type is written <code class="sourceCode haskell">[a]</code>, where <code>a</code> is the name of the element type. For example, <code class="sourceCode haskell">[<span class="dt">Integer</span>]</code> is the type of lists of integers. By extension, <code class="sourceCode haskell">[[<span class="dt">Bool</span>]]</code> is the type of lists of lists of booleans.</p>
+<p>Type names (actually type <em>constructors</em>) always start with an upper-case letter.</p>
+<h2 id="type-signatures">Type Signatures</h2>
+<p>Just like you were used to in Fundies 1, we will be writing down type signatures in Haskell, along with purpose statements, <em>for every top level definition</em>. Unlike in Fundies 1, and similarly to Fundies 2, Haskell actually checks our types. In reality, we wouldn’t really need to write down most signatures, as GHC is smart enough to <em>infer</em> the types for us. However, the types that we get this way are often too general, which can lead to errors and error messages that are difficult to process. Moreover, type signature serve as a documentation for our code that is moreover checked by the compiler. Bottom-line: always write type signatures.</p>
+<p>Type signatures are similar to the ones you were writing in Fundies 1, but Haskell uses <code class="sourceCode haskell"><span class="ot">::</span></code> instead of <code class="racket">:</code> and we use <code class="sourceCode haskell"><span class="ot">-&gt;</span></code> to also separate arguments, not just the input and output of a function. More on why we use these arrows later. Here is a simple example:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="ot">name ::</span> <span class="dt">String</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>name <span class="ot">=</span> <span class="st">&quot;Ferd&quot;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a><span class="ot">x ::</span> <span class="dt">Integer</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a>x <span class="ot">=</span> <span class="dv">4</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true"></a><span class="ot">first5Primes ::</span> [<span class="dt">Integer</span>] <span class="co">-- list of integers</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true"></a>first5Primes <span class="ot">=</span> [<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">11</span>]</span></code></pre></div>
+<p>Here are function examples. First in BSL:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode scheme"><code class="sourceCode scheme"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="co">;; area-of-square : Number -&gt; Number</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a><span class="co">;; Compute the area of a square.</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>(<span class="ex">define</span><span class="fu"> </span>(area-of-square a) (* a a))</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a><span class="co">;; make-list : Number Number -&gt; ListOf Number</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a><span class="co">;; Generate a list with the given element repeated n-times.</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a>(<span class="ex">define</span><span class="fu"> </span>(make-list n x) </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true"></a>  (<span class="kw">if</span> (<span class="op">&gt;</span> n <span class="dv">0</span>) (<span class="kw">cons</span> x (make-list (<span class="op">-</span> n <span class="dv">1</span>) x)) null))</span></code></pre></div>
+<p>and then the equivalent in Haskell:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="co">-- |Compute the area of a square.</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a><span class="ot">areaOfSquare ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Integer</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a>areaOfSquare a <span class="ot">=</span> a <span class="op">*</span> a</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a><span class="co">-- |Generate a list with the given element repeated n-times.</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a><span class="ot">makeList ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> [<span class="dt">Integer</span>]</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true"></a>makeList n x <span class="ot">=</span> </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true"></a>  <span class="kw">if</span> n <span class="op">&gt;</span> <span class="dv">0</span> <span class="kw">then</span> x <span class="op">:</span> makeList (n <span class="op">-</span> <span class="dv">1</span>) x</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true"></a>           <span class="kw">else</span> []</span></code></pre></div>
+<h2 id="defining-types">Defining Types</h2>
+<p>The easiest way we can introduce a new type, is to introduce a type synonym. Although this is cheating – we are not really introducing a new type, just giving another type a new name. Type synonuyms are introduced using the <code class="sourceCode haskell"><span class="kw">type</span></code> keyword.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">MyNumber</span> <span class="ot">=</span> <span class="dt">Integer</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">ListOfStrings</span> <span class="ot">=</span> [<span class="dt">String</span>]</span></code></pre></div>
+<p>In fact, <code class="sourceCode haskell"><span class="dt">String</span></code> is just a synonym – for a list of characters:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">String</span> <span class="ot">=</span> [<span class="dt">Char</span>]</span></code></pre></div>
+<h2 id="defining-algebraic-datatypes">Defining Algebraic Datatypes</h2>
+<p>Algebraic Datatypes (ADTs), or inductive or recursive datatypes are introduced using the <code class="sourceCode haskell"><span class="kw">data</span></code> keyword. Cases are serparated using <code class="sourceCode haskell"><span class="op">|</span></code>. These can be simple enumerations:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Color</span> <span class="ot">=</span> <span class="dt">Red</span> <span class="op">|</span> <span class="dt">Green</span> <span class="op">|</span> <span class="dt">Blue</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Direction</span> <span class="ot">=</span> <span class="dt">Up</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a>               <span class="op">|</span> <span class="dt">Down</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true"></a>               <span class="op">|</span> <span class="dt">Left</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true"></a>               <span class="op">|</span> <span class="dt">Right</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Bool</span> <span class="ot">=</span> <span class="dt">False</span> <span class="op">|</span> <span class="dt">True</span></span></code></pre></div>
+<p>or they can be tagged values:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">NumberOrName</span> <span class="ot">=</span> <span class="dt">Number</span> <span class="dt">Integer</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a>                  <span class="op">|</span> <span class="dt">Name</span> <span class="dt">String</span></span></code></pre></div>
+<p>or they can be proper recursive / inductive datatype definitions:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">MyIntegerList</span> <span class="ot">=</span> <span class="dt">Nil</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a>                   <span class="op">|</span> <span class="dt">Cons</span> <span class="dt">Integer</span> <span class="dt">MyIntegerList</span></span></code></pre></div>
+<p>In these examples, the first word of each case (e.g., <code>Nil</code>, <code>Number</code>, <code>Red</code>, <code>Up</code>) is a <em>constructor</em>, implying that it <em>constructs</em> a value of the corresponding datatype. Just like type constructors, they always start with an upper-case letter. What comes after the constructors (in the <code>Number</code>, <code>Name</code> and <code>Cons</code> cases), are the types of their arguments. E.g., to construct a <code>Name</code> value of the <code>NumberOrName</code> type, I need to give it an argument of type <code class="sourceCode haskell"><span class="dt">String</span></code>:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a><span class="dt">Name</span> <span class="st">&quot;Zaphod Beeblebrox&quot;</span></span></code></pre></div>
+<p>How does this relate to abstract syntax? Well, the above, actually, specifies the abstract syntax of integer lists:</p>
+<pre><code>  &lt;MyIntegerList&gt; ::= Nil
+                    | Cons &lt;Integer&gt; &lt;MyIntegerList&gt;</code></pre>
+<p>See the similarity?</p>
+<h3 id="adts-and-pattern-matching">ADTs and Pattern Matching</h3>
+<p>Functions operating on ADTs are specified using pattern matching:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a><span class="ot">myLength ::</span> <span class="dt">MyIntegerList</span> <span class="ot">-&gt;</span> <span class="dt">Integer</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true"></a>myLength <span class="dt">Nil</span> <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true"></a>myLength (<span class="dt">Cons</span> n l) <span class="ot">=</span> <span class="dv">1</span> <span class="op">+</span> myLength l</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true"></a><span class="co">-- we can also use the case construct:</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true"></a><span class="ot">colorToString ::</span> <span class="dt">Color</span> <span class="ot">-&gt;</span> <span class="dt">String</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true"></a>colorToString color <span class="ot">=</span> </span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true"></a>  <span class="kw">case</span> color <span class="kw">of</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true"></a>      <span class="dt">Red</span> <span class="ot">-&gt;</span> <span class="st">&quot;red&quot;</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true"></a>      <span class="dt">Green</span> <span class="ot">-&gt;</span> <span class="st">&quot;green&quot;</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true"></a>      <span class="dt">Blue</span> <span class="ot">-&gt;</span> <span class="st">&quot;blue&quot;</span></span></code></pre></div>
+<p>As you can see, (basic) patterns are built up from constructors and variables. A variable matches any value and the matched value is then bound to the variable inside the right-hand side of the defining equation, or on the right-hand side of the <code class="sourceCode haskell"><span class="ot">-&gt;</span></code> arrow if we are matching using <code class="sourceCode haskell"><span class="kw">case</span></code>.</p>
+<p>If we are not interested in some value, we can use the “wildcard” pattern <code class="sourceCode haskell">_</code>, which matches anything and discards whatever it matched.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true"></a><span class="ot">isName ::</span> <span class="dt">NumberOrName</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true"></a>isName (<span class="dt">Name</span> _) <span class="ot">=</span> <span class="dt">True</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true"></a>isName _ <span class="ot">=</span> <span class="dt">False</span></span></code></pre></div>
+<h3 id="a-note-on-lists">A Note on Lists</h3>
+<p>In fact, “native” Haskell lists are datatypes just like any other. They just happen to use special constructors for the nil (<code class="sourceCode haskell">[]</code>) and cons (infixed <code class="sourceCode haskell"><span class="op">:</span></code>) cases. Otherwise they behave just like other datatypes:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true"></a><span class="fu">length</span></span></code></pre></div>
+<h3 id="back-to-abstract-syntax">Back to Abstract Syntax</h3>
+<p>Now let us translate SAE’s BNF into a Haskell datatype. We cannot use the terminal symbols themselves, so we will use mnemonics: <code class="sourceCode haskell"><span class="dt">Add</span></code>, <code class="sourceCode haskell"><span class="dt">Sub</span></code>, <code class="sourceCode haskell"><span class="dt">Mul</span></code>, and <code class="sourceCode haskell"><span class="dt">Div</span></code>.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode haskell"><code class="sourceCode haskell"></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">SAE</span> <span class="ot">=</span> <span class="dt">Number</span> <span class="dt">Integer</span>  <span class="co">-- each case needs to have a constructor!!</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true"></a>         <span class="op">|</span> <span class="dt">Add</span> <span class="dt">SAE</span> <span class="dt">SAE</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true"></a>         <span class="op">|</span> <span class="dt">Mul</span> <span class="dt">SAE</span> <span class="dt">SAE</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true"></a>         <span class="op">|</span> <span class="dt">Sub</span> <span class="dt">SAE</span> <span class="dt">SAE</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true"></a>         <span class="op">|</span> <span class="dt">Div</span> <span class="dt">SAE</span> <span class="dt">SAE</span></span></code></pre></div>
+<p>For comparison, here is our original BNF definition:</p>
+<pre><code>&lt;SAE&gt; ::= &lt;INTEGER&gt;
+        | &lt;SAE&gt; + &lt;SAE&gt;
+        | &lt;SAE&gt; * &lt;SAE&gt;
+        | &lt;SAE&gt; - &lt;SAE&gt;
+        | &lt;SAE&gt; / &lt;SAE&gt;</code></pre>
+        </main>
+  <!--<div id="statcounter_image" style="display:inline;"><a
+       title="free hit counter"
+       href="http://statcounter.com/free-hit-counter/"
+       class="statcounter"><img
+       src="http://c.statcounter.com/10419673/0/67e2ca33/1/"
+       alt="free hit counter" style="border:none;" /></a></div>-->
+</body>
+
