@@ -136,7 +136,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ol type="1">
 <li><p>In a <code class="sourceCode haskell"><span class="co">{- -}</span></code> comment, write down the BNF for s-expressions.</p></li>
 <li><p>Design a datatype for s-expressions. Name it <code class="sourceCode haskell"><span class="dt">SExpr</span></code>. Use <code class="sourceCode haskell"><span class="dt">String</span></code> to represent symbols. Write at least 3 meaningful examples of <code class="sourceCode haskell"><span class="dt">SExpr</span></code> values.</p></li>
-<li><p>Write a function <code class="sourceCode haskell">showSExpr</code> which takes an s-expression and prints its string representation as above. Use single spaces between elements of an s-expression list.</p></li>
+<li><p>Write a function <code class="sourceCode haskell">showSExpr</code> which takes an s-expression and <del>prints</del> returns its string representation as above. Use single spaces between elements of an s-expression list.</p></li>
 <li><p>Recall the SAE language from class:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">SAE</span> <span class="ot">=</span> <span class="dt">Number</span> <span class="dt">Integer</span>            <span class="co">-- &lt;SAE&gt; ::= &lt;Integer&gt;</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>         <span class="op">|</span> <span class="dt">Add</span> <span class="dt">SAE</span> <span class="dt">SAE</span>               <span class="co">--         | &lt;SAE&gt; + &lt;SAE&gt;</span></span>
