@@ -88,7 +88,7 @@ x
    
 2. Design a datatype for s-expressions. Name it `SExpr`{.haskell}. Use `String`{.haskell} to represent symbols. Write at least 3 meaningful examples of `SExpr`{.haskell} values.
 
-3. Write a function `showSExpr`{.haskell} which takes an s-expression and prints its string representation as above. Use single spaces between elements of an s-expression list. 
+3. Write a function `showSExpr`{.haskell} which takes an s-expression and ~~prints~~ returns its string representation as above. Use single spaces between elements of an s-expression list. 
 
 4. Recall the SAE language from class: 
 

@@ -67,6 +67,7 @@ This is a rough and tentative list of topics that we will aim to cover this seme
 | 09/11 | Overview & Quick Intro to Haskell       | [Slides](l/01/slides.pdf) \ \ [Lec01.hs](l/01/Lec01.hs) \ \ [Wat (video)](https://archive.org/details/wat_destroyallsoftware) |
 | 09/15 | Abstract Syntax & (Algebraic) Datatypes | [Notes](l/02/02.pdf) \ \ [Lec02.hs](l/02/Lec02.hs)|
 | 09/18 | Intro to interpreters, evaluating SAE, polymorphic types | [Notes](l/03/03.pdf) \ \  [Lec03.hs](l/03/Lec03.hs)|
+| 09/22 | JSON example & Haskell corner | [Lec04.hs](l/04/Lec04.hs) \ \ [Foo.hs](l/04/Foo.hs) |
 
 ## Assignments
 
