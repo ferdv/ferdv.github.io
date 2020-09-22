@@ -1,0 +1,262 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <!--<meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> -->
+        <title>Lecture 3: Interpreters; An interpreter for SAE</title>
+        <!-- <meta http-equiv="x-ua-compatible" content="ie=edge"> -->
+        <!-- <link rel="stylesheet" href="/css/default.css" /> -->
+<style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+        <link rel="stylesheet" href="../../../../css/foghorn.css" />
+        <link rel="icon" type="image/png" href="images/favicon-196x196.png" sizes="196x196" />
+        <link rel="icon" type="image/png" href="images/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+        <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
+        <link rel="icon" type="image/png" href="images/favicon-128.png" sizes="128x128" />    
+    </head>
+
+<body>
+        <header id="title-block-header">
+          <h1 class="title">Lecture 3: Interpreters; An interpreter for SAE</h1>
+          <p class="subtitle">CS4400 Programming Languages</p>
+        </header>
+        <main id="main">
+            <blockquote>
+<p>Abstract Syntax Trees; Interpreters; Compilers; Meaning</p>
+</blockquote>
+<blockquote>
+<p>Readings:</p>
+</blockquote>
+<h1 id="overview">Overview</h1>
+<p>In this lecture, we will look at compilation vs interpretation, and we will implement our first simple interpreter. In our Haskell corner, we will talk more about types, in particular polymorphic types and overloading. We will also talk about program layout and local binding constructs.</p>
+<h1 id="recap">Recap</h1>
+<p>In the previous lecture, we talked about different aspect of programming language syntax and representation. Concrete syntax is concerned with the text that represents a program to us, humans (via a text-editor, on Github, etc.). It takes care of all the details, such as how are expressions parenthesized, what is the separator between statements, how are code blocks delimited, etc. Abstract syntax hides those details and usually only captures the abstract structure of programming phrases. E.g., we will know that we are adding a number to a variable, but we don’t care whether it was parenthesized in the original program text. We don’t even care what the symbol for addition is.</p>
+<p>To get a better handle on abstract syntax, its relation to a textual representation, and to prepare for the next step, let’s do some examples.</p>
+<p>Recall SAE and its representation in Haskell. Mentally parse the following expressions and write them down as a Haskell datatype.</p>
+<pre><code>```
+(1 + 2) - 3
+44 / ((2 * 5) + 1)
+((1 - 42) + 8) / (11 * (3 + 21))
+```</code></pre>
+<h2 id="aside-abstract-syntax-trees">Aside: Abstract Syntax Trees</h2>
+<p>You might have realized that any (non-cyclic) structured datatype value forms a tree. Actually, the abstract syntax representation of term/phrases/expressions is called an <em>abstract syntax tree</em> (AST). These can be drawn as follows:</p>
+<p>!dot(ast1 { width=30% })(AST for (1 + 2) - 3) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ graph T { node [shape=none]</p>
+<pre><code>pl12 [label=&quot;+&quot;]
+m12 [label=&quot;-&quot;]
+1
+2
+3
+
+pl12 -- 1
+pl12 -- 2
+m12 -- pl12
+m12 -- 3</code></pre>
+<p>} ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</p>
+<p>!dot(ast2 { width=60% })(AST for ((1 - 42) + 8) / (11 * (3 + 21))) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ graph T { node [shape=none]</p>
+<pre><code>n1m42 -- {1, 42}
+n1m42p8 -- {n1m42, 8}
+n11t3p21 -- {11, n3p21}
+n3p21 -- {3,21}
+all -- {n1m42p8, n11t3p21}
+
+n1m42 [ label=&quot;-&quot; ]
+n1m42p8 [ label=&quot;+&quot; ]
+n3p21 [ label=&quot;+&quot; ]
+n11t3p21 [ label=&quot;*&quot; ]
+all [ label=&quot;/&quot; ]</code></pre>
+<p>} ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</p>
+<h2 id="s-expressions-tree-data-notation">S-expressions: tree data notation</h2>
+<h1 id="interpreters-and-compilers">Interpreters and Compilers</h1>
+<p>Now that we (at least theoretically) know that there’s a path from a program text to a much more useful representation as an abstract syntax tree.</p>
+<p>Basically, programming languages are usually either interpreted or compiled. Some implementations use a mix of both</p>
+<p>In a compiled situation, the program gets translated from the high-level programming language, represented as text, into a low-level <em>semantically equivalent</em> program, typically in machine code for a specific architecture.</p>
+<p>There are multiple steps involved. Typically: - front-end - lexing + parsing - semantic analysis (type checking) - intermediate code generation - back-end - optimizations - target code generation - target code optimizations - linking</p>
+<p>There can be variations on this but this is roughly a classic compiler. After the program is compiled it is typically used standalone.</p>
+<p>With an interpreted language, the program, as well as the program’s input, form the input of an interpreter. The interpreter is around during the whole execution of the program and forms an interface between the program and the rest of the system.</p>
+<p>Some languages use a mix of both. A compiler (often just-in-time) will compile into some intermediate, lower-level representation, that gets interpreted upon execution. In this situation, the interpreter is usually called a <em>virtual machine</em>.</p>
+<p>!dot(compiler { width=50% })(Compilation and execution, simplified view) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ digraph I { { rank=same Program [shape=box, style=rounded] Compiler [shape=box] Executable [shape=box, style=“rounded, dashed”] } Input Output</p>
+<pre><code>Program -&gt; Compiler -&gt; Executable
+Input -&gt; Executable -&gt; Output</code></pre>
+<p>} ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</p>
+<p>!dot(interpreter { width=50% })(Typical interpreter flow) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ digraph I { { rank=same Program [shape=box, style=rounded] Interpreter [shape=box] Output } Input</p>
+<pre><code>Program -&gt; Interpreter -&gt; Output
+Input -&gt; Interpreter</code></pre>
+<p>} ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</p>
+<p>Note on terminology: interpreter vs evaluator</p>
+<h2 id="an-interpreter-for-sae">An interpreter for SAE</h2>
+<p>We have our data type for SAE. We’ll build a recursive evaluator over this datatype.</p>
+<p>What is the type of our evaluator?</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="ot">eval ::</span> <span class="dt">SAE</span> <span class="ot">-&gt;</span> <span class="dt">Integer</span></span></code></pre></div>
+<blockquote>
+<p>“And evaluation/interpretation of SAE as an integer.”</p>
+</blockquote>
+<p>We need structure: What is the template for the SAE type?</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>eval (<span class="dt">Number</span> n) <span class="ot">=</span> _</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>eval (<span class="dt">Add</span> e1 e2) <span class="ot">=</span> _</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a>eval (<span class="dt">Sub</span> e1 e2) <span class="ot">=</span> _</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a>eval (<span class="dt">Mul</span> e1 e2) <span class="ot">=</span> _</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a>eval (<span class="dt">Div</span> e1 e2) <span class="ot">=</span> _</span></code></pre></div>
+<p>We recurse over the SAE datatype.</p>
+<p>What is the base case</p>
+<h3 id="final-code">Final code</h3>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="op">!</span>rawinc(SAE.hs)</span></code></pre></div>
+<h1 id="haskell-corner">Haskell Corner</h1>
+<p>Last time, we talked about basic types, as well as defining our own datatype using <code class="sourceCode haskell"><span class="kw">data</span></code>.</p>
+<p>Side note: I completely neglected to mention the floating point types: single precision is <code class="sourceCode haskell"><span class="dt">Float</span></code>, double precision is <code class="sourceCode haskell"><span class="dt">Double</span></code>.</p>
+<h2 id="polymorphic-types-in-a-nutshell">Polymorphic types in a nutshell</h2>
+<p>What is the type of the function <code class="sourceCode haskell"><span class="fu">length</span></code>, which computes the length of a list:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="co">-- Computes the length of the given list.</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a><span class="fu">length</span><span class="ot"> ::</span> <span class="op">?</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a><span class="fu">length</span> [] <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true"></a><span class="fu">length</span> (_ <span class="op">:</span> l) <span class="ot">=</span> <span class="dv">1</span> <span class="op">+</span> <span class="fu">length</span> l</span></code></pre></div>
+<p>We know it’s a list? Should it be an integer list? A string list? A char list?</p>
+<p>In Haskell, saying “a list of any type”, introduces a <em>polymorphic type</em>, that is a type that can take many shapes:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="fu">length</span><span class="ot"> ::</span> [a] <span class="ot">-&gt;</span> <span class="dt">Int</span></span></code></pre></div>
+<p>Here, <code class="sourceCode haskell">a</code> is a <em>type variable</em>, meaning “any type”. Question is it the same as <code>Any</code> in the student languages?</p>
+<p>Consider:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="co">-- Take every other element from the given list</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a><span class="ot">everyOther ::</span> <span class="op">??</span> <span class="ot">-&gt;</span> <span class="op">??</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true"></a>everyOther (_ <span class="op">:</span> x <span class="op">:</span> l) <span class="ot">=</span> x <span class="op">:</span> everyOther l</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true"></a>everyOther _ <span class="ot">=</span> []</span></code></pre></div>
+<p>What should we substitute for <code>??</code> ?</p>
+<p>The function does not care, if the argument is a list of integers or a list of strings or a list of functions from integer to string. But we do know:</p>
+<ol type="a">
+<li>both the input and the output is a list</li>
+<li>the function preserves the type of elements, and thus the input and output lists have the same type.</li>
+</ol>
+<p>We express this by using the same type variable:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="ot">everyOther ::</span> [a] <span class="ot">-&gt;</span> [a]</span></code></pre></div>
+<p>When we apply <code class="sourceCode haskell">everyOther</code> to a list of, say, integers, the type variables get instantiated wiht <code class="sourceCode haskell"><span class="dt">Integer</span></code>, which then gives us the output type, which will also be a list of integers.</p>
+<h2 id="higher-order-functions">Higher-order functions</h2>
+<p>Polymorphic</p>
+<ul>
+<li><p>map</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a><span class="ot">map' ::</span> (a <span class="ot">-&gt;</span>b) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b]</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a>map' _ [] <span class="ot">=</span> []</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a>map' f (x <span class="op">:</span> xs) <span class="ot">=</span> f x <span class="op">:</span> map' f xs</span></code></pre></div></li>
+</ul>
+<p>More in next lecture.</p>
+<h2 id="type-classes">Type-classes</h2>
+<p>Haskell allows overloading of names. That is, the same function name can be used for different types of arguments. This is similar to Java’s overriding mechanism. Somewhat confusingly, the feature that makes it possible in Haskell, is called <em>type classes</em>, but a type class is really more like Java’s <em>interface</em>. A type class specifies a few function that have to be implemented for specific types. Once there is an implementation (an <em>instance</em>), we say that the type is a member of the given typeclass. We will look at how to define type classes later. Here, we will just introduce some of useful type classes.</p>
+<h3 id="show">Show</h3>
+<p>Show is a type class for types that can be pretty-printed as (converted into) strings. Many Haskell datatypes are in this class. When you type an expression in GHCi, this is what it uses to print the value of the expression. Provides the function:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="fu">show</span><span class="ot"> ::</span> a <span class="ot">-&gt;</span> <span class="dt">String</span></span></code></pre></div>
+<h3 id="eq">Eq</h3>
+<p>Class of types that can be compared for equality and inequality using:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a><span class="ot">(==) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true"></a><span class="ot">(/=) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span></span></code></pre></div>
+<h3 id="ord">Ord</h3>
+<p>Class of types with an ordering. Provides:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true"></a><span class="ot">(&lt;) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true"></a><span class="ot">(&lt;=) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true"></a><span class="ot">(&gt;) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true"></a><span class="ot">(&gt;=) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true"></a><span class="fu">min</span><span class="ot"> ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true"></a><span class="fu">max</span><span class="ot"> ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a</span></code></pre></div>
+<h3 id="num">Num</h3>
+<p>Class of numberic types. Provided functions:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true"></a><span class="ot">(+) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true"></a><span class="ot">(-) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true"></a><span class="ot">(*) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true"></a><span class="fu">negate</span><span class="ot"> ::</span> a <span class="ot">-&gt;</span> a</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true"></a><span class="fu">abs</span><span class="ot"> ::</span> a <span class="ot">-&gt;</span> a</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true"></a><span class="fu">signum</span><span class="ot"> ::</span> a <span class="ot">-&gt;</span> a</span></code></pre></div>
+<h3 id="integral">Integral</h3>
+<p>Includes integral types that are also in <code class="sourceCode haskell"><span class="dt">Num</span></code>, but additionally also allow integer division and integer remainder:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true"></a><span class="fu">div</span><span class="ot"> ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true"></a><span class="fu">mod</span><span class="ot"> ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a</span></code></pre></div>
+<ul>
+<li>Fractional Includes non-integral members of <code class="sourceCode haskell"><span class="dt">Num</span></code> which also allow fractional division and reciprocation:</li>
+</ul>
+<div class="sourceCode" id="cb19"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true"></a><span class="ot">(/) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true"></a><span class="fu">recip</span><span class="ot"> ::</span> a <span class="ot">-&gt;</span> a</span></code></pre></div>
+<h3 id="read">Read</h3>
+<p>Includes types whose values can be read from a string (i.e., converted from a string). Provides:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true"></a><span class="fu">read</span><span class="ot"> ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> a</span></code></pre></div>
+<h2 id="the-deriving-mechanism">The deriving mechanism</h2>
+<p>Some classes are deemed so useful and so straightforward to define, that Haskell is happy to do such definitions for us, behind the scenes. This is what the “deriving mechanism” provides. To derive the default instances for some of the above classes for our datatypes, we can simply annotate our data type definition with the <code class="sourceCode haskell"><span class="kw">deriving</span></code> keyword, followed by a list of type classes:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Shape</span> <span class="ot">=</span> <span class="dt">Circle</span> <span class="dt">Float</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true"></a>           <span class="op">|</span> <span class="dt">Rectangle</span> <span class="dt">Float</span> <span class="dt">Float</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true"></a>           <span class="kw">deriving</span> (<span class="dt">Eq</span>, <span class="dt">Ord</span>, <span class="dt">Show</span>, <span class="dt">Read</span>)</span></code></pre></div>
+<p>Using this definition we can check equality, order shapes, print them as strings and even read them from strings. Now comparing for equality is straightforward. But what does it mean for a shape to be greater than another shape? For the same shape, we get what we expect. However what should the result of the below comparison be? Try to enter it into GHCi and see what the result it. Can you guess what rules are at play with the deriving mechanism?</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true"></a><span class="dt">Rectangle</span> <span class="fl">0.5</span> <span class="dv">1</span> <span class="op">&lt;</span> <span class="dt">Circle</span> <span class="fl">3.14e10</span> </span></code></pre></div>
+        </main>
+  <!--<div id="statcounter_image" style="display:inline;"><a
+       title="free hit counter"
+       href="http://statcounter.com/free-hit-counter/"
+       class="statcounter"><img
+       src="http://c.statcounter.com/10419673/0/67e2ca33/1/"
+       alt="free hit counter" style="border:none;" /></a></div>-->
+</body>
+
