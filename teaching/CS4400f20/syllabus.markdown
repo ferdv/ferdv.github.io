@@ -15,7 +15,7 @@ We meet on Tuesdays and Fridays, 9:50-11:30am in Mugar 201 and on Zoom. Zoom lin
 
 | Role           | Name               | Email                           | Office hours      | Location   |
 |----------------|--------------------|---------------------------------|-------------------|------------|
-| **Instructor** | Ferdinand Vesely   | f.vesely@northeastern           | *TBA*             | Zoom/Teams |
+| **Instructor** | Ferdinand Vesely   | f.vesely@northeastern           | Tue/Thu 3-4:30pm  | Zoom/Teams |
 | **TAs**        | Jack Gelinas       | gelinas.j@northeastern          | Wed, 1:45-4:30pm  | [Zoom](https://northeastern.zoom.us/j/97516065212) |
 |                | Divya Venkatesh    | payyadivenkatesh.d@northeastern | Mon/Thu 12:30-2pm | [Zoom](https://northeastern.zoom.us/j/91801070558?pwd=NzRiVkVhVEI4MERXQmZsM1RXNlN4UT09) |
 
@@ -66,7 +66,7 @@ This is a rough and tentative list of topics that we will aim to cover this seme
 |-------|-----------------------------------------|-----------|
 | 09/11 | Overview & Quick Intro to Haskell       | [Slides](l/01/slides.pdf) \ \ [Lec01.hs](l/01/Lec01.hs) \ \ [Wat (video)](https://archive.org/details/wat_destroyallsoftware) |
 | 09/15 | Abstract Syntax & (Algebraic) Datatypes | [Notes](l/02/02.pdf) \ \ [Lec02.hs](l/02/Lec02.hs)|
-| 09/18 | Intro to interpreters, evaluating SAE, polymorphic types | [Lec03.hs](l/03/Lec03.hs)|
+| 09/18 | Intro to interpreters, evaluating SAE, polymorphic types | [Notes](l/03/03.pdf) \ \  [Lec03.hs](l/03/Lec03.hs)|
 
 ## Assignments
 

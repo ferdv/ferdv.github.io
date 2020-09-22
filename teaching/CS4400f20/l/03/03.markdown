@@ -1,0 +1,331 @@
+---
+title: "Lecture 3: Interpreters; An interpreter for SAE"
+subtitle: CS4400 Programming Languages
+documentclass: scrartcl
+fontsize: 12pt
+header-includes:
+   - \usepackage[scaled]{beramono}
+   - \usepackage[utf8]{inputenc}
+   - \usepackage{charter}
+   - \usepackage{fullpage}
+   - \usepackage{upgreek}
+   - \usepackage{semantic}
+   - \DeclareUnicodeCharacter{03BB}{$\uplambda$}
+   - \DeclareUnicodeCharacter{03B1}{$\upbeta$}
+   - \DeclareUnicodeCharacter{03B2}{$\upbeta$}
+   - \DeclareUnicodeCharacter{03B4}{$\updelta$}
+   - \DeclareUnicodeCharacter{03A9}{$\Upomega$}
+   - \DeclareUnicodeCharacter{2261}{$\equiv$}
+   - \DeclareUnicodeCharacter{2203}{$\exists$}
+---
+
+> Abstract Syntax Trees; Interpreters; Compilers; Meaning
+
+> Readings: 
+
+# Overview
+
+In this lecture, we will look at compilation vs interpretation, and we will implement our first simple interpreter. In our Haskell corner, we will talk more about types, in particular polymorphic types and overloading. We will also talk about program layout and local binding constructs.
+
+# Recap
+
+In the previous lecture, we talked about different aspect of programming language syntax and representation. Concrete syntax is concerned with the text that represents a program to us, humans (via a text-editor, on Github, etc.). It takes care of all the details, such as how are expressions parenthesized, what is the separator between statements, how are code blocks delimited, etc. Abstract syntax hides those details and usually only captures the abstract structure of programming phrases. E.g., we will know that we are adding a number to a variable, but we don't care whether it was parenthesized in the original program text. We don't even care what the symbol for addition is. 
+
+To get a better handle on abstract syntax, its relation to a textual representation, and to prepare for the next step, let's do some examples.
+
+Recall SAE and its representation in Haskell. Mentally parse the following expressions and write them down as a Haskell datatype.
+
+    ```
+    (1 + 2) - 3
+    44 / ((2 * 5) + 1)
+    ((1 - 42) + 8) / (11 * (3 + 21))
+    ```
+
+## Aside: Abstract Syntax Trees
+
+You might have realized that any (non-cyclic) structured datatype value forms a tree. Actually, the abstract syntax representation of term/phrases/expressions is called an *abstract syntax tree* (AST). These can be drawn as follows:
+
+
+!dot(ast1 { width=30% })(AST for (1 + 2) - 3)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  graph T {
+    node [shape=none]
+
+    pl12 [label="+"]
+    m12 [label="-"]
+    1
+    2
+    3
+
+    pl12 -- 1
+    pl12 -- 2
+    m12 -- pl12
+    m12 -- 3
+  }
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+!dot(ast2 { width=60% })(AST for ((1 - 42) + 8) / (11 * (3 + 21)))
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  graph T {
+    node [shape=none]
+
+    n1m42 -- {1, 42}
+    n1m42p8 -- {n1m42, 8}
+    n11t3p21 -- {11, n3p21}
+    n3p21 -- {3,21}
+    all -- {n1m42p8, n11t3p21}
+
+    n1m42 [ label="-" ]
+    n1m42p8 [ label="+" ]
+    n3p21 [ label="+" ]
+    n11t3p21 [ label="*" ]
+    all [ label="/" ]
+
+  }
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+## S-expressions: tree data notation
+
+# Interpreters and Compilers
+
+Now that we (at least theoretically) know that there's a path from a program text to a much more useful representation as an abstract syntax tree.
+
+Basically, programming languages are usually either interpreted or compiled. Some implementations use a mix of both 
+
+In a compiled situation, the program gets translated from the high-level programming language, represented as text, into a low-level *semantically equivalent* program, typically in machine code for a specific architecture. 
+
+There are multiple steps involved. Typically:
+- front-end
+  - lexing + parsing
+  - semantic analysis (type checking)
+  - intermediate code generation
+- back-end
+  - optimizations
+  - target code generation
+  - target code optimizations
+  - linking
+
+There can be variations on this but this is roughly a classic compiler. After the program is compiled it is typically used standalone.
+
+With an interpreted language, the program, as well as the program's input, form the input of an interpreter. The interpreter is around during the whole execution of the program and forms an interface between the program and the rest of the system.
+
+Some languages use a mix of both. A compiler (often just-in-time) will compile into some intermediate, lower-level representation, that gets interpreted upon execution. In this situation, the interpreter is usually called a *virtual machine*.
+
+!dot(compiler { width=50% })(Compilation and execution, simplified view)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  digraph I {
+    { rank=same 
+      Program [shape=box, style=rounded]
+      Compiler [shape=box]
+      Executable [shape=box, style="rounded, dashed"]
+    }
+    Input
+    Output
+
+    Program -> Compiler -> Executable
+    Input -> Executable -> Output
+  }
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+!dot(interpreter { width=50% })(Typical interpreter flow)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  digraph I {
+    { rank=same 
+      Program [shape=box, style=rounded]
+      Interpreter [shape=box]
+      Output
+    }
+    Input
+
+    Program -> Interpreter -> Output
+    Input -> Interpreter
+  }
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Note on terminology: interpreter vs evaluator
+
+## An interpreter for SAE
+
+We have our data type for SAE. We'll build a recursive evaluator over this datatype.
+
+What is the type of our evaluator?
+
+```haskell
+eval :: SAE -> Integer
+```
+
+> "And evaluation/interpretation of SAE as an integer."
+
+We need structure: What is the template for the SAE type?
+
+```haskell
+eval (Number n) = _
+eval (Add e1 e2) = _
+eval (Sub e1 e2) = _
+eval (Mul e1 e2) = _
+eval (Div e1 e2) = _
+```
+
+We recurse over the SAE datatype.
+
+What is the base case
+
+### Final code
+
+```haskell
+!rawinc(SAE.hs)
+```
+
+# Haskell Corner
+
+Last time, we talked about basic types, as well as defining our own datatype using `data`{.haskell}. 
+
+Side note: I completely neglected to mention the floating point types: single precision is `Float`{.haskell}, double precision is `Double`{.haskell}.
+
+## Polymorphic types in a nutshell
+
+What is the type of the function `length`{.haskell}, which computes the length of a list:
+
+```haskell
+-- Computes the length of the given list.
+length :: ? -> Int
+length [] = 0
+length (_ : l) = 1 + length l
+```
+
+We know it's a list? Should it be an integer list? A string list? A char list? 
+
+In Haskell, saying "a list of any type", introduces a *polymorphic type*, that is a type that can take many shapes:
+
+```haskell
+length :: [a] -> Int
+```
+
+Here, `a`{.haskell} is a *type variable*, meaning "any type". Question is it the same as `Any` in the student languages?
+
+Consider:
+```haskell
+-- Take every other element from the given list
+everyOther :: ?? -> ??
+everyOther (_ : x : l) = x : everyOther l
+everyOther _ = []
+```
+
+What should we substitute for `??` ?
+
+The function does not care, if the argument is a list of integers or a list of strings or a list of functions from integer to string. But we do know:
+
+a) both the input and the output is a list
+b) the function preserves the type of elements, and thus the input and output lists have the same type.
+
+We express this by using the same type variable:
+
+```haskell
+everyOther :: [a] -> [a]
+```
+
+When we apply `everyOther`{.haskell} to a list of, say, integers, the type variables get instantiated wiht `Integer`{.haskell}, which then gives us the output type, which will also be a list of integers.
+
+## Higher-order functions
+
+Polymorphic 
+
+- map
+
+    ```haskell
+    map' :: (a ->b) -> [a] -> [b]
+    map' _ [] = []
+    map' f (x : xs) = f x : map' f xs
+    ```
+
+More in next lecture.
+
+## Type-classes 
+
+Haskell allows overloading of names. That is, the same function name can be used for different types of arguments. This is similar to Java's overriding mechanism. Somewhat confusingly, the feature that makes it possible in Haskell, is called *type classes*, but a type class is really more like Java's *interface*. A type class specifies a few function that have to be implemented for specific types. Once there is an implementation (an *instance*), we say that the type is a member of the given typeclass. We will look at how to define type classes later. Here, we will just introduce some of useful type classes.
+
+
+### Show
+Show is a type class for types that can be pretty-printed as (converted into) strings. Many Haskell datatypes are in this class. When you type an expression in GHCi, this is what it uses to print the value of the expression. Provides the function:
+
+```haskell
+show :: a -> String
+```
+
+### Eq
+Class of types that can be compared for equality and inequality using:
+
+```haskell
+(==) :: a -> a -> Bool
+(/=) :: a -> a -> Bool
+```
+
+### Ord
+Class of types with an ordering. Provides:
+
+```haskell
+(<) :: a -> a -> Bool
+(<=) :: a -> a -> Bool
+(>) :: a -> a -> Bool
+(>=) :: a -> a -> Bool
+min :: a -> a -> a
+max :: a -> a -> a
+```
+
+### Num
+
+Class of numberic types. Provided functions:
+
+```haskell
+(+) :: a -> a -> a
+(-) :: a -> a -> a
+(*) :: a -> a -> a
+negate :: a -> a
+abs :: a -> a
+signum :: a -> a
+```
+
+
+### Integral
+
+Includes integral types that are also in `Num`{.haskell}, but additionally also allow integer division and integer remainder:
+
+```haskell
+div :: a -> a -> a
+mod :: a -> a -> a
+```
+
+- Fractional
+Includes non-integral members of `Num`{.haskell} which also allow fractional division and reciprocation:
+
+```haskell
+(/) :: a -> a -> a
+recip :: a -> a
+```
+
+### Read
+
+Includes types whose values can be read from a string (i.e., converted from a string). Provides:
+
+```haskell
+read :: String -> a
+```
+
+
+## The deriving mechanism
+
+Some classes are deemed so useful and so straightforward to define, that Haskell is happy to do such definitions for us, behind the scenes. This is what the "deriving mechanism" provides. To derive the default instances for some of the above classes for our datatypes, we can simply annotate our data type definition with the `deriving`{.haskell} keyword, followed by a list of type classes:
+
+```haskell
+data Shape = Circle Float
+           | Rectangle Float Float
+           deriving (Eq, Ord, Show, Read)
+```
+
+Using this definition we can check equality, order shapes, print them as strings and even read them from strings. Now comparing for equality is straightforward. But what does it mean for a shape to be greater than another shape? For the same shape, we get what we expect. However what should the result of the below comparison be? Try to enter it into GHCi and see what the result it. Can you guess what rules are at play with the deriving mechanism?
+
+```haskell
+Rectangle 0.5 1 < Circle 3.14e10 
+```
+
