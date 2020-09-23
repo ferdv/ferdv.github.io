@@ -78,9 +78,9 @@ emptyJsonObject = Object []
 -- |representation of the above JSON example string
 ex_classInfo =
   Object [ ("class", Str "CS4400")
-         , ("instructor", Str "Ferd"),
-         , ("students", Number 48),
-         , ("days", Arry [ Str "Tuesday", Str "Friday" ])
+         , ("instructor", Str "Ferd")
+         , ("students", Number 48)
+         , ("days", Array [ Str "Tuesday", Str "Friday" ])
          ]
 
 
@@ -120,10 +120,10 @@ ex_listOfOddInts = [1,3..100]
 -- Example: design a function for filtering lists based on a predicate.
 
 -- |Returns a list with only the elements satisfying the given predicate.
-filter :: (a -> Bool) -> [a] -> [a]
-filter _ [] = []
-filter p (x : xs) | p x = x : filter p xs
-                  | otherwise = filter p xs
+filter' :: (a -> Bool) -> [a] -> [a]
+filter' _ [] = []
+filter' p (x : xs) | p x = x : filter' p xs
+                   | otherwise = filter' p xs
 
 -- map captures the following pattern of recursive list functions
 -- f [] = []
@@ -156,13 +156,13 @@ in x * y
 -- |Double all integers in the given list
 doubleAll :: [Integer] -> [Integer]
 doubleAll l = -- let .. in .. is an expression and can be used wherever an expression might appear
-  let double = x + x 
+  let double x = x + x 
   in map double l
 
 -- |Double all integers in the given list
 doubleAll' :: [Integer] -> [Integer]
 doubleAll' l = map double l
-  where double = 2 * x  -- where is its own syntactic construct and needs to be adjacent to a definition
+  where double x = 2 * x  -- where is its own syntactic construct and needs to be adjacent to a definition
 
 
 -- 'where' is useful, e.g., when several guards repeat the same expression
