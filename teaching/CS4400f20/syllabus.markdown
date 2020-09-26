@@ -77,6 +77,7 @@ You can expect homework assignments to be handed out roughly every week and ther
 |----------------------------------------|----------|----------|----------------------------------|
 | [Assignment 1](a/01/Assignment01.html) | 9/15     | 9/19     | [PDF](a/01/Assignment01.pdf)   |
 | [Assignment 2](a/02/Assignment02.html) | 9/20     | 9/24     | [PDF](a/02/Assignment02.pdf) \ \ [SimpleTests.hs](a/02/SimpleTests.hs) |
+| [Assignment 3](a/03/Assignment03.html) | 9/25     | 10/1     | [PDF](a/03/Assignment03.pdf) \ \ [Pack](a/03/Assignment03.zip) |
 
 ## Haskell
 
