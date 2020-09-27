@@ -211,7 +211,7 @@ the first and second halves of the class, respectively (i.e., they are not cumul
 This is a tentative breakdown of how the final grade will be determined:
 
 * 60% assignments 
-* 35% other (quizzes and/or exams)
+* 35% other (in-class quizzes)
 * 5% karma
 
 The mapping of percentages to letter grades is as follows:
