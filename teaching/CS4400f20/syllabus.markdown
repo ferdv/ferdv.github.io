@@ -69,7 +69,7 @@ This is a rough and tentative list of topics that we will aim to cover this seme
 | 09/18 | Intro to interpreters, evaluating SAE, polymorphic types | [Notes](l/03/03.pdf) \ \  [Lec03.hs](l/03/Lec03.hs)|
 | 09/22 | JSON example & Haskell corner | [Lec04.hs](l/04/Lec04.hs) \ \ [Foo.hs](l/04/Foo.hs) |
 | 09/25 | Bindings, substitution, scope & Maybe | [Lec05.hs](l/05/Lec05.hs) |
-| 09/29 | _[Equational reasoning, maps & environments]{ style="color: gray;" }_ | |
+| 09/29 | Equational reasoning, maps & environments | [Notes](l/06/06.pdf) \ \ [Lec06.hs](l/06/Lec06.hs) |
 
 ## Assignments
 
