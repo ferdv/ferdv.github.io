@@ -70,7 +70,7 @@ This is a rough and tentative list of topics that we will aim to cover this seme
 | 09/22 | JSON example & Haskell corner | [Lec04.hs](l/04/Lec04.hs) \ \ [Foo.hs](l/04/Foo.hs) |
 | 09/25 | Bindings, substitution, scope & Maybe | [Lec05.hs](l/05/Lec05.hs) |
 | 09/29 | Equational reasoning, maps & environments | [Notes](l/06/06.pdf) \ \ [Lec06.hs](l/06/Lec06.hs) |
-| 10/02 | Procedural abstraction & function definitions | [Lec07b.hs](l/07/Lec07b.hs) |
+| 10/02 | Procedural abstraction & function definitions | [Lec07b.hs](l/07/Lec07b.hs) \ \ [Maps.hs](l/07/Maps.hs) |
 
 ## Assignments
 
