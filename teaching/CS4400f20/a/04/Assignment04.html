@@ -144,7 +144,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>Add an if-expression:</p>
 <pre><code>&lt;Expr&gt; ::= ...
          | (if &lt;Expr&gt; &lt;Expr&gt; &lt;Expr&gt;)</code></pre>
-<p>The semantics of <code>if</code> is to evaluate the first expression (the condition). If it evaluates to true, evaluate the second expression, otherwise, evaluate the third expression.</p></li>
+<p><span class="deleted"><del>The semantics of <code>if</code> is to evaluate the first expression (the condition). If it evaluates to true, evaluate the second expression, otherwise, evaluate the third expression.</del></span> <span class="added">The semantics of <code>if</code> is to evaluate the first expression (the condition), which should result in a boolean value. If the value is true, evaluate the second expression, if it is false, evaluate the third expression. If the condition does not evaluate to a boolean value, evaluation of the if expression fails.</span></p></li>
 <li><p>Implement the basic boolean operations: <code>and</code>, <code>or</code>, and <code>not</code>. Extend your BNF spec with the following productions:</p>
 <pre><code>&lt;Expr&gt; ::= ...
          | (and &lt;Expr&gt; &lt;Expr&gt;)
