@@ -9,6 +9,12 @@ header-includes:
    - \usepackage{charter}
    - \usepackage{fullpage}
    - \usepackage[scaled=0.85]{beramono}
+pandoc-latex-color:
+  - classes: [deleted]
+    color: gray
+  - classes: [added]
+    color: green
+styles: test
 ---
 
 Start early and come to us with questions.
@@ -92,7 +98,8 @@ The answers to the following questions should contain these steps:
              | (if <Expr> <Expr> <Expr>)
     ```
 
-    The semantics of `if` is to evaluate the first expression (the condition). If it evaluates to true, evaluate the second expression, otherwise, evaluate the third expression.
+   [~~The semantics of `if` is to evaluate the first expression (the condition). If it evaluates to true, evaluate the second expression, otherwise, evaluate the third expression.~~]{.deleted}
+   [The semantics of `if` is to evaluate the first expression (the condition), which should result in a boolean value. If the value is true, evaluate the second expression, if it is false, evaluate the third expression. If the condition does not evaluate to a boolean value, evaluation of the if expression fails.]{.added}
 
 3. Implement the basic boolean operations: `and`, `or`, and `not`. Extend your BNF spec with the following productions:
 

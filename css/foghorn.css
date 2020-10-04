@@ -166,3 +166,12 @@ article {
 	}
 } /* @iPhone */
 
+/* addidional */
+
+.deleted {
+  color: gray;
+}
+
+.added {
+  color: green;
+}
