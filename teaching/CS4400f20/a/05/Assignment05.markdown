@@ -9,6 +9,11 @@ header-includes:
    - \usepackage{charter}
    - \usepackage{fullpage}
    - \usepackage[scaled=0.85]{beramono}
+pandoc-latex-color:
+  - classes: [deleted]
+    color: gray
+  - classes: [added]
+    color: green
 ---
 
 \vspace{-9ex}
@@ -175,7 +180,7 @@ As before, where applicable, the questions require you to do the following:
     ```
     (define x 32)
 
-    (let (y (* x 2)) y)
+    (let (y (* x 2)) x)
     ```
 
     should evaluate to `32`, and
