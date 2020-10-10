@@ -183,7 +183,7 @@ As before, where applicable, the questions require you to do the following:
     ```
     (define x 32)
 
-    (let (y (* x 2)) y)
+    (let (y (* x 2)) z)
     ```
 
     should fail.
