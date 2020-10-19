@@ -1,0 +1,320 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <!--<meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> -->
+        <title>Assignment 6</title>
+        <!-- <meta http-equiv="x-ua-compatible" content="ie=edge"> -->
+        <!-- <link rel="stylesheet" href="/css/default.css" /> -->
+<style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+        <link rel="stylesheet" href="../../../../css/foghorn.css" />
+        <link rel="icon" type="image/png" href="images/favicon-196x196.png" sizes="196x196" />
+        <link rel="icon" type="image/png" href="images/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+        <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
+        <link rel="icon" type="image/png" href="images/favicon-128.png" sizes="128x128" />    
+    </head>
+
+<body>
+        <header id="title-block-header">
+          <h1 class="title">Assignment 6</h1>
+          <p class="subtitle">CS 4400 Programming Languages</p>
+        </header>
+        <main id="main">
+            <p>Start early and come to us with questions.</p>
+<p><strong>Due:</strong> 11pm on Saturday, October 24, 2020</p>
+<p><strong>Submission:</strong></p>
+<ol type="1">
+<li><p>Submit the following files via <a href="https://handins.ccs.neu.edu/courses/119" class="uri">https://handins.ccs.neu.edu/courses/119</a>:</p>
+<ul>
+<li><code>Assignment06.hs</code></li>
+<li><code>Eval.hs</code></li>
+<li><code>Syntax.hs</code></li>
+<li><code>Repl.hs</code></li>
+</ul></li>
+<li><p>This assignment is meant to be worked on and submitted in pairs, but you can choose to work on your own. Note, that you need to have a team on Handins to be able to submit (a singleton team or a pair).</p></li>
+<li><p>At the very top, the file should contain a preamble following this template.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co">{- |</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="co">Module      :  Assignment06</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="co">Description :  Assignment 6 submission for CS 4400.</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a><span class="co">Copyright   :  (c) &lt;your name&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a><span class="co">Maintainer  :  &lt;your email&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a><span class="co">-}</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a><span class="kw">module</span> <span class="dt">Assignment06</span> <span class="kw">where</span></span></code></pre></div>
+<p>The file should contain your <code>main</code> function which starts the REPL.</p></li>
+<li><p>Every top-level definition must include a purpose statement (for functions) and a type signature, followed by one or more defining equations.</p></li>
+<li><p>Double-check that you have named everything as required and that functions required by this assignment have the correct type signatures.</p></li>
+<li><p>Make sure your file loads into GHCi or can be compiled by GHC without any errors. <strong>Your grade might be reduced by up to 50% if your code does not compile and run.</strong></p></li>
+</ol>
+<p><strong>Purpose:</strong> To practice interactive programming in Haskell while implementing a top-level (REPL, or shell) for a programming language.</p>
+<h1 id="state-of-the-union">State of the Union</h1>
+<p>At this point, your code-base for <code>protoScheme</code> should cover the following features:</p>
+<ol type="1">
+<li>Let-bindings and a variable references expressions</li>
+<li>Arithmetic expressions with integer and floating point values</li>
+<li>Boolean expressions, comparisons and equality checks, if expressions, conditionals</li>
+<li>Pair values and selectors</li>
+<li>Type predicates for integers, reals, numbers, pairs, and booleans</li>
+<li>Global function definitions (with one or more arguments), function calls, global variable definitions</li>
+</ol>
+<p>In this assignments, we will not be extending our language with additional features. Instead we will create an interactive REPL (<strong>r</strong>ead-<strong>e</strong>val-<strong>p</strong>rint <strong>l</strong>oop) environment. Let’s start with an overview of how tow write interactive programs in Haskell.</p>
+<h1 id="interactive-programming-in-haskell.-a-brief-tutorial">Interactive Programming in Haskell. A Brief Tutorial</h1>
+<p>This is a very brief tutorial on interactive programming in Haskell. It should provide you with the necessary tools and techniques to help you build a REPL.</p>
+<p>As we have discussed before, any interactive Haskell program will need to be written in the IO monad, that is, have an <code class="sourceCode haskell"><span class="dt">IO</span> a</code> type, where <code class="sourceCode haskell">a</code> can be any other type. You can think of <code class="sourceCode haskell"><span class="dt">IO</span></code>, roughly, as the following type:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">IO</span> a <span class="ot">=</span> <span class="dt">WorldState</span> <span class="ot">-&gt;</span> (a, <span class="dt">WorldState</span>)</span></code></pre></div>
+<p>where <code class="sourceCode haskell"><span class="dt">WorldState</span></code> is some type representing the state of the world (it’s not an actual type). That is, you can think of any IO <em>action</em> as a function that takes the current world state in and produces an updated state with an additional value. For example, a <code class="sourceCode haskell">main</code> function in a Haskell program has the type <code class="sourceCode haskell"><span class="dt">IO</span> ()</code>, meaning it is an IO action which doesn’t return any meaningful value (the type of empty tuples, <code class="sourceCode haskell">()</code>, has only one value, also written <code class="sourceCode haskell">()</code>)</p>
+<p>We usually program in the IO monad using do-notation, which conveniently expresses the sequencing of actions an provides syntax for reading values from IO actions. A basic example is a program that just prints something to the console:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>    <span class="fu">putStrLn</span> <span class="st">&quot;Hello, world!&quot;</span></span></code></pre></div>
+<p>The type of <code class="sourceCode haskell"><span class="fu">putStrLn</span></code> is <code class="sourceCode haskell"><span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</code>. The next step is to read something from the console. The action for this is <code class="sourceCode haskell"><span class="fu">getLine</span><span class="ot"> ::</span> <span class="dt">IO</span> <span class="dt">String</span></code>. To retrieve a value from a (monadic) action, we use the <code class="sourceCode haskell"><span class="ot">&lt;-</span></code> construct:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>    <span class="fu">putStr</span> <span class="st">&quot;Type your name: &quot;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>    name <span class="ot">&lt;-</span> <span class="fu">getLine</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a>    <span class="fu">putStrLn</span> (<span class="st">&quot;Hello, &quot;</span> <span class="op">++</span> name)</span></code></pre></div>
+<p>Since <code class="sourceCode haskell"><span class="fu">getLine</span></code> has the type <code class="sourceCode haskell"><span class="dt">IO</span> <span class="dt">String</span></code> and <code class="sourceCode haskell"><span class="ot">&lt;-</span></code> allows us to retrieve a value from an IO action, the type of <code class="sourceCode haskell">name</code> is <code class="sourceCode haskell"><span class="dt">String</span></code>. So to speak, it allows us to “peel” the <code class="sourceCode haskell"><span class="dt">IO</span></code> off the <code class="sourceCode haskell"><span class="dt">String</span></code>.</p>
+<p>Note, that IO is a monad and we talked about monads and the <code>&gt;&gt;=</code> (bind) operator (with type <code class="sourceCode haskell"><span class="ot">(&gt;&gt;=) ::</span> <span class="dt">Monad</span> m <span class="ot">=&gt;</span> m a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> m b</code>) when discussing a convenient notation for expressions involving <code class="sourceCode haskell"><span class="dt">Maybe</span></code>. Without using do-notation, the above main action can be also expressed as follows:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>main <span class="ot">=</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>    <span class="fu">putStr</span> <span class="st">&quot;Type your name: &quot;</span> <span class="op">&gt;&gt;=</span> \_ <span class="ot">-&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>    <span class="fu">getLine</span> <span class="op">&gt;&gt;=</span> \name <span class="ot">-&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>    putStrln (<span class="st">&quot;Hello, &quot;</span> <span class="op">++</span> name)</span></code></pre></div>
+<p>For IO, the type of <code class="sourceCode haskell"><span class="op">&gt;&gt;=</span></code> is <code class="sourceCode haskell"><span class="dt">IO</span> a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> <span class="dt">IO</span> b) <span class="ot">-&gt;</span> <span class="dt">IO</span> b</code>. Note, how we ignore the result of the first <code class="sourceCode haskell"><span class="fu">putStrLn</span></code> action.</p>
+<p>Another interesting IO action is reading the contents of a file:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="fu">readFile</span><span class="ot"> ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">String</span></span></code></pre></div>
+<p>which takes a filename and returns its contents as a string.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>    <span class="fu">putStr</span> <span class="st">&quot;Type a filename: &quot;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a>    filename <span class="ot">&lt;-</span> <span class="fu">getLine</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a>    <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;--- BEGIN &quot;</span> <span class="op">++</span> filename</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a>    contents <span class="ot">&lt;-</span> <span class="fu">readFile</span> filename</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a>    <span class="fu">putStrLn</span> contents</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true"></a>    <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;--- END &quot;</span> <span class="op">++</span> filename</span></code></pre></div>
+<p>Haskell doesn’t have any looping constructs, like <code class="sourceCode java"><span class="kw">while</span></code> or <code class="sourceCode java"><span class="kw">for</span></code>. So, just like with pure functions, we need to use recursion if we want to repeat an IO action. Here’s a little game:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="ot">guessNumber ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a>guessNumber number <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a>    <span class="fu">putStr</span> <span class="st">&quot;Guess the number I'm thinking of: &quot;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true"></a>    guess <span class="ot">&lt;-</span> <span class="fu">getLine</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true"></a>    <span class="kw">if</span> <span class="fu">read</span> guess <span class="op">==</span> number </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true"></a>       <span class="kw">then</span> <span class="fu">putStrLn</span> <span class="st">&quot;Congratulations! You won!&quot;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true"></a>       <span class="kw">else</span> <span class="kw">do</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true"></a>           <span class="fu">putStrLn</span> <span class="st">&quot;Wrong. Try again, please.&quot;</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true"></a>           guessNumber number</span></code></pre></div>
+<p>To return some meaningful value from an IO function, we use the <code class="sourceCode haskell"><span class="fu">return</span></code> operation. Here, a word of caution is in order: <code class="sourceCode haskell"><span class="fu">return</span></code> is just an ordinary function that wraps a given value in the current monad (type <code>Monad m =&gt; a -&gt; m a</code>, or for IO: <code>a -&gt; IO a</code>). Most importantly, it <em>does not terminate</em> the execution of the current function. Just try to run the following action in GHCi and see what is returned.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="ot">manyHappyReturns ::</span> <span class="dt">IO</span> <span class="dt">String</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a>manyHappyReturns <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a>    <span class="fu">return</span> <span class="st">&quot;Happy&quot;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true"></a>    <span class="fu">return</span> <span class="st">&quot;Happy&quot;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true"></a>    <span class="fu">return</span> <span class="st">&quot;Happy&quot;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true"></a>    <span class="fu">return</span> <span class="st">&quot;Happy&quot;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true"></a>    <span class="fu">return</span> <span class="st">&quot;Well, this is not at all what I expected!&quot;</span></span></code></pre></div>
+<p>For the REPL, you will need to write actions that communicate with the user while keeping track of a <em>context</em>. Thus, here is a final example of a program, which keeps reading integers and computes their sum or their product, depending on the command given. It also allows printing the current numbers (in reverse order) and it quits when the user types “quit” as the command.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="ot">calcLoop ::</span> [<span class="dt">Integer</span>] <span class="ot">-&gt;</span> <span class="dt">IO</span> [<span class="dt">Integer</span>]</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>calcLoop numbers <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a>    line <span class="ot">&lt;-</span> <span class="fu">getLine</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a>    processLine line</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true"></a>  <span class="kw">where</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true"></a>    processLine <span class="st">&quot;quit&quot;</span> <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true"></a>        <span class="fu">putStrLn</span> <span class="st">&quot;Bye bye.&quot;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true"></a>        <span class="fu">return</span> []</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true"></a>    processLine <span class="st">&quot;sum&quot;</span> <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true"></a>        <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Result: &quot;</span> <span class="op">++</span> <span class="fu">show</span> (<span class="fu">sum</span> numbers)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true"></a>        calcLoop []</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true"></a>    processLine <span class="st">&quot;product&quot;</span> <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true"></a>        <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Result: &quot;</span> <span class="op">++</span> <span class="fu">show</span> (<span class="fu">product</span> numbers)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true"></a>        calcLoop []</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true"></a>    processLine <span class="st">&quot;print&quot;</span> <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true"></a>        <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;This is what I have so far: &quot;</span> <span class="op">++</span> <span class="fu">show</span> numbers</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true"></a>        calcLoop numbers</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true"></a>    processLine other <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true"></a>        calcLoop <span class="op">$</span> <span class="fu">read</span> other <span class="op">:</span> numbers</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true"></a></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true"></a>    <span class="fu">putStrLn</span> <span class="st">&quot;Welcome to the mostly useless calculator program.&quot;</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true"></a>    calcLoop []</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true"></a>    <span class="fu">return</span> ()</span></code></pre></div>
+<p>This should be enough to get you started with interactive console programming in Haskell.</p>
+<h1 id="assignment-pack">Assignment Pack</h1>
+<p>The starter code pack for this assignment contains a parser for s-expressions, an updated SExpression module and a new version of SimpleTests with a few improvements:</p>
+<dl>
+<dt><code>Parser.hs</code></dt>
+<dd><p>Contains an s-expression parser. Feel free to look how the machinery is implemented, but you are not expected to know how it actually works. Your interface is the function <code class="sourceCode haskell"><span class="ot">parseSExpression ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">S.Expr</span></code>.</p>
+</dd>
+<dt><code>SExpression.hs</code></dt>
+<dd><p>As before or minor adjustments. The <code class="sourceCode haskell">toString</code> function might come in handy for this assignment.</p>
+</dd>
+<dt><code>Maps.hs</code></dt>
+<dd><p>The <code>Maps</code> module has been updated to provide the function <code class="sourceCode haskell">keys</code>, which returns all the keys bound in the given map as a list. You will need this function. If you are using a different map implementation, you should find a similar function in the documentation.</p>
+</dd>
+<dt><code>SimpleTests.hs</code> &amp; <code>SimpleTestsColor.hs</code></dt>
+<dd><p>Our little testing library has been updated with color! Colors are implemented using ANSI terminal sequences. This should work on Linux and macOS terminals, and most likely in a WSL (Windows Subsystem for Linux) terminal. However, since I don’t want to make assumptions about how portable this is, a plain version is also provided. They have the same interface, so switching to color is as simple as changing</p>
+</dd>
+</dl>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">SimpleTests</span> (test, beginTests, endTests, testSection)</span></code></pre></div>
+<p>to</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">SimpleTestsColor</span> (test, beginTests, endTests, testSection)</span></code></pre></div>
+<h2 id="parsing-s-expression-from-strings">Parsing S-expression from Strings</h2>
+<p>To parse s-expressions from strings, import the <code>Parser</code> module:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Parser</span> (parseSExpression)</span></code></pre></div>
+<p>Using <code class="sourceCode haskell">parseSExpression</code> should be relatively straightforward. Given a string, it tries to parse it into an <code class="sourceCode haskell"><span class="dt">S.Expr</span></code>. If it cannot parse it, it returns <code class="sourceCode haskell"><span class="dt">Nothing</span></code></p>
+<pre><code>&gt; parseSExpression &quot;(a b 1 2 3.0 #f)&quot;
+Just (List [ Symbol &quot;a&quot;
+           , Symbol &quot;b&quot;
+           , Integer 1
+           , Integer 2
+           , Real 3.0
+           , Boolean False
+           ])
+
+&gt; parseSExpression &quot;(defun f (x) (let (y 10) (+ x y)))&quot;
+Just (List [ Symbol &quot;defun&quot;
+           , Symbol &quot;f&quot;
+           , List [ Symbol &quot;x&quot;]
+           , List [ Symbol &quot;let&quot;
+                  , List [ Symbol &quot;y&quot;
+                         , Integer 10
+                         ]
+                  , List [ Symbol &quot;+&quot;
+                         , Symbol &quot;x&quot;
+                         , Symbol &quot;y&quot;
+                         ]]])
+
+&gt; parseSExpression &quot;(f 1 2&quot;
+Nothing</code></pre>
+<p>Note, that the parser has some limitations. In particular, it does not parse otherwise valid s-expressions without spaces between list elements:</p>
+<pre><code>&gt; parseSExpression &quot;((a) b (c))&quot;
+Just (List [ List [ Symbol &quot;a&quot; ], Symbol &quot;b&quot;, List [ Symbol &quot;c&quot; ] ])
+
+&gt; parseSExpression &quot;((a)b(c))&quot;
+Nothing</code></pre>
+<p>Other than that, if you find it fails on some valid s-expression example, please let me know as soon as possible and include the failing example.</p>
+<h1 id="questions">Questions</h1>
+<p>The only task for this assignment is to implement an interactive REPL (or shell) for <code>protoScheme</code>. The user is expected to enter global definitions and expressions on the console. If a definition is entered, the corresponding binding should be added to the current environment and the name should be available in subsequent definitions or expressions. If an expression is entered, it should be evaluated in the current global environment and the value should be printed to the console. Here is an example interaction:</p>
+<pre><code>protoScheme Version 1e-10
+&gt; 1
+1
+&gt; (real? 12.43)
+#t
+&gt; (define num 10)
+Variable num defined.
+&gt; (define num 11)
+Error: variable num is already defined.
+&gt; (defun add-num (x) (+ x num))
+Function add-num defined.
+&gt; (add-num 12)
+22
+&gt; (add-num num)
+20
+&gt; (defun g (x) (let (y (add-num x)) (pair y (&gt; y num))))
+Function g defined.
+&gt; (g 10)
+(20 . #t)
+&gt; (g -20)
+(-10 . #f)
+&gt; (pair? (g 123))
+#t
+&gt; (right (g 11))
+#t
+&gt; (defun g (x) 10)
+Error: function g is already defined.
+&gt; (+ 10 #t)
+Evaluation error. Try again.
+&gt; y
+Evaluation error. Try again.
+&gt; (+ 10
+Parse error. Try again.
+&gt; :quit
+Bye bye.</code></pre>
+<p>There are different kinds of errors which should result in the user receiving feedback, but shouldn’t bring the REPL down:</p>
+<ol type="1">
+<li>Attempting to redefine a previously defined name.</li>
+<li>A parse error – either resulting from an invalid s-expression entered or a valid s-expression which does not represent a valid <code>protoScheme</code> expression.</li>
+<li>An evaluation error, resulting from, e.g., an unbound variable reference, an arithmetic error, etc.</li>
+</ol>
+<p>Some of the errors are demonstrated above. The messages do not need to match the above interaction exactly.</p>
+<p>Typing <code>:quit</code> instead of a global definition or expression should make the REPL quit gracefully.</p>
+<p>You do not need to write new tests for the functions you implement for this assignment. You still might want to write a few tests to increase your confidence in your code. Your REPL-related code should go into <code>Repl.hs</code> and the <code>main</code> function in <code>Assignment06.hs</code> should start the REPL.</p>
+<p>If you get stuck or need hints, let us know.</p>
+        </main>
+  <!--<div id="statcounter_image" style="display:inline;"><a
+       title="free hit counter"
+       href="http://statcounter.com/free-hit-counter/"
+       class="statcounter"><img
+       src="http://c.statcounter.com/10419673/0/67e2ca33/1/"
+       alt="free hit counter" style="border:none;" /></a></div>-->
+</body>
+
