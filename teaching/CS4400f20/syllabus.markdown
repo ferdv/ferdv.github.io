@@ -74,6 +74,7 @@ This is a rough and tentative list of topics that we will aim to cover this seme
 | 10/06 | Functions as values; Abstracting 'case ... of' | [Lec08a.hs](l/08/Lec08a.hs) |
 | 10/09 | More abstracting and monads | [Notes](l/09/09.pdf)
 | 10/13, 16, 20 | Lambda Calculus| [Notes](l/10/10.pdf)
+| 10/23 | Programming in Pure Lambda Calculus| [Notes](l/13/13.pdf)
 
 ## Assignments
 
