@@ -71,7 +71,9 @@ This is a rough and tentative list of topics that we will aim to cover this seme
 | 09/25 | Bindings, substitution, scope & Maybe | [Lec05.hs](l/05/Lec05.hs) |
 | 09/29 | Equational reasoning, maps & environments | [Notes](l/06/06.pdf) \ \ [Lec06.hs](l/06/Lec06.hs) |
 | 10/02 | Procedural abstraction & function definitions | [Lec07b.hs](l/07/Lec07b.hs) \ \ [Maps.hs](l/07/Maps.hs) |
-| 10/06 | Functions as values; Abstracting 'case ... of'| [Lec08a.hs](l/08/Lec08a.hs) |
+| 10/06 | Functions as values; Abstracting 'case ... of' | [Lec08a.hs](l/08/Lec08a.hs) |
+| 10/09 | More abstracting and monads | [Notes](l/09/09.pdf)
+| 10/13, 16, 20 | Lambda Calculus| [Notes](l/10/10.pdf)
 
 ## Assignments
 
