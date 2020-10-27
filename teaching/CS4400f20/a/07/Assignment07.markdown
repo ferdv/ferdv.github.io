@@ -100,7 +100,7 @@ You are expected to refer to the following notes provided online:
  - "Introduction to Lambda Calculus", <https://vesely.io/teaching/CS4400f20/l/10/10.pdf>
  - "Programming in Pure Lambda Calculus", <https://vesely.io/teaching/CS4400f20/l/13/13.pdf>
 
-Do ask questions. This assignment doesn't require you to write a huge amount of code, but some of the concepts might feel a little difficult at first. The deadline for this assignment allows you to
+Do ask questions. This assignment doesn't require you to write a huge amount of code, but some of the concepts might feel a little difficult at first. The deadline for this assignment should allow you to make use of more office hours than usual.
 
 # Pack
 
