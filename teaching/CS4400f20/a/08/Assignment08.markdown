@@ -119,7 +119,7 @@ Note: It is best not to tackle these questions in sequence one-by-one, but work 
 
 1. If you haven't already, change your evaluator to use environments instead of substitution for local variables. Keep a separate environment for globals.
 
-2. To allow defining anonymous functions, introduce `lambda` to the abstract syntax of the language. A lambda has a *list of arguments* and a body. Generalize function calls to allow any expression in the function argument (not just function names).
+2. To allow defining anonymous functions, introduce `lambda` to the language. A lambda has a *list of arguments* and a body. Generalize function calls to allow any expression in the function argument (not just function names).
 
     ```
     <Expr> := ...
@@ -131,7 +131,7 @@ Note: It is best not to tackle these questions in sequence one-by-one, but work 
 
 3. Instead of having a special case for function definitions in globals, implement `defun` as a *desugaring*. That means modify your program parser (`programFromSExpression`) to convert a `defun` s-expression into a combination of `define` and `lambda`. See also [this Wikipedia article](https://en.wikipedia.org/wiki/Syntactic_sugar). 
 
-4. Change the monad for `eval` and `evalProgram` to `Result`{.haskell}, replacing all uses of `Just` in your evaluator with `return` and `Nothing` with a call to `fail` with an appropriate error message.
+4. Change the monad for `eval`, `evalProgram` and other partial functions to `Result`{.haskell}, replacing all uses of `Just` in your evaluator with `return` and `Nothing` with a call to `fail` with an appropriate error message.
 
 5. We have several value operations in our language, which behave pretty uniformly, such as arithmetic operations or comparisons. Each of these evaluates its operands to values, checks that the values are of the right type, and applies an operation to them, wrapping the result back as a value. If any of the arguments fail, the whole evaluation fails. This leads to repetitive code and every time we introduce a new operation, we have to introduce new clauses to all functions processing our abstract syntax. Here, we will remedy this by considering these operations as predefined functions (and values). Introduce a "primitive operation" value to your abstract syntax. This value should be able to represent built-in operations on values that return a value (or fail). Primitive operations should be indistinguishable to the programmer: wherever we can use a function value, we can use a built-in operation. 
 
