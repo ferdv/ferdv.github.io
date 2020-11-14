@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <!--<meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> -->
+        <title>Assignment 8</title>
+        <!-- <meta http-equiv="x-ua-compatible" content="ie=edge"> -->
+        <!-- <link rel="stylesheet" href="/css/default.css" /> -->
+<style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+        <link rel="stylesheet" href="../../../../css/foghorn.css" />
+        <link rel="icon" type="image/png" href="images/favicon-196x196.png" sizes="196x196" />
+        <link rel="icon" type="image/png" href="images/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+        <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
+        <link rel="icon" type="image/png" href="images/favicon-128.png" sizes="128x128" />    
+    </head>
+
+<body>
+        <header id="title-block-header">
+          <h1 class="title">Assignment 8</h1>
+          <p class="subtitle">CS 4400 Programming Languages</p>
+        </header>
+        <main id="main">
+            <p>Start early and come to us with questions.</p>
+<p><strong>Due:</strong> 11pm on Thursday, November 19, 2020</p>
+<p><strong>Submission:</strong></p>
+<ol type="1">
+<li><p>Submit the following files via <a href="https://handins.ccs.neu.edu/courses/119" class="uri">https://handins.ccs.neu.edu/courses/119</a>:</p>
+<ul>
+<li><code>Assignment08.hs</code></li>
+<li><code>Eval.hs</code></li>
+<li><code>Syntax.hs</code></li>
+<li><code>Repl.hs</code></li>
+</ul></li>
+<li><p>This assignment is meant to be worked on and submitted in pairs, but you can choose to work on your own. Note, that you need to have a team on Handins to be able to submit (a singleton team or a pair).</p></li>
+<li><p>At the very top, the file should contain a preamble following this template.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co">{- |</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="co">Module      :  Assignment08</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="co">Description :  Assignment 8 submission for CS 4400.</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a><span class="co">Copyright   :  (c) &lt;your name&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a><span class="co">Maintainer  :  &lt;your email&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a><span class="co">-}</span></span></code></pre></div>
+<p>The file should contain two functions:</p>
+<ul>
+<li><code>main</code> which starts the REPL, similarly to Assignment 6</li>
+<li><code>allTests</code> which runs all tests for all modules</li>
+</ul></li>
+<li><p>Every top-level definition must include a purpose statement (for functions) and a type signature, followed by one or more defining equations.</p></li>
+<li><p>Double-check that you have named everything as required and that functions required by this assignment have the correct type signatures.</p></li>
+<li><p>Make sure your file loads into GHCi or can be compiled by GHC without any errors. <strong>Your grade might be reduced by up to 50% if your code does not compile and run.</strong></p></li>
+</ol>
+<p><strong>Purpose:</strong> Simplifying the evaluator, building a base library, desugaring function definitions.</p>
+<h1 id="state-of-the-union">State of the Union</h1>
+<p>The previous assignment asked you to compile a subset of <code>protoScheme</code> into pure <span class="math inline"><em>λ</em></span>-calculus using Church encodings. In this assignment we will return to working on the main evaluator. Your code base should contain a fairly mature evaluator for <code>protoScheme</code>, covering the following features.</p>
+<ol type="1">
+<li>Let-bindings and a variable references expressions</li>
+<li>Arithmetic expressions with integer and floating point values</li>
+<li>Boolean expressions, comparisons and equality checks, if expressions, conditionals</li>
+<li>Pair values and selectors</li>
+<li>Type predicates for integers, reals, numbers, pairs, and booleans</li>
+<li>Global function definitions (with one or more arguments; recursive by default), function calls, global variable definitions</li>
+</ol>
+<p>In this assignment, we will concentrate on refactoring and improving the existing evaluator, factoring some operations on values and implementing a base library (a “prelude”). We will also introduce lambdas (à la the Intermediate Student Language) and functions as values, desugaring function definitions into</p>
+<h1 id="assignment-pack">Assignment Pack</h1>
+<p>The starter code pack for this assignment contains the following:</p>
+<dl>
+<dt><code>Parser.hs</code></dt>
+<dd><p>Changes:</p>
+</dd>
+</dl>
+<ul>
+<li><p>Functions added:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="ot">parseSExpressions ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> [<span class="dt">S.Expr</span>]</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a><span class="ot">fromFile ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> (<span class="dt">Maybe</span> [<span class="dt">S.Expr</span>])</span></code></pre></div>
+<p>The first one parses a string containing multiple s-expressions and returns a list of those s-expressions if successful. The second reads a list of s-expressions from a file. These can be useful if you want to write more complex test programs. Scheme-like line comments (<code>;</code> to the end of line) are ignored</p></li>
+<li><p>In addition to <code>(</code> <code>)</code>, s-expressions can be equivalently enclosed in <code>[</code> <code>]</code>, similarly to Racket</p></li>
+</ul>
+<dl>
+<dt><code>SExpression.hs</code></dt>
+<dd><p>As before or minor adjustments.</p>
+</dd>
+<dt><code>Maps.hs</code></dt>
+<dd><p>The type of maps has been made abstract, hiding the implementation. Now provides <code class="sourceCode haskell">fromList</code> for converting a list of key-value pairs to a map and <code class="sourceCode haskell">toList</code> for the inverse.</p>
+</dd>
+<dt><code>SimpleTests.hs</code> &amp; <code>SimpleTestsColor.hs</code></dt>
+<dd><p>As before or minor adjustments.</p>
+</dd>
+<dt><code>Result.hs</code></dt>
+<dd><p>An implementation of the <code class="sourceCode haskell"><span class="dt">Result</span></code> datatype. Contains conversion functions <code>toMaybe</code>, <code>fromMaybe</code>, <code>fromMaybe'</code> and <code>toIO</code> for converting between different monads.</p>
+</dd>
+<dt>Example programs (<code>example</code><em>n</em><code>.pss</code>)</dt>
+<dd><p>The pack also contains some example programs that you can use to test your interpreter. You can use <code>fromFile</code> (in <code>Parser</code>) with <code>runProgram</code> (after modifying the type – see below). Hint: if you want syntax highlighting for these files in your editor, Lisp or Scheme is the closest approximation.</p>
+</dd>
+</dl>
+<h1 id="questions">Questions</h1>
+<hr />
+<p>Note: It is best not to tackle these questions in sequence one-by-one, but work on them simultaneously. For example, Q2 and Q5 are related by introducing two kinds of functions as values. Any refactoring of <code>eval</code> will benefit from reducing the number of abstract syntax constructors – keeping Q5 in mind will reduce the number of cases you need to modify for Q1.</p>
+<hr />
+<ol type="1">
+<li><p>If you haven’t already, change your evaluator to use environments instead of substitution for local variables. Keep a separate environment for globals.</p></li>
+<li><p>To allow defining anonymous functions, introduce <code>lambda</code> to the abstract syntax of the language. A lambda has a <em>list of arguments</em> and a body. Generalize function calls to allow any expression in the function argument (not just function names).</p>
+<pre><code>&lt;Expr&gt; := ...
+        | (lambda (&lt;Variable&gt;*) &lt;Expr&gt;)     -- anonymous functions
+        | (&lt;Expr&gt;+)                         -- function call/application</code></pre>
+<p>Don’t forget to modify any relevant function in <code>Syntax.hs</code> and to add tests.</p></li>
+<li><p>Instead of having a special case for function definitions in globals, implement <code>defun</code> as a <em>desugaring</em>. That means modify your program parser (<code>programFromSExpression</code>) to convert a <code>defun</code> s-expression into a combination of <code>define</code> and <code>lambda</code>. See also <a href="https://en.wikipedia.org/wiki/Syntactic_sugar">this Wikipedia article</a>.</p></li>
+<li><p>Change the monad for <code>eval</code> and <code>evalProgram</code> to <code class="sourceCode haskell"><span class="dt">Result</span></code>, replacing all uses of <code>Just</code> in your evaluator with <code>return</code> and <code>Nothing</code> with a call to <code>fail</code> with an appropriate error message.</p></li>
+<li><p>We have several value operations in our language, which behave pretty uniformly, such as arithmetic operations or comparisons. Each of these evaluates its operands to values, checks that the values are of the right type, and applies an operation to them, wrapping the result back as a value. If any of the arguments fail, the whole evaluation fails. This leads to repetitive code and every time we introduce a new operation, we have to introduce new clauses to all functions processing our abstract syntax. Here, we will remedy this by considering these operations as predefined functions (and values). Introduce a “primitive operation” value to your abstract syntax. This value should be able to represent built-in operations on values that return a value (or fail). Primitive operations should be indistinguishable to the programmer: wherever we can use a function value, we can use a built-in operation.</p>
+<p>Build a “base library” of operations: an environment called <code>base</code> which contains all predefined operations. If you are using the provided <code>Maps</code> module, Use <code>fromList</code> to build an environment from a list of variable-value pairs.</p>
+<p>As a minimum, the following operations should be converted into primitives: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>&lt;</code>, <code>&gt;</code>, <code>=</code>, <code>not</code>.</p>
+<p>Add the operations <code>&lt;=</code> (less than or equal) and <code>&gt;=</code> (greater than or equal).</p>
+<p><strong>Extra credit</strong>: In addition to the operations listed above, move any additional candidate operations from the evaluator to the new base library. Each converted operation (and the corresponding reduction of the abstract syntax of <code>protoScheme</code>) will be assigned a small number of extra points.</p></li>
+<li><p>Change the <code class="sourceCode haskell">runProgram</code> function to have the type <code class="sourceCode haskell">[<span class="dt">S.Expr</span>] <span class="ot">-&gt;</span> <span class="dt">Result</span> <span class="dt">S.Expr</span></code>. That is, a program should be expressed as a list of s-expressions. This will allow you (or us) to pair the function with <code class="sourceCode haskell">Parser.fromFile</code> to read programs from a file.</p></li>
+</ol>
+<p>Here are some test programs, that should run with this version of the evaluator:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode lisp"><code class="sourceCode commonlisp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>(<span class="kw">defun</span><span class="fu"> even</span>? (n) </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>  (<span class="kw">and</span> (integer? n)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>       (<span class="kw">or</span> (<span class="op">=</span> n <span class="dv">0</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>           (odd? (<span class="op">-</span> n <span class="dv">1</span>)))))</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a>(<span class="kw">defun</span><span class="fu"> odd</span>? (n)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true"></a>  (<span class="kw">and</span> (integer? n)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true"></a>       (<span class="kw">and</span> (<span class="kw">not</span> (<span class="op">=</span> n <span class="dv">0</span>))</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true"></a>            (even? (<span class="op">-</span> n <span class="dv">1</span>)))))</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true"></a>(pair (odd? <span class="dv">42</span>) (even? <span class="dv">42</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode lisp"><code class="sourceCode commonlisp"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>(<span class="kw">defun</span><span class="fu"> pair-map </span>(f p) </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>  (pair (f (left p)) (f (right p))))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>(pair-map (<span class="kw">lambda</span> (x) (<span class="op">*</span> <span class="dv">2</span> x)) (pair <span class="dv">11</span> <span class="fl">-2.5</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode lisp"><code class="sourceCode commonlisp"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>(<span class="kw">defun</span><span class="fu"> fib </span>(n)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>  (<span class="kw">if</span> (<span class="op">&lt;=</span> n <span class="dv">1</span>) </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>      n </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a>      (<span class="op">+</span> (fib (<span class="op">-</span> n <span class="dv">1</span>)) </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a>         (fib (<span class="op">-</span> n <span class="dv">2</span>)))))</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a>(fib <span class="dv">10</span>)</span></code></pre></div>
+        </main>
+  <!--<div id="statcounter_image" style="display:inline;"><a
+       title="free hit counter"
+       href="http://statcounter.com/free-hit-counter/"
+       class="statcounter"><img
+       src="http://c.statcounter.com/10419673/0/67e2ca33/1/"
+       alt="free hit counter" style="border:none;" /></a></div>-->
+</body>
+
