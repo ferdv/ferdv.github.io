@@ -75,7 +75,11 @@ This is a rough and tentative list of topics that we will aim to cover this seme
 | 10/09 | More abstracting and monads | [Notes](l/09/09.pdf)
 | 10/13, 16, 20 | Lambda Calculus| [Notes](l/10/10.pdf)
 | 10/23, 27 | Programming in Pure Lambda Calculus| [Notes](l/13/13.pdf)
-| 10/30 | Lambda w/ Extensions; Recursive evaluators for Lambda | Extensions:&nbsp;[Source](l/15/LambdaExtensions.lhs)&nbsp;[PDF](l/15/LambdaExtensions.pdf)  Evaluators:&nbsp;[Source](l/15/LambdaEvaluators.lhs)&nbsp;[PDF](l/15/LambdaEvaluators.pdf) 
+| 10/30 | Lambda w/ Extensions; Recursive evaluators for Lambda | Extensions:&nbsp;[PDF](l/15/LambdaExtensions.pdf)&nbsp;[Source](l/15/LambdaExtensions.lhs)  Evaluators:&nbsp;[PDF](l/15/LambdaEvaluators.pdf)&nbsp;[Source](l/15/LambdaEvaluators.lhs) 
+| 11/03 | Haskell corner: Functors \& Applicatives | |
+| 11/06 | The Result monad; Primitive operations | [Ex1.hs](l/17/Ex1.hs) (messy) |
+| 11/10 | Haskell's laziness = easy recursion; de Bruijn representation | |
+| 11/13 | De Bruijn; Intro to Type Systems | |
 
 ## Assignments
 
