@@ -15,7 +15,7 @@ We meet on Tuesdays and Fridays, 9:50-11:30am in Mugar 201 and on Zoom. Zoom lin
 
 | Role           | Name               | Email                           | Office hours      | Location   |
 |----------------|--------------------|---------------------------------|-------------------|------------|
-| **Instructor** | Ferdinand Vesely   | f.vesely@northeastern           | Tue/Thu 3-4:30pm  | Zoom/Teams |
+| **Instructor** | Ferdinand Vesely   | f.vesely@northeastern           | Tue/Thu 3-4:30pm  | See Piazza |
 | **TAs**        | Jack Gelinas       | gelinas.j@northeastern          | Wed, 1:45-4:30pm  | [Zoom](https://northeastern.zoom.us/j/97516065212) |
 |                | Divya Venkatesh    | payyadivenkatesh.d@northeastern | Mon/Thu 12:30-2pm | [Zoom](https://northeastern.zoom.us/j/91801070558?pwd=NzRiVkVhVEI4MERXQmZsM1RXNlN4UT09) |
 
@@ -74,7 +74,8 @@ This is a rough and tentative list of topics that we will aim to cover this seme
 | 10/06 | Functions as values; Abstracting 'case ... of' | [Lec08a.hs](l/08/Lec08a.hs) |
 | 10/09 | More abstracting and monads | [Notes](l/09/09.pdf)
 | 10/13, 16, 20 | Lambda Calculus| [Notes](l/10/10.pdf)
-| 10/23 | Programming in Pure Lambda Calculus| [Notes](l/13/13.pdf)
+| 10/23, 27 | Programming in Pure Lambda Calculus| [Notes](l/13/13.pdf)
+| 10/30 | Lambda w/ Extensions; Recursive evaluators for Lambda | Extensions:&nbsp;[Source](l/15/LambdaExtensions.lhs)&nbsp;[PDF](l/15/LambdaExtensions.pdf)  Evaluators:&nbsp;[Source](l/15/LambdaEvaluators.lhs)&nbsp;[PDF](l/15/LambdaEvaluators.pdf) 
 
 ## Assignments
 
@@ -89,6 +90,7 @@ You can expect homework assignments to be handed out roughly every week and ther
 | [Assignment 5](a/05/Assignment05.html) | 10/9     | 10/15    | [PDF](a/05/Assignment05.pdf) \ \ [Pack](a/05/Assignment05.zip) |
 | [Assignment 6](a/06/Assignment06.html) | 10/18    | 10/24    | [PDF](a/06/Assignment06.pdf) \ \ [Pack](a/06/Assignment06.zip) |
 | [Assignment 7](a/07/Assignment07.html) | 10/26    | 11/4     | [PDF](a/07/Assignment07.pdf) \ \ [Pack](a/07/Assignment07.zip) |
+| [Assignment 8](a/08/Assignment08.html) | 11/13    | 11/19    | [PDF](a/08/Assignment08.pdf) \ \ [Pack](a/08/Assignment08.zip) |
 
 ## Haskell
 
