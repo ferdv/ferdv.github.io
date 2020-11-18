@@ -9,12 +9,18 @@ header-includes:
    - \usepackage{charter}
    - \usepackage{fullpage}
    - \usepackage[scaled=0.85]{beramono}
+pandoc-latex-color:
+  - classes: [deleted]
+    color: gray
+  - classes: [added]
+    color: green
 ---
 \vspace{-9ex}
 
 Start early and come to us with questions.
 
-**Due:** 11pm on Thursday, November 19, 2020 
+**Due:** 11pm on [~~Thursday, November 19, 2020~~]{.deleted}
+                 [Friday, November 20, 2020]{.added}
 
 **Submission:** 
 
@@ -67,7 +73,7 @@ The previous assignment asked you to compile a subset of `protoScheme` into pure
 6. Global function definitions (with one or more arguments; recursive by default), function calls, global variable definitions
 
 
-In this assignment, we will concentrate on refactoring and improving the existing evaluator, factoring some operations on values and implementing a base library (a "prelude"). We will also introduce lambdas (à la the Intermediate Student Language) and functions as values, desugaring function definitions into 
+In this assignment, we will concentrate on refactoring and improving the existing evaluator, factoring some operations on values and implementing a base library (a "prelude"). We will also introduce lambdas (à la the Intermediate Student Language) and functions as values. 
 
 
 # Assignment Pack
@@ -143,7 +149,11 @@ Note: It is best not to tackle these questions in sequence one-by-one, but work 
 
    **Extra credit**: In addition to the operations listed above, move any additional candidate operations from the evaluator to the new base library. Each converted operation (and the corresponding reduction of the abstract syntax of `protoScheme`) will be assigned a small number of extra points.
 
-6. Change the `runProgram`{.haskell} function to have the type `[S.Expr] -> Result S.Expr`{.haskell}. That is, a program should be expressed as a list of s-expressions. This will allow you (or us) to pair the function with `Parser.fromFile`{.haskell} to read programs from a file. 
+6. Change the `runProgram`{.haskell} function to have the type `[S.Expr] -> Result S.Expr`{.haskell}. That is, a program should be expressed as a list of s-expressions. This will allow you (or us) to pair the function with `Parser.fromFile`{.haskell} to read programs from a file.
+
+   ::: {.added}
+   Clarification of `runProgram` if you have to implement it from scratch: `runProgram` should take *a list* of s-expressions which together represent a single program (definitions + expression). The function should evaluate the program and, if successful, return the resulting value converted to an s-expression. You might already have this function with the correct type and behavior.
+   :::
 
 Here are some test programs, that should run with this version of the evaluator:
 
@@ -179,3 +189,16 @@ Here are some test programs, that should run with this version of the evaluator:
 (fib 10)
 ```
 
+\newpage
+
+# Changelog
+
+
+11/17/20
+
+: Moved the deadline.
+
+
+11/18/20
+
+: Added a clarification for `runProgram`.

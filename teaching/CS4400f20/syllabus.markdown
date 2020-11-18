@@ -80,6 +80,7 @@ This is a rough and tentative list of topics that we will aim to cover this seme
 | 11/06 | The Result monad; Primitive operations | [Ex1.hs](l/17/Ex1.hs) (messy) |
 | 11/10 | Haskell's laziness = easy recursion; de Bruijn representation | |
 | 11/13 | De Bruijn; Intro to Type Systems | |
+| 11/17 | Specifying type systems; Basic type checking; STLC | |
 
 ## Assignments
 
@@ -94,7 +95,9 @@ You can expect homework assignments to be handed out roughly every week and ther
 | [Assignment 5](a/05/Assignment05.html) | 10/9     | 10/15    | [PDF](a/05/Assignment05.pdf) \ \ [Pack](a/05/Assignment05.zip) |
 | [Assignment 6](a/06/Assignment06.html) | 10/18    | 10/24    | [PDF](a/06/Assignment06.pdf) \ \ [Pack](a/06/Assignment06.zip) |
 | [Assignment 7](a/07/Assignment07.html) | 10/26    | 11/4     | [PDF](a/07/Assignment07.pdf) \ \ [Pack](a/07/Assignment07.zip) |
-| [Assignment 8](a/08/Assignment08.html) | 11/13    | 11/19    | [PDF](a/08/Assignment08.pdf) \ \ [Pack](a/08/Assignment08.zip) |
+| [Assignment 8](a/08/Assignment08.html) | 11/13    | 11/20    | [PDF](a/08/Assignment08.pdf) \ \ [Pack](a/08/Assignment08.zip) |
+| [Assignment 9]{.deleted}      | [11/22]{.deleted} | [12/1]{.deleted} | |
+| [Assignment 10]{.deleted}     | [12/2]{.deleted}  | [12/9]{.deleted} | |
 
 ## Haskell
 
