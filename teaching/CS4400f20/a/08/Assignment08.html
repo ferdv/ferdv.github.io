@@ -93,7 +93,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </header>
         <main id="main">
             <p>Start early and come to us with questions.</p>
-<p><strong>Due:</strong> 11pm on Thursday, November 19, 2020</p>
+<p><strong>Due:</strong> 11pm on <span class="deleted"><del>Thursday, November 19, 2020</del></span> <span class="added">Friday, November 20, 2020</span></p>
 <p><strong>Submission:</strong></p>
 <ol type="1">
 <li><p>Submit the following files via <a href="https://handins.ccs.neu.edu/courses/119" class="uri">https://handins.ccs.neu.edu/courses/119</a>:</p>
@@ -132,7 +132,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Type predicates for integers, reals, numbers, pairs, and booleans</li>
 <li>Global function definitions (with one or more arguments; recursive by default), function calls, global variable definitions</li>
 </ol>
-<p>In this assignment, we will concentrate on refactoring and improving the existing evaluator, factoring some operations on values and implementing a base library (a “prelude”). We will also introduce lambdas (à la the Intermediate Student Language) and functions as values, desugaring function definitions into</p>
+<p>In this assignment, we will concentrate on refactoring and improving the existing evaluator, factoring some operations on values and implementing a base library (a “prelude”). We will also introduce lambdas (à la the Intermediate Student Language) and functions as values.</p>
 <h1 id="assignment-pack">Assignment Pack</h1>
 <p>The starter code pack for this assignment contains the following:</p>
 <dl>
@@ -182,7 +182,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>As a minimum, the following operations should be converted into primitives: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>&lt;</code>, <code>&gt;</code>, <code>=</code>, <code>not</code>.</p>
 <p>Add the operations <code>&lt;=</code> (less than or equal) and <code>&gt;=</code> (greater than or equal).</p>
 <p><strong>Extra credit</strong>: In addition to the operations listed above, move any additional candidate operations from the evaluator to the new base library. Each converted operation (and the corresponding reduction of the abstract syntax of <code>protoScheme</code>) will be assigned a small number of extra points.</p></li>
-<li><p>Change the <code class="sourceCode haskell">runProgram</code> function to have the type <code class="sourceCode haskell">[<span class="dt">S.Expr</span>] <span class="ot">-&gt;</span> <span class="dt">Result</span> <span class="dt">S.Expr</span></code>. That is, a program should be expressed as a list of s-expressions. This will allow you (or us) to pair the function with <code class="sourceCode haskell">Parser.fromFile</code> to read programs from a file.</p></li>
+<li><p>Change the <code class="sourceCode haskell">runProgram</code> function to have the type <code class="sourceCode haskell">[<span class="dt">S.Expr</span>] <span class="ot">-&gt;</span> <span class="dt">Result</span> <span class="dt">S.Expr</span></code>. That is, a program should be expressed as a list of s-expressions. This will allow you (or us) to pair the function with <code class="sourceCode haskell">Parser.fromFile</code> to read programs from a file.</p>
+<div class="added">
+<p>Clarification of <code>runProgram</code> if you have to implement it from scratch: <code>runProgram</code> should take <em>a list</em> of s-expressions which together represent a single program (definitions + expression). The function should evaluate the program and, if successful, return the resulting value converted to an s-expression. You might already have this function with the correct type and behavior.</p>
+</div></li>
 </ol>
 <p>Here are some test programs, that should run with this version of the evaluator:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode lisp"><code class="sourceCode commonlisp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>(<span class="kw">defun</span><span class="fu"> even</span>? (n) </span>
@@ -207,6 +210,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a>         (fib (<span class="op">-</span> n <span class="dv">2</span>)))))</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a>(fib <span class="dv">10</span>)</span></code></pre></div>
+<h1 id="changelog">Changelog</h1>
+<dl>
+<dt>11/17/20</dt>
+<dd><p>Moved the deadline.</p>
+</dd>
+<dt>11/18/20</dt>
+<dd><p>Added a clarification for <code>runProgram</code>.</p>
+</dd>
+</dl>
         </main>
   <!--<div id="statcounter_image" style="display:inline;"><a
        title="free hit counter"
