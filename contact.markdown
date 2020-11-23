@@ -7,8 +7,8 @@ Email
 :   f [dot] vesely [at] northeastern [dot] edu
 
 Office
-:   132A Nightingale Hall  
-    105-107 Forsyth Street  
+:   335A Meserve Hall  
+    35-37 Leon Street  
     Boston, MA 02115  
 
 
