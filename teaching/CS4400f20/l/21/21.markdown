@@ -1,0 +1,85 @@
+---
+title: "Lecture 21: Simply-Typed Lambda Calculus"
+subtitle: CS4400 Programming Languages
+documentclass: scrartcl
+fontsize: 12pt
+header-includes:
+   - \usepackage[scaled]{beramono}
+   - \usepackage[utf8]{inputenc}
+   - \usepackage{charter}
+   - \usepackage{fullpage}
+   - \usepackage{upgreek}
+   - \usepackage{semantic}
+   - \DeclareUnicodeCharacter{03BB}{$\uplambda$}
+   - \DeclareUnicodeCharacter{03B1}{$\upbeta$}
+   - \DeclareUnicodeCharacter{03B2}{$\upbeta$}
+   - \DeclareUnicodeCharacter{03B4}{$\updelta$}
+   - \DeclareUnicodeCharacter{03A9}{$\Upomega$}
+   - \DeclareUnicodeCharacter{2261}{$\equiv$}
+   - \DeclareUnicodeCharacter{2203}{$\exists$}
+---
+
+Syntax extensions:
+
+- Note that abstractions need to specify the type of the bound variable -- 
+  there is no way for the type-checker to guess it (at this stage)
+
+```haskell
+data Expr = ...
+          | Lam Variable Type Expr
+          | App Expr Expr
+
+data Type = ...
+          | TyArrow Type Type
+```
+
+`TyArrow`{.haskell}:
+
+- The new *type constructor*, `TyArrow`{.haskell}, represents a function type:
+
+  `TyArrow TyInt TyBool`{.haskell} is the type a function that takes an integer (`TyInt`{.haskell}) and returns a boolean (`TyBool`{.haskell}). In Haskell (also in some other languages and in type theory), this is written `Integer -> Bool`{.haskell}
+
+  `TyArrow (TyArrow TyInt TyBool) (TyArrow TyInt TyBool)`{.haskell} corresponds to `(Integer -> Bool) -> (Integer -> Bool)`{.haskell}, that is, the type of a function that takes a function from integers to booleans and returns a function from integers to booleans. 
+
+  > Due to currying, we normally understand this as a function that takes a function from integers to booleans, then an integer and returns a boolean. Note that this also means that the arrow `->` is *right-associative* and the above Haskell type can be equivalently written as `(Integer -> Bool) -> Integer -> Bool`{.haskell}. Also note, that this is opposite of how application associates, which is to the left.
+
+**Note on associativity:** 
+
+> Function *type* -- RIGHT: `t1 -> t2 -> t3 -> t4`{.haskell} is the same as `t1 -> (t2 -> t3 -> t3)`{.haskell} is the same as `t1 -> (t2 -> (t3 -> t4))`{.haskell}
+
+> Function *application* -- LEFT: `f a b c`{.haskell} is the same as `(f a) b c`{.haskell} is the same as `((f a) b) c`{.haskell}
+
+
+
+Rules
+
+```
+ add x t1 tenv |- e : t2        
+------------------------------------
+ tenv |- Lam x t1 e : TyArrow t1 t2
+
+
+ tenv |- e1 : TyArrow t2 t1    e2 : t2'   t2 == t2' 
+----------------------------------------------------
+             tenv |- App e1 e2 : t1
+
+```
+
+The fixpoint operator:
+
+- No fixpoint combinator (e.g., Y or Z) can be type-checked in STLC, so it has to be added as a primitive operation
+
+```haskell
+data Expr = ...
+          | Fix Expr
+
+```
+
+```
+ tenv |- e : TyArrow t t'   t == t'
+------------------------------------
+          tenv |- Fix e : t
+
+```
+
+

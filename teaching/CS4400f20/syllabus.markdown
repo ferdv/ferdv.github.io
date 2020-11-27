@@ -79,8 +79,11 @@ This is a rough and tentative list of topics that we will aim to cover this seme
 | 11/03 | Haskell corner: Functors \& Applicatives | |
 | 11/06 | The Result monad; Primitive operations | [Ex1.hs](l/17/Ex1.hs) (messy) |
 | 11/10 | Haskell's laziness = easy recursion; de Bruijn representation | |
-| 11/13 | De Bruijn; Intro to Type Systems | |
-| 11/17 | Specifying type systems; Basic type checking; STLC | |
+| 11/13 | De Bruijn; Intro to Type Systems | [Ex1.hs](l/19/Ex1.hs) [Notes](l/19/19.pdf) |
+| 11/17 | Specifying type systems; Basic type checking; STLC | [Ex1.hs](l/20/Ex1.hs) [Notes](l/20/20.pdf) |
+| 11/20 | STLC; Parametric polymorphism | [Ex1.hs](l/21/Ex1.hs) [Notes](l/21/21.pdf) |
+| 11/24 | Parametric polymorphism / System F; Type inference | [Ex1.hs](l/22/Ex1.hs) [Notes](l/22/22.pdf) |
+
 
 ## Assignments
 
@@ -96,8 +99,8 @@ You can expect homework assignments to be handed out roughly every week and ther
 | [Assignment 6](a/06/Assignment06.html) | 10/18    | 10/24    | [PDF](a/06/Assignment06.pdf) \ \ [Pack](a/06/Assignment06.zip) |
 | [Assignment 7](a/07/Assignment07.html) | 10/26    | 11/4     | [PDF](a/07/Assignment07.pdf) \ \ [Pack](a/07/Assignment07.zip) |
 | [Assignment 8](a/08/Assignment08.html) | 11/13    | 11/20    | [PDF](a/08/Assignment08.pdf) \ \ [Pack](a/08/Assignment08.zip) |
-| [Assignment 9]{.deleted}      | [11/24]{.deleted} | [12/3]{.deleted} | |
-| [Assignment 10]{.deleted}     | [12/2]{.deleted}  | [12/9]{.deleted} | |
+| [Assignment 9](a/09/Assignment09.html) | 11/27    | 12/5]    | [PDF](a/09/Assignment09.pdf) \ \ [Pack](a/08/Assignment09.zip) |
+| [Assignment 10]{.deleted}     | [12/3]{.deleted}  | [12/11]{.deleted} | |
 
 ## Haskell
 
