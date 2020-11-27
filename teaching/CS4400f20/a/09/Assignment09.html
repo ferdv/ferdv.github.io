@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <!--<meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> -->
+        <title>Assignment 9</title>
+        <!-- <meta http-equiv="x-ua-compatible" content="ie=edge"> -->
+        <!-- <link rel="stylesheet" href="/css/default.css" /> -->
+<style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+        <link rel="stylesheet" href="../../../../css/foghorn.css" />
+        <link rel="icon" type="image/png" href="images/favicon-196x196.png" sizes="196x196" />
+        <link rel="icon" type="image/png" href="images/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+        <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
+        <link rel="icon" type="image/png" href="images/favicon-128.png" sizes="128x128" />    
+    </head>
+
+<body>
+        <header id="title-block-header">
+          <h1 class="title">Assignment 9</h1>
+          <p class="subtitle">CS 4400 Programming Languages</p>
+        </header>
+        <main id="main">
+            <p>Start early and come to us with questions.</p>
+<p><strong>Due:</strong> 11pm on Friday, December 4, 2020</p>
+<p><strong>Submission:</strong></p>
+<ol type="1">
+<li><p>Submit the following files via <a href="https://handins.ccs.neu.edu/courses/119" class="uri">https://handins.ccs.neu.edu/courses/119</a>:</p>
+<ul>
+<li><code>Assignment09.hs</code></li>
+<li><code>Eval.hs</code></li>
+<li><code>Syntax.hs</code></li>
+<li><code>Types.hs</code></li>
+<li><code>TypeCheck.hs</code></li>
+</ul></li>
+<li><p>An initial version of <code>Assignment09.hs</code> is included in the pack. You should add your tests to <code>allTest</code> and make sure <code>main</code> works with the rest of your code, preserving the functionality.</p></li>
+<li><p>Every top-level definition must include a purpose statement (for functions) and a type signature, followed by one or more defining equations.</p></li>
+<li><p>Double-check that you have named everything as required and that functions required by this assignment have the correct type signatures.</p></li>
+<li><p>Make sure your file loads into GHCi or can be compiled by GHC without any errors. <strong>Your grade might be reduced by up to 50% if your code does not compile and run.</strong></p></li>
+</ol>
+<p><strong>Purpose:</strong> To implement a typed version of protoScheme</p>
+<h1 id="overview">Overview</h1>
+<p>In this assignment, we implement a simple type-checker for protoScheme. The finished type checker will take the abstract syntax of a program and return its type, if it has one. Our type system is based on Simply Typed Lambda Calculus. In particular, this means that lambdas will need to have type annotations on their arguments. Additionally, using only simple types means that we will have to restrict ourselves to integers for arithmetic operations and comparisons. We will keep booleans as the result of comparisons and for if-expressions and conditionals.</p>
+<p>Our language has the following types, as defined in <code>Types.hs</code>:</p>
+<pre><code>&lt;BaseType&gt; ::= Integer
+             | Real
+             | Boolean
+
+&lt;Type&gt; ::= &lt;BaseType&gt;
+         | (-&gt; &lt;Type&gt;+)
+         | (Pair-of &lt;Type&gt; &lt;Type&gt;)</code></pre>
+<p>Take a look into <code>Types.hs</code> to see how these are represented. Note that our arrow types have a list of one or more types, not just a single input type and a single output type. This generalization directly corresponds to lambdas taking zero or more arguments. The last type of an arrow type is the return type. For example,</p>
+<pre><code>(-&gt; Integer Boolean (-&gt; Boolean Boolean) (Pair-of Integer Boolean))</code></pre>
+<p>is the type of functions which take an integer, a boolean and a function from booleans to booleans, and returns a pair containing an integer and a boolean.</p>
+<h1 id="state-of-the-union">State of the Union</h1>
+<p>The previous assignment introduced functional values and consolidated the syntax of <code>protoScheme</code>. At this point your code base should cover the following features:</p>
+<ol type="1">
+<li>Let-bindings and a variable references expressions</li>
+<li>Boolean expressions, if expressions, conditionals</li>
+<li>Pair values and selectors</li>
+<li>Type predicates for integers, reals, numbers, pairs, and booleans</li>
+<li>Function values: user-defined using <code>lambda</code> and built-in primitive operations</li>
+<li>A base library of primitive operations, including arithmetic, comparisons, etc.</li>
+<li>Global function and variable definitions. Function definitions are syntactic sugar for a global definition with a lambda. Global functions are mutually recursive</li>
+</ol>
+<h1 id="assignment-pack">Assignment Pack</h1>
+<p>The starter code pack for this assignment contains the following:</p>
+<dl>
+<dt><code>Parser.hs</code></dt>
+<dd><p>As before or minor adjustments.</p>
+</dd>
+<dt><code>SExpression.hs</code></dt>
+<dd><p>As before or minor adjustments.</p>
+</dd>
+<dt><code>Maps.hs</code></dt>
+<dd><p>As before or minor adjustments.</p>
+</dd>
+<dt><code>SimpleTests.hs</code> &amp; <code>SimpleTestsColor.hs</code></dt>
+<dd><p>As before or minor adjustments.</p>
+</dd>
+<dt><code>Result.hs</code></dt>
+<dd><p>As before or minor adjustments.</p>
+</dd>
+<dt><code>Types.hs</code></dt>
+<dd><p>The abstract syntax of protoScheme types with basic operations.</p>
+</dd>
+<dt><code>TypeCheck.hs</code></dt>
+<dd><p>Template for implementing the protoScheme type-checker. It contains some example equations which you will have to adjust to your abstract syntax.</p>
+</dd>
+<dt><code>Assignment09.hs</code></dt>
+<dd><p>Main assignment file. The main function allows passing the following arguments to the program:</p>
+</dd>
+</dl>
+<ul>
+<li><code>--type file</code> type-check the file and print its type</li>
+<li><code>--eval file</code> evaluate the given file and print the value</li>
+<li><code>--tests</code> run the provided tests</li>
+</ul>
+<dl>
+<dt>Example programs (<code>example</code><em>n</em><code>.pss</code>)</dt>
+<dd><p>Example programs that your implementation should be able to type-check and evaluate.</p>
+</dd>
+<dt><code>doc/index.html</code></dt>
+<dd><p>Documentation generated from the source files in the pack. Contains an index of all exported names. Might come in handy.</p>
+</dd>
+</dl>
+<h1 id="questions">Questions</h1>
+<h2 id="simple-types-for-protoscheme-expressions">Simple Types for protoScheme expressions</h2>
+<ol type="1">
+<li><p>Extend <code>lambda</code>’s arguments with types, á la Simply-Typed Lambda Calculus. This means replacing the lambda syntax with the following:</p>
+<pre><code>&lt;Signature&gt; ::= ( &lt;Variable&gt; : &lt;Type&gt; )
+
+&lt;Expr&gt; ::= ...
+         | (lambda (&lt;Signature&gt;*) &lt;Expr&gt;)</code></pre>
+<p>Update all relevant functions dealing with expressions. In case it is not clear, an s-expression representation of a signature will fit the following pattern:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="dt">S.List</span> [ name, <span class="dt">S.Symbol</span> <span class="st">&quot;:&quot;</span>, typeSExpr ]</span></code></pre></div>
+<p>The <code>Types</code> module contains functions that will be useful for you. Check the provided documentation.</p></li>
+<li><p>Complete the definition of the function <code class="sourceCode haskell"><span class="ot">typeOf ::</span> <span class="dt">TyEnv</span> <span class="ot">-&gt;</span> <span class="dt">Expr</span> <span class="ot">-&gt;</span> <span class="dt">Result</span> <span class="dt">Type</span></code> in <code>TypeCheck.hs</code>. Some examples have been included in the definition, but you might need to change the names of constructors and handle their arguments fully. The individual constructs should follow the STLC examples given in lecture. You will need to generalize from the single argument of the examples to multiple arguments we use in protoScheme. In addition to the rules presented in the lecture, the following should hold for <code>cond</code>.</p>
+<p>The condition of each clause in a <code>cond</code> should have a boolean type. The expression parts of all clauses should have the same type. When this is satisfied, the result type of a <code>cond</code> expression should be the type of the expression parts of each clause. For example:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode lisp"><code class="sourceCode commonlisp"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>(<span class="kw">cond</span> ((<span class="op">&gt;</span> x <span class="dv">10</span>) (<span class="op">+</span> x <span class="dv">1</span>))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>      ((<span class="kw">and</span> <span class="dv">#t</span> (<span class="op">=</span> x <span class="dv">1</span>)) x)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>      (else <span class="dv">93</span>))</span></code></pre></div>
+<p>should be well-typed (provided <code>x</code>’s type is <code>Integer</code>) and its result type should be <code>Integer</code>. On the other hand,</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode lisp"><code class="sourceCode commonlisp"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>(<span class="kw">cond</span> ((<span class="op">&gt;</span> x <span class="dv">10</span>) (<span class="kw">and</span> <span class="dv">#t</span> f))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>      ((<span class="op">&lt;</span> x <span class="dv">10</span>) (<span class="op">+</span> <span class="dv">1</span> <span class="dv">2</span>)))</span></code></pre></div>
+<p>should fail to type-check, due to the one clause returning a boolean, and the other returning an integer. Expressing the above as an inference rule, we get the following:</p>
+<p><br /><span class="math display">$$
+\frac{\quad
+  \mathit{tenv} \vdash e_{b1} : \texttt{Boolean} \quad \mathit{tenv} \vdash e_1 : t 
+  \quad \dots \quad
+  \mathit{tenv} \vdash e_{bn} : \texttt{Boolean} \quad \mathit{tenv} \vdash e_n : t
+\quad}{
+  \mathit{tenv} \vdash \texttt{(cond (} e_{b1}\ e_1 \texttt{)} \ \dots \  \texttt{(} e_{bn}\ e_n \texttt{))} : t
+}
+$$</span><br /></p>
+<p>The type of pairs, <code>Pair-of</code> is assigned to an expression returning pair values. Expression <code>(pair e1 e2)</code> has the type <code>(Pair-of ty1 ty2)</code> if <code>e1</code> has the type <code>ty1</code> and <code>e2</code> has the type <code>ty2</code>.</p></li>
+<li><p>You will need to handle the type of pre-defined library operations. Our type language is quite limited and doesn’t allow much flexibility, so we will assume most operations operate on <code>Integer</code>s whenever there is a choice between multiple valid types. This means:</p>
+<ul>
+<li><p><code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> should have the type <code>(-&gt; Integer Integer Integer)</code></p></li>
+<li><p><code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>=</code> should have the type <code>(-&gt; Integer Integer Boolean)</code></p></li>
+<li><p><code>not</code> should have the type <code>(-&gt; Boolean Boolean)</code></p></li>
+</ul>
+<p>The examples included with the pack respect these types.</p>
+<p>I suggest one of two ways of dealing with types of predefined operations:</p>
+<ol type="a">
+<li><p>Adding the type directly to the constructor or primitive operations in the syntax.</p></li>
+<li><p>Not modifying the prim-ops themselves, but defining a base type environment containing the types of library operations.</p></li>
+</ol>
+<p>I personally prefer the second option, but you might find it easier to use (a).</p></li>
+</ol>
+<h2 id="type-checking-definitions">Type-checking Definitions</h2>
+<ol start="4" type="1">
+<li><p>Global definitions in a program will now come with type-signatures, similar to Haskell. Except, in protoScheme, signatures are obligatory. This means that every definition has to be <em>preceded</em> by a signature. Here is an example program:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode lisp"><code class="sourceCode commonlisp"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>(x : Integer)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>(define x <span class="dv">32</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a>(pow : (-&gt; Integer Integer Integer))</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a>(<span class="kw">defun</span><span class="fu"> pow </span>(n m) </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a>  (<span class="kw">if</span> (<span class="op">&lt;=</span> m <span class="dv">0</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true"></a>      <span class="dv">1</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true"></a>      (<span class="op">*</span> n (pow n (<span class="op">-</span> m <span class="dv">1</span>)))))</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true"></a>(pow <span class="dv">2</span> x)</span></code></pre></div>
+<p>Assume that in the list of s-expressions representing a program, a signature is always followed by a <code>defun</code> or <code>define</code> and, conversely, every <code>defun</code> or <code>define</code> is preceded by a signature. You will need to use this signature for two purposes:</p>
+<ol type="a">
+<li><p>When translating <code>defun</code> into <code>define</code>, the signature will provide you with the types for the lambda’s arguments.</p></li>
+<li><p>When type-checking a global definition, the signatures will provide you with the types of all available globals that the definition might use. This will allow type-checking mutually recursive functions.</p></li>
+</ol>
+<p>A definition whose actual type does not match their signature should fail. For example, the following should fail to type check:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode lisp"><code class="sourceCode commonlisp"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a>(x : Boolean)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a>(define x <span class="dv">12</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true"></a>(f : (-&gt; Boolean Integer))</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true"></a>(<span class="kw">defun</span><span class="fu"> f </span>(x) (<span class="op">+</span> x <span class="dv">1</span>))</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true"></a>(g : (-&gt; Integer Boolean))</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true"></a>(<span class="kw">defun</span><span class="fu"> g </span>(x) (<span class="op">+</span> x <span class="dv">1</span>))</span></code></pre></div>
+<p>You will need to do a bit of parallel list processing for this question.</p></li>
+<li><p>Finally, ensure the function <code>typeOfProgramSExpr :: [S.Expr] -&gt; Result S.Expr</code> works correctly. It is used by <code>main</code> in <code>Assignment09.hs</code>, similarly to <code>runProgram</code>. Your evaluator should still work and be able to evaluate the examples included with this assignment.</p></li>
+</ol>
+<p>You do not need to type-check type predicates (<code>integer?</code>, <code>boolean?</code>, etc.) To do this, we would need to introduce the concept of subtyping and a “super-type” (<code>Any</code>) as the type containing all types.</p>
+        </main>
+  <!--<div id="statcounter_image" style="display:inline;"><a
+       title="free hit counter"
+       href="http://statcounter.com/free-hit-counter/"
+       class="statcounter"><img
+       src="http://c.statcounter.com/10419673/0/67e2ca33/1/"
+       alt="free hit counter" style="border:none;" /></a></div>-->
+</body>
+
