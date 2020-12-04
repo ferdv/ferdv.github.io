@@ -101,7 +101,7 @@ You can expect homework assignments to be handed out roughly every week and ther
 | [Assignment 7](a/07/Assignment07.html) | 10/26    | 11/4     | [PDF](a/07/Assignment07.pdf) \ \ [Pack](a/07/Assignment07.zip) |
 | [Assignment 8](a/08/Assignment08.html) | 11/13    | 11/20    | [PDF](a/08/Assignment08.pdf) \ \ [Pack](a/08/Assignment08.zip) |
 | [Assignment 9](a/09/Assignment09.html) | 11/27    | 12/4     | [PDF](a/09/Assignment09.pdf) \ \ [Pack](a/09/Assignment09.zip) |
-| [Assignment 10]{.deleted}     | [12/4]{.deleted}  | [12/11]{.deleted} | |
+| [Assignment 10]{.deleted}     | [12/5]{.deleted}  | [12/12]{.deleted} | |
 
 ## Haskell
 
