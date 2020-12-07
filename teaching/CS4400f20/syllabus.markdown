@@ -83,25 +83,25 @@ This is a rough and tentative list of topics that we will aim to cover this seme
 | 11/17 | Specifying type systems; Basic type checking; STLC | [Ex1.hs](l/20/Ex1.hs) [Notes](l/20/20.pdf) |
 | 11/20 | STLC; Parametric polymorphism | [Ex1.hs](l/21/Ex1.hs) [Notes](l/21/21.pdf) |
 | 11/24 | Parametric polymorphism / System F; Type inference | [Ex1.hs](l/22/Ex1.hs) [Notes](l/22/22.pdf) |
-| 12/01 | Type inference and unification | [Ex1.hs](l/23/Ex1.hs) ([view](l/23/Ex1.hs.html)) |
+| 12/01 | Type inference and unification | [Ex1.hs](l/23/Ex1.hs) ([view](l/23/Ex1.hs.html)) [Misc.hs](l/23/Misc.hs) |
 
 
 ## Assignments
 
 You can expect homework assignments to be handed out roughly every week and there will be around 10 assignments in total this semester. Some of them will be individual work, for others you will be expected to work in pairs. They will be mostly programming assignments. Tentatively, assignments will be handed out on Fridays and be due on the following Thursday. Submission will be via 
 
-| Assignment                             | Date Set | Date Due |                                  |
-|----------------------------------------|----------|----------|----------------------------------|
-| [Assignment 1](a/01/Assignment01.html) | 9/15     | 9/19     | [PDF](a/01/Assignment01.pdf)   |
-| [Assignment 2](a/02/Assignment02.html) | 9/20     | 9/24     | [PDF](a/02/Assignment02.pdf) \ \ [SimpleTests.hs](a/02/SimpleTests.hs) |
-| [Assignment 3](a/03/Assignment03.html) | 9/25     | 10/1     | [PDF](a/03/Assignment03.pdf) \ \ [Pack](a/03/Assignment03.zip) |
-| [Assignment 4](a/04/Assignment04.html) | 10/2     | 10/8     | [PDF](a/04/Assignment04.pdf) \ \ [Pack](a/04/Assignment04.zip) |
-| [Assignment 5](a/05/Assignment05.html) | 10/9     | 10/15    | [PDF](a/05/Assignment05.pdf) \ \ [Pack](a/05/Assignment05.zip) |
-| [Assignment 6](a/06/Assignment06.html) | 10/18    | 10/24    | [PDF](a/06/Assignment06.pdf) \ \ [Pack](a/06/Assignment06.zip) |
-| [Assignment 7](a/07/Assignment07.html) | 10/26    | 11/4     | [PDF](a/07/Assignment07.pdf) \ \ [Pack](a/07/Assignment07.zip) |
-| [Assignment 8](a/08/Assignment08.html) | 11/13    | 11/20    | [PDF](a/08/Assignment08.pdf) \ \ [Pack](a/08/Assignment08.zip) |
-| [Assignment 9](a/09/Assignment09.html) | 11/27    | 12/4     | [PDF](a/09/Assignment09.pdf) \ \ [Pack](a/09/Assignment09.zip) |
-| [Assignment 10]{.deleted}     | [12/5]{.deleted}  | [12/12]{.deleted} | |
+| Assignment                              | Date Set | Date Due |                                  |
+|-----------------------------------------|----------|----------|----------------------------------|
+| [Assignment 1](a/01/Assignment01.html)  | 9/15     | 9/19     | [PDF](a/01/Assignment01.pdf)   |
+| [Assignment 2](a/02/Assignment02.html)  | 9/20     | 9/24     | [PDF](a/02/Assignment02.pdf) \ \ [SimpleTests.hs](a/02/SimpleTests.hs) |
+| [Assignment 3](a/03/Assignment03.html)  | 9/25     | 10/1     | [PDF](a/03/Assignment03.pdf) \ \ [Pack](a/03/Assignment03.zip) |
+| [Assignment 4](a/04/Assignment04.html)  | 10/2     | 10/8     | [PDF](a/04/Assignment04.pdf) \ \ [Pack](a/04/Assignment04.zip) |
+| [Assignment 5](a/05/Assignment05.html)  | 10/9     | 10/15    | [PDF](a/05/Assignment05.pdf) \ \ [Pack](a/05/Assignment05.zip) |
+| [Assignment 6](a/06/Assignment06.html)  | 10/18    | 10/24    | [PDF](a/06/Assignment06.pdf) \ \ [Pack](a/06/Assignment06.zip) |
+| [Assignment 7](a/07/Assignment07.html)  | 10/26    | 11/4     | [PDF](a/07/Assignment07.pdf) \ \ [Pack](a/07/Assignment07.zip) |
+| [Assignment 8](a/08/Assignment08.html)  | 11/13    | 11/20    | [PDF](a/08/Assignment08.pdf) \ \ [Pack](a/08/Assignment08.zip) |
+| [Assignment 9](a/09/Assignment09.html)  | 11/27    | 12/4     | [PDF](a/09/Assignment09.pdf) \ \ [Pack](a/09/Assignment09.zip) |
+| [Assignment 10](a/10/Assignment10.html) | 12/6     | 12/15    | [PDF](a/10/Assignment10.pdf) \ \ [Pack](a/10/Assignment10.zip) |
 
 ## Haskell
 
