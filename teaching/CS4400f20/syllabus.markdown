@@ -80,9 +80,9 @@ This is a rough and tentative list of topics that we will aim to cover this seme
 | 11/06 | The Result monad; Primitive operations | [Ex1.hs](l/17/Ex1.hs) (messy) |
 | 11/10 | Haskell's laziness = easy recursion; de Bruijn representation | |
 | 11/13 | De Bruijn; Intro to Type Systems | [Ex1.hs](l/19/Ex1.hs) [Notes](l/19/19.pdf) |
-| 11/17 | Specifying type systems; Basic type checking; STLC | [Ex1.hs](l/20/Ex1.hs) [Notes](l/20/20.pdf) |
-| 11/20 | STLC; Parametric polymorphism | [Ex1.hs](l/21/Ex1.hs) [Notes](l/21/21.pdf) |
-| 11/24 | Parametric polymorphism / System F; Type inference | [Ex1.hs](l/22/Ex1.hs) [Notes](l/22/22.pdf) |
+| 11/17 | Specifying type systems; Basic type checking; STLC | [Ex1.hs](l/20/Ex1.hs) ([view](l/20/Ex1.hs.html)) [Notes](l/20/20.pdf) |
+| 11/20 | STLC; Parametric polymorphism | [Ex1.hs](l/21/Ex1.hs) ([view](l/21/Ex1.hs.html)) [Notes](l/21/21.pdf) |
+| 11/24 | Parametric polymorphism / System F; Type inference | [Ex1.hs](l/22/Ex1.hs) ([view](l/22/Ex1.hs.html)) [Notes](l/22/22.pdf) |
 | 12/01 | Type inference and unification | [Ex1.hs](l/23/Ex1.hs) ([view](l/23/Ex1.hs.html)) [Misc.hs](l/23/Misc.hs) |
 
 
