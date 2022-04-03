@@ -2,17 +2,28 @@
 title: Teaching
 ---
 
-### Current (Fall 2020)
+### Current (Spring 2022)
 
-* [CS 2500 &emsp;Fundamentals I](https://course.ccs.neu.edu/cs2500/)
-* [CS 4400 &emsp;Programming Languages](./teaching/CS4400f20/syllabus.html)
+* [CS 3650 &emsp;Computer Systems](https://course.ccs.neu.edu/cs3650sp22/)
+* [CS 4530 &emsp;Fundamentals of Software Engineering](https://neu-se.github.io/CS4530-Spring-2022/)
 
 ### Past
 
 :::: courselist
 
+- Fall 2021, Northeastern
+  * [CS 2500 &emsp;Fundamentals I](https://course.ccs.neu.edu/cs2500f21/)
+  * [CS 3650 &emsp;Computer Systems](https://northeastern.instructure.com/courses/86682)
+
+- Spring 2021, Northeastern
+  * [CS 4500 &emsp;Software Development](https://course.ccs.neu.edu/cs4500sp21/)
+
+- Fall 2020, Northeastern
+  * [CS 2500 &emsp;Fundamentals I](https://course.ccs.neu.edu/cs2500f20/)
+  * [CS 4400 &emsp;Programming Languages](./teaching/CS4400f20/syllabus.html)
+
 - Spring 2020 (Northeastern)
-  * [CS 2510 &emsp;Fundamentals II](https://course.ccs.neu.edu/cs2510/)
+  * [CS 2510 &emsp;Fundamentals II](https://course.ccs.neu.edu/cs2510sp20/)
   * [CS 4500 &emsp;Software Development](http://janvitek.org/events/NEU/4500/s20/)
 
 - Fall 2019 (Northeastern)
